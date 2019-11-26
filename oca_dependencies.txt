@@ -1,2 +1,2 @@
-cb-addons https://github.com/tegin/cb-addons 11.0
+cb-medical https://github.com/tegin/cb-medical 11.0
 hr
