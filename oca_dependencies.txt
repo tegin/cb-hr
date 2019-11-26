@@ -1,6 +1,7 @@
 account-invoicing
 account-invoice-reporting
 account-payment
+cb-addons https://github.com/tegin/cb-addons 11.0
 medical-fhir https://github.com/eficent/medical-fhir 11.0-dev
 commission
 l10n-spain https://github.com/etobella/l10n-spain 11.0-add-l10n_es_facturae_fields
