@@ -27,7 +27,8 @@ class HrContract(models.Model):
     )
 
     substitute_contract = fields.Boolean(
-        related="type_id.substitute_contract", track_visibility="onchange"
+        related="type_id.substitute_contract", track_visibility="onchange",
+        readonly=True,
     )
 
     resource_calendar_id = fields.Many2one(required=False, default=False)

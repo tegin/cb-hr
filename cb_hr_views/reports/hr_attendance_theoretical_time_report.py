@@ -8,7 +8,7 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
     _inherit = "hr.attendance.theoretical.time.report"
 
     department_id = fields.Many2one(
-        "hr.department", related="employee_id.department_id"
+        "hr.department", related="employee_id.department_id", readonly=True,
     )
     week_day = fields.Selection(
         [
