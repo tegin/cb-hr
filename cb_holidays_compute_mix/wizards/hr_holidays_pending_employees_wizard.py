@@ -60,12 +60,12 @@ class HrHolidaysPendingEmployeesLine(models.TransientModel):
     wizard_id = fields.Many2one("hr.holidays.pending.employees")
     employee_id = fields.Many2one("hr.employee", string="Employee")
     department_id = fields.Many2one(
-        related="employee_id.department_id", string="Department"
+        related="employee_id.department_id", string="Department", readonly=True
     )
     job_id = fields.Many2one(
-        related="employee_id.job_id", string="Job Position"
+        related="employee_id.job_id", string="Job Position", readonly=True
     )
     manager_id = fields.Many2one(
-        related="employee_id.parent_id", string="Manager"
+        related="employee_id.parent_id", string="Manager", readonly=True
     )
     remaining = fields.Char("Remaining")
