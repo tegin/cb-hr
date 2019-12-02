@@ -110,13 +110,10 @@ class HrEmployee(models.Model):
     )
 
     contract_id = fields.Many2one(store=True)
-
-    prl_date = fields.Date(
-        string="PRL",
-        help="Date of the last prevention of occupational hazards information",
-    )
     address_id = fields.Many2one(string="Center")
     work_location = fields.Char(string="Location")
+
+    prl_ids = fields.One2many('hr.employee.prl', 'employee_id')
 
     @api.depends("contract_ids")
     def _compute_contract_id(self):

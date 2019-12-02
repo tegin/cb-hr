@@ -175,7 +175,6 @@
             </field>
             <field name="user_id" position="after">
                 <field name="personal_identifier"/>
-                <field name="prl_date"/>
                 <field name="locker" attrs="{'invisible': [('show_info', '=', False)]}"/>
             </field>
             <field name="resource_calendar_id" position="before">
@@ -187,6 +186,19 @@
                 </div>
             </field>
             <xpath expr="//div[hasclass('oe_chatter')]" position="replace"/>
+            <page name="hr_settings" position="inside">
+                <group name="prl" string="Prevention of Occupational Hazards">
+                    <group>
+                        <field name="prl_ids" nolabel="1">
+                            <tree editable="top">
+                                <field name="name"/>
+                                <field name="prl_date"/>
+                                <field name="notes"/>
+                            </tree>
+                        </field>
+                    </group>
+                </group>
+            </page>
         </field>
     </record>
 
