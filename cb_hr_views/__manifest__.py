@@ -18,6 +18,7 @@
         "hr_course",
         "hr_attendance_report_theoretical_time",
         "hr_employee_calendar_planning",
+        "hr_employee_medical_examination",
         "medical_administration_second_lastname",
         "medical_administration_practitioner",
         "cb_medical_administration_center",
@@ -26,6 +27,7 @@
         "base_report_to_printer",
     ],
     "data": [
+        'views/hr_employee_prl.xml',
         "wizards/wizard_bank_account_employee.xml",
         "views/hr_laboral_category.xml",
         "views/hr_holidays_views.xml",
