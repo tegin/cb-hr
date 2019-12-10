@@ -91,6 +91,11 @@ class TestCbHrViews(TransactionCase):
         employee._compute_is_manager()
         self.assertTrue(employee.manager)
 
+        calendar = self.env["resource.calendar"].create({"name": "Calendar"})
+        self.assertTrue(calendar.not_archived)
+        calendar.toggle_archive_calendar()
+        self.assertFalse(calendar.not_archived)
+
     def test_hr_employee(self):
         user_id = self.env["res.users"].create(
             {
