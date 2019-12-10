@@ -297,6 +297,7 @@
             </field>
             <field name="calendar_id" position="attributes">
                 <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                <attribute name="domain">[('not_archived', '=', True)]</attribute>
             </field>
         </field>
     </record>
