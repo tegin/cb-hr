@@ -9,7 +9,7 @@ class WizardBankAccountEmployee(models.TransientModel):
 
     _name = "wizard.bank.account.employee"
 
-    name = fields.Char("_compute_name")
+    name = fields.Char()
 
     acc_number = fields.Char(string="Account Number", required=True)
     employee_id = fields.Many2one(comodel_name="hr.employee")
