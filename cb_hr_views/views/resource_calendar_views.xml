@@ -27,10 +27,10 @@
             <field name="company_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
-            <xpath expr="//div[@name='button_box']/button[1]" position="attributes">
+            <xpath expr="//button[@name='%(resource.resource_calendar_leaves_action_from_calendar)s']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//div[@name='button_box']/button[2]" position="attributes">
+            <xpath expr="//button[@name='%(resource.resource_resource_action_from_calendar)s']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='global_leave_ids']/.." position="attributes">
