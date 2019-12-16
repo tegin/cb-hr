@@ -221,11 +221,21 @@ class HrEmployee(models.Model):
         return result
 
     @api.multi
+    @api.depends('parent_id', 'parent_id.user_id', 'is_employee')
     def _compute_show_leaves(self):
-        for employee in self:
-            employee.show_leaves = employee.show_info
+        for rec in self:
+            rec.show_leaves = rec.show_info and rec.is_employee
 
     @api.multi
+    @api.depends('user_id', 'is_employee')
+    def _compute_can_see_examinations_button(self):
+        super()._compute_can_see_examinations_button()
+        for record in self:
+            if not record.is_employee:
+                record.can_see_examinations_button = False
+
+    @api.multi
+    @api.depends('parent_id', 'parent_id.user_id')
     def _compute_show_info(self):
         is_manager = self.env.user.has_group("hr.group_hr_manager")
         is_officer = self.env.user.has_group("hr.group_hr_user")

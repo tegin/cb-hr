@@ -11,7 +11,8 @@
     "website": "www.creublanca.es",
     "depends": [
         "base_fontawesome",
-        "hr_attendance",
+        "hr_associate",
+        "hr_attendance_rfid",
         "hr_contract",
         "hr_family",
         "hr_job_category",

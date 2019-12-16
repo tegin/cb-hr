@@ -63,7 +63,7 @@
     <record id="view_employee_form" model="ir.ui.view">
         <field name="name">CB HR views hr.employee.form</field>
         <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="inherit_id" ref="hr_associate.view_employee_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="attributes">
                 <attribute name="create">false</attribute>
@@ -77,7 +77,7 @@
                             <field name="firstname"  attrs="{'required': [('lastname2', '=', False), ('lastname', '=', False)]}"/>
                         </group>
                     </div>
-                    <strong attrs="{'invisible': [('show_info', '=', False)]}"><field name="today_schedule" nolabel="1"/></strong>
+                    <strong attrs="{'invisible': ['|', ('is_employee', '=', False), ('show_info', '=', False)]}"><field name="today_schedule" nolabel="1"/></strong>
             </xpath>
             <xpath expr="//field[@name='country_id']/.." position="attributes">
                 <attribute name="string">Citizenship</attribute>
@@ -175,19 +175,19 @@
             </field>
             <field name="user_id" position="after">
                 <field name="personal_identifier"/>
-                <field name="locker" attrs="{'invisible': [('show_info', '=', False)]}"/>
+                <field name="locker" attrs="{'invisible': ['|', ('is_employee', '=', False), ('show_info', '=', False)]}"/>
             </field>
             <field name="resource_calendar_id" position="before">
-                <field name="working_hours_type" attrs="{'invisible': [('show_info', '=', False)]}"/>
-                <label for="percentage_of_reduction" string="Percentage of reduction" attrs="{'invisible': ['|', ('show_info', '=', False), ('working_hours_type','!=','reduced')]}"/>
-                <div attrs="{'invisible': ['|', ('show_info', '=', False), ('working_hours_type','!=','reduced')]}">
+                <field name="working_hours_type" attrs="{'invisible': ['|', ('is_employee', '=', False), ('show_info', '=', False)]}"/>
+                <label for="percentage_of_reduction" string="Percentage of reduction" attrs="{'invisible': ['|', '|', ('is_employee', '=', False), ('show_info', '=', False), ('working_hours_type','!=','reduced')]}"/>
+                <div attrs="{'invisible': ['|', '|', ('is_employee', '=', False), ('show_info', '=', False), ('working_hours_type','!=','reduced')]}">
                     <field name="percentage_of_reduction"/>
                     %
                 </div>
             </field>
             <xpath expr="//div[hasclass('oe_chatter')]" position="replace"/>
             <page name="hr_settings" position="inside">
-                <group name="prl" string="Prevention of Occupational Hazards">
+                <group name="prl" string="Prevention of Occupational Hazards" attrs="{'invisible': [('is_employee', '=', False)]}">
                     <group>
                         <field name="prl_ids" nolabel="1">
                             <tree editable="top">
@@ -251,13 +251,15 @@
     <record id="view_employee_form_inherit_hr_attendance" model="ir.ui.view">
         <field name="name">CB HR Views hr.employee.form</field>
         <field name="model">hr.employee</field>
-        <field name="inherit_id" ref="hr_attendance.view_employee_form_inherit_hr_attendance"/>
+        <field name="inherit_id" ref="hr_attendance_rfid.view_employee_form_add_rfid"/>
+        <field name="priority">1</field>
         <field name="arch" type="xml">
-            <xpath expr="//button[1]" position="before">
+            <xpath expr="//button[@name='%(hr_attendance.hr_attendance_action_employee)s']" position="before">
                 <field name="show_info" invisible="1"/>
+                <field name="is_employee" invisible="1"/>
             </xpath>
-            <xpath expr="//button[1]" position="attributes">
-                <attribute name="attrs">{'invisible': [('show_info', '=', False)]}</attribute>
+            <xpath expr="//button[@name='%(hr_attendance.hr_attendance_action_employee)s']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('is_employee', '=', False), ('show_info', '=', False)]}</attribute>
             </xpath>
             <field name="barcode" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -269,6 +271,15 @@
             <field name="manual_attendance" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
+            <xpath expr="//field[@name='pin']/.." position="attributes">
+                <attribute name="attrs">{'invisible': [('is_employee', '=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='pin']/../field[@name='rfid_card_code']" position="replace">
+
+            </xpath>
+            <field name="user_id" position="after">
+                <field name="rfid_card_code" groups="hr_attendance.group_hr_attendance_user"/>
+            </field>
         </field>
     </record>
 
@@ -277,12 +288,13 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr_family.hr_employee_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//page[4]" position="before">
+            <xpath expr="//field[@name='fam_spouse']/../.." position="before">
                 <field name="show_info" invisible="1"/>
+                <field name="is_employee" invisible="1"/>
             </xpath>
-            <xpath expr="//page[4]" position="attributes">
+            <xpath expr="//field[@name='fam_spouse']/../.." position="attributes">
                 <attribute name="groups">base.group_user</attribute>
-                <attribute name="attrs">{'invisible': [('show_info', '=', False)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('is_employee', '=', False),('show_info', '=', False)]}</attribute>
             </xpath>
         </field>
     </record>
@@ -301,16 +313,37 @@
         </field>
     </record>
 
+    <record id="hr_employee_course_hide" model="ir.ui.view">
+        <field name="name">hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_course.view_hr_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="courses_ids" position="after">
+                <field name="is_employee" invisible="1"/>
+            </field>
+            <button name="action_view_course" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_employee', '=', False)]}</attribute>
+            </button>
+        </field>
+    </record>
+
     <record id="hr_employee_hide_medical_date" model="ir.ui.view">
         <field name="name">hr.employee.form</field>
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='%(hr_contract.act_hr_employee_2_hr_contract)d']" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_employee', '=', False)]}</attribute>
+            </xpath>
             <field name="medic_exam" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
+            <xpath expr="//field[@name='medic_exam']/.." position="attributes">
+                <attribute name="attrs">{'invisible': [('is_employee', '=', False)]}</attribute>
+            </xpath>
             <field name="medic_exam" position="before">
                 <field name="contract_id"/>
+                <field name="is_employee" invisible="1"/>
                 <field name="contract_type_id"/>
                 <field name="laboral_category_id"/>
             </field>
