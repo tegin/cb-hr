@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2019 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="view_employee_form">
+        <field name="name">hr.employee.form (in hr_associate)</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="address_id" position="before">
+                <field name="is_employee"/>
+            </field>
+            <xpath expr="//field[@name='department_id']/.." position="attributes">
+                <attribute name="attrs">{'invisible': [('is_employee', '=', False)]}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="hr_employee_search_view">
+        <field name="name">hr.employee.search (in hr_associate)</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <field name="job_id" position="after">
+                <filter name="is_employee" string="Employees" groups="hr.group_hr_manager"
+                       domain="[('is_employee', '=', True)]" />
+                <filter name="is_external_associate" string="External associate" groups="hr.group_hr_manager"
+                       domain="[('is_employee', '=', False)]" />
+                <separator/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>
