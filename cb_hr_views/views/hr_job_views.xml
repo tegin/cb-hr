@@ -37,9 +37,14 @@
 
     <menuitem
         action="open_module_tree_job_position"
-        id="menu_hr_department_tree"
+        id="menu_hr_job_root"
         parent="hr.menu_hr_root"
         sequence="91"
         groups="hr.group_hr_manager"/>
+
+    <!-- Keep the menu disabled for now... -->
+    <record id="menu_hr_job_root" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
 
 </odoo>
