@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-20 12:35+0000\n"
-"PO-Revision-Date: 2019-08-20 12:35+0000\n"
+"POT-Creation-Date: 2019-12-12 13:13+0000\n"
+"PO-Revision-Date: 2019-12-12 13:13+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,13 +16,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: cb_hr_views
-#: code:addons/cb_hr_views/models/hr_employee.py:189
+#: code:addons/cb_hr_views/models/hr_employee.py:184
 #, python-format
 msgid " and from %s to %s"
 msgstr ""
 
 #. module: cb_hr_views
-#: code:addons/cb_hr_views/models/hr_employee.py:185
+#: code:addons/cb_hr_views/models/hr_employee.py:180
 #, python-format
 msgid ", from %s to %s"
 msgstr ""
@@ -34,26 +34,46 @@ msgid "<span class=\"o_stat_text\">Related</span>\n"
 msgstr ""
 
 #. module: cb_hr_views
+#: model:ir.ui.view,arch_db:cb_hr_views.wizard_bank_account_employee_form_view
+msgid "<strong>Note: The new account will be automatically be selected for this employee</strong>"
+msgstr ""
+
+#. module: cb_hr_views
 #: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_show_info
 msgid "Able to see Private Info"
 msgstr ""
 
 #. module: cb_hr_views
-#: code:addons/cb_hr_views/models/hr_employee.py:155
+#: code:addons/cb_hr_views/models/hr_employee.py:152
 #, python-format
 msgid "Absent because of %s since %s"
 msgstr ""
 
 #. module: cb_hr_views
-#: code:addons/cb_hr_views/models/hr_employee.py:161
+#: code:addons/cb_hr_views/models/hr_employee.py:156
 #, python-format
 msgid "Absent today because of public holidays"
 msgstr ""
 
 #. module: cb_hr_views
-#: code:addons/cb_hr_views/models/hr_employee.py:254
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_acc_number
+msgid "Account Number"
+msgstr ""
+
+#. module: cb_hr_views
+#: code:addons/cb_hr_views/models/hr_employee.py:249
 #, python-format
 msgid "All employees must be practitioners"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model,name:cb_hr_views.model_hr_attendance
+msgid "Attendance"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_bank_id
+msgid "Bank"
 msgstr ""
 
 #. module: cb_hr_views
@@ -71,6 +91,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:cb_hr_views.field_res_partner_can_create_employee
 #: model:ir.model.fields,field_description:cb_hr_views.field_res_users_can_create_employee
 msgid "Can Create Employee"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.ui.view,arch_db:cb_hr_views.wizard_bank_account_employee_form_view
+msgid "Cancel"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_attendance_center_id
+msgid "Center"
 msgstr ""
 
 #. module: cb_hr_views
@@ -101,7 +131,13 @@ msgstr ""
 
 #. module: cb_hr_views
 #: model:ir.model,name:cb_hr_views.model_hr_contract_type
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_contract_type_id
 msgid "Contract Type"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.ui.view,arch_db:cb_hr_views.wizard_bank_account_employee_form_view
+msgid "Create Account"
 msgstr ""
 
 #. module: cb_hr_views
@@ -110,8 +146,34 @@ msgid "Create employee"
 msgstr ""
 
 #. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_create_uid
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_laboral_category_create_uid
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_create_date
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_laboral_category_create_date
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_prl_date
+msgid "Date"
+msgstr ""
+
+#. module: cb_hr_views
 #: model:ir.model.fields,field_description:cb_hr_views.field_hr_attendance_theoretical_time_report_department_id
 msgid "Department"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_display_name
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_laboral_category_display_name
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_display_name
+msgid "Display Name"
 msgstr ""
 
 #. module: cb_hr_views
@@ -121,8 +183,10 @@ msgstr ""
 
 #. module: cb_hr_views
 #: model:ir.model,name:cb_hr_views.model_hr_employee
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_employee_id
 #: model:ir.model.fields,field_description:cb_hr_views.field_medical_patient_employee_ids
 #: model:ir.model.fields,field_description:cb_hr_views.field_res_partner_employee_ids
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_employee_id
 msgid "Employee"
 msgstr ""
 
@@ -165,12 +229,34 @@ msgid "Has Employee"
 msgstr ""
 
 #. module: cb_hr_views
+#: model:ir.model,name:cb_hr_views.model_hr_employee_medical_examination
+msgid "Hr Employee Medical Examination"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model,name:cb_hr_views.model_hr_employee_prl
+msgid "Hr Employee Prl"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model,name:cb_hr_views.model_hr_laboral_category
+msgid "Hr Laboral Category"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_id
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_laboral_category_id
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_id
+msgid "ID"
+msgstr ""
+
+#. module: cb_hr_views
 #: model:ir.ui.view,arch_db:cb_hr_views.view_employee_filter
 msgid "ID Expired"
 msgstr ""
 
 #. module: cb_hr_views
-#: code:addons/cb_hr_views/models/res_partner.py:52
+#: code:addons/cb_hr_views/models/res_partner.py:60
 #, python-format
 msgid "In order to be an employee, is required to be a practitioner"
 msgstr ""
@@ -189,6 +275,39 @@ msgstr ""
 #: model:ir.actions.act_window,name:cb_hr_views.open_module_tree_job_position
 #: model:ir.ui.menu,name:cb_hr_views.menu_hr_department_tree
 msgid "Job Positions"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.ui.menu,name:cb_hr_views.hr_laboral_category_menu
+msgid "Laboral Categories"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.actions.act_window,name:cb_hr_views.hr_laboral_category_act_window
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_contract_laboral_category_id
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_laboral_category_id
+msgid "Laboral Category"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl___last_update
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_laboral_category___last_update
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_write_uid
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_laboral_category_write_uid
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_write_date
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_laboral_category_write_date
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_write_date
+msgid "Last Updated on"
 msgstr ""
 
 #. module: cb_hr_views
@@ -223,7 +342,30 @@ msgid "Monday"
 msgstr ""
 
 #. module: cb_hr_views
-#: code:addons/cb_hr_views/models/res_partner.py:57
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_name
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_laboral_category_name
+msgid "Name"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.ui.view,arch_db:cb_hr_views.view_employee_form
+#: model:ir.ui.view,arch_db:cb_hr_views.wizard_bank_account_employee_form_view
+msgid "New Bank Account"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_resource_calendar_not_archived
+#: model:ir.ui.view,arch_db:cb_hr_views.view_resource_calendar_search
+msgid "Not Archived"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_notes
+msgid "Notes"
+msgstr ""
+
+#. module: cb_hr_views
+#: code:addons/cb_hr_views/models/res_partner.py:67
 #, python-format
 msgid "Only one employee for a partner is allowed"
 msgstr ""
@@ -252,7 +394,17 @@ msgstr ""
 
 #. module: cb_hr_views
 #: model:ir.ui.view,arch_db:cb_hr_views.view_employee_form
+msgid "Prevention of Occupational Hazards"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.ui.view,arch_db:cb_hr_views.view_employee_form
 msgid "Private Address"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_ids
+msgid "Prl"
 msgstr ""
 
 #. module: cb_hr_views
@@ -307,8 +459,10 @@ msgid "Second last name"
 msgstr ""
 
 #. module: cb_hr_views
-#: model:ir.ui.view,arch_db:cb_hr_views.view_employee_form
-msgid "Social Insurance Number"
+#: model:ir.model.fields,field_description:cb_hr_views.field_medical_patient_show_info
+#: model:ir.model.fields,field_description:cb_hr_views.field_res_partner_show_info
+#: model:ir.model.fields,field_description:cb_hr_views.field_res_users_show_info
+msgid "Show Info"
 msgstr ""
 
 #. module: cb_hr_views
@@ -334,7 +488,7 @@ msgid "Sunday"
 msgstr ""
 
 #. module: cb_hr_views
-#: code:addons/cb_hr_views/models/hr_employee.py:169
+#: code:addons/cb_hr_views/models/hr_employee.py:165
 #, python-format
 msgid "This employee doesn't work today"
 msgstr ""
@@ -373,6 +527,11 @@ msgid "Week Day"
 msgstr ""
 
 #. module: cb_hr_views
+#: model:ir.actions.act_window,name:cb_hr_views.wizard_bank_account_employee_act_window
+msgid "Wizard Bank Account Employee"
+msgstr ""
+
+#. module: cb_hr_views
 #: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_personal_identifier
 msgid "Work's Personal ID"
 msgstr ""
@@ -384,8 +543,8 @@ msgid "Working Hours Type"
 msgstr ""
 
 #. module: cb_hr_views
-#: code:addons/cb_hr_views/models/hr_employee.py:173
-#: code:addons/cb_hr_views/models/hr_employee.py:178
+#: code:addons/cb_hr_views/models/hr_employee.py:167
+#: code:addons/cb_hr_views/models/hr_employee.py:172
 #, python-format
 msgid "Working from %s to %s"
 msgstr ""
@@ -393,5 +552,10 @@ msgstr ""
 #. module: cb_hr_views
 #: model:ir.model,name:cb_hr_views.model_hr_employee_calendar
 msgid "hr.employee.calendar"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.model,name:cb_hr_views.model_wizard_bank_account_employee
+msgid "wizard.bank.account.employee"
 msgstr ""
 
