@@ -20,11 +20,8 @@ class HrHolidaysNextYearPublicHolidays(models.TransientModel):
     @api.model
     def default_get(self, fields_list):
         rec = super().default_get(fields_list)
-        last_year = (
-            self.env["hr.holidays.public"].search(
-                [], order="year desc", limit=1
-            )
-            or False
+        last_year = self.env["hr.holidays.public"].search(
+            [], order="year desc", limit=1
         )
         if not last_year:
             raise UserError(
@@ -42,7 +39,12 @@ class HrHolidaysNextYearPublicHolidays(models.TransientModel):
             data = (
                 0,
                 0,
-                {"name": line.name, "date": date, "line_id": line.id},
+                {
+                    "name": line.name,
+                    "date": date,
+                    "line_id": line.id,
+                    "state_ids": [(6, 0, line.state_ids.ids)],
+                },
             )
             vals_list.append(data)
         rec.update(
@@ -56,11 +58,8 @@ class HrHolidaysNextYearPublicHolidays(models.TransientModel):
 
     @api.multi
     def create_public_holidays(self):
-        last_year = (
-            self.env["hr.holidays.public"].search(
-                [], order="year desc", limit=1
-            )
-            or False
+        last_year = self.env["hr.holidays.public"].search(
+            [], order="year desc", limit=1
         )
         calendar = self.env["hr.holidays.public"].create(
             {
@@ -105,3 +104,4 @@ class PublicHolidaysLineTransient(models.TransientModel):
     date = fields.Date(string="Date")
     wizard_id = fields.Many2one("hr.holidays.next.year.public.holidays")
     line_id = fields.Many2one("hr.holidays.public.line")
+    state_ids = fields.Many2many("res.country.state", readonly=True)
