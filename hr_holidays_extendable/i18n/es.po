@@ -1,0 +1,135 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_holidays_extendable
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-12-31 13:10+0000\n"
+"PO-Revision-Date: 2019-12-31 14:10+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 2.0.6\n"
+
+#. module: hr_holidays_extendable
+#: model:ir.ui.view,arch_db:hr_holidays_extendable.wizard_extend_holidays_form_view
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_date_to
+msgid "Date To"
+msgstr "Desde"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: hr_holidays_extendable
+#: model:ir.ui.view,arch_db:hr_holidays_extendable.wizard_extend_holidays_form_view
+msgid "Duration"
+msgstr "Duración"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_employee_id
+msgid "Employee"
+msgstr "Empleado"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_holidays_id
+msgid "Holidays"
+msgstr "Ausencias"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_id
+msgid "ID"
+msgstr "ID (identificación)"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays___last_update
+msgid "Last Modified on"
+msgstr "Última modificación en"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_write_uid
+msgid "Last Updated by"
+msgstr "Última actualización de"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_write_date
+msgid "Last Updated on"
+msgstr "Última actualización en"
+
+#. module: hr_holidays_extendable
+#: model:ir.model,name:hr_holidays_extendable.model_hr_holidays
+msgid "Leave"
+msgstr "Ausencia"
+
+#. module: hr_holidays_extendable
+#: model:ir.model,name:hr_holidays_extendable.model_hr_holidays_status
+msgid "Leave Type"
+msgstr "Tipo de ausencia"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_hr_holidays_status_extendable
+msgid "Modifiable"
+msgstr "Modificable"
+
+#. module: hr_holidays_extendable
+#: model:ir.ui.view,arch_db:hr_holidays_extendable.edit_holiday_new
+#: model:ir.ui.view,arch_db:hr_holidays_extendable.wizard_extend_holidays_form_view
+msgid "Modify"
+msgstr "Modificar"
+
+#. module: hr_holidays_extendable
+#: model:ir.ui.view,arch_db:hr_holidays_extendable.wizard_extend_holidays_form_view
+msgid "Modify Holidays"
+msgstr "Modificar Ausencia"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_number_of_days_temp
+msgid "Number Of Days Temp"
+msgstr "Número de días"
+
+#. module: hr_holidays_extendable
+#: model:ir.model.fields,field_description:hr_holidays_extendable.field_wizard_extend_holidays_date_from
+msgid "Start Date"
+msgstr "Fecha de Inicio"
+
+#. module: hr_holidays_extendable
+#: model:ir.actions.act_window,name:hr_holidays_extendable.act_extend_holidays
+msgid "Wizard Extend Holidays"
+msgstr "Wizard Extend Holidays"
+
+#. module: hr_holidays_extendable
+#: model:ir.ui.view,arch_db:hr_holidays_extendable.wizard_extend_holidays_form_view
+msgid "days"
+msgstr "días"
+
+#. module: hr_holidays_extendable
+#: model:ir.model,name:hr_holidays_extendable.model_wizard_extend_holidays
+msgid "wizard.extend.holidays"
+msgstr "wizard.extend.holidays"
