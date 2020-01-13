@@ -5,8 +5,11 @@
         <field name="name">Invisible</field>
     </record>
 
+    <record id="hr_holidays.property_rule_holidays_employee_write" model="ir.rule">
+        <field name="active" eval="False"/>
+    </record>
 
-    <data noupdate="0">
+    <data noupdate="1">
         <record id="hr_holidays.property_rule_holidays_officer" model="ir.rule">
                 <field name="active" eval="False"/>
         </record>
