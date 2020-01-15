@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-12-12 13:13+0000\n"
-"PO-Revision-Date: 2019-12-12 13:13+0000\n"
+"POT-Creation-Date: 2020-01-15 16:47+0000\n"
+"PO-Revision-Date: 2020-01-15 16:47+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -69,6 +69,11 @@ msgstr ""
 #. module: cb_hr_views
 #: model:ir.model,name:cb_hr_views.model_hr_attendance
 msgid "Attendance"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.ui.view,arch_db:cb_hr_views.hr_employee_medical_examination_form_view
+msgid "Back To Pending"
 msgstr ""
 
 #. module: cb_hr_views
@@ -273,7 +278,7 @@ msgstr ""
 
 #. module: cb_hr_views
 #: model:ir.actions.act_window,name:cb_hr_views.open_module_tree_job_position
-#: model:ir.ui.menu,name:cb_hr_views.menu_hr_department_tree
+#: model:ir.ui.menu,name:cb_hr_views.menu_hr_job_root
 msgid "Job Positions"
 msgstr ""
 
@@ -331,6 +336,21 @@ msgid "Manual Attendance Menu"
 msgstr ""
 
 #. module: cb_hr_views
+#: model:ir.ui.view,arch_db:cb_hr_views.hr_employee_medical_examination_form_view
+msgid "Mark as Cancelled"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.ui.view,arch_db:cb_hr_views.hr_employee_medical_examination_form_view
+msgid "Mark as Done"
+msgstr ""
+
+#. module: cb_hr_views
+#: model:ir.ui.view,arch_db:cb_hr_views.hr_employee_medical_examination_form_view
+msgid "Mark as Rejected"
+msgstr ""
+
+#. module: cb_hr_views
 #: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_personal_mobile
 msgid "Mobile"
 msgstr ""
@@ -344,6 +364,7 @@ msgstr ""
 #. module: cb_hr_views
 #: model:ir.model.fields,field_description:cb_hr_views.field_hr_employee_prl_name
 #: model:ir.model.fields,field_description:cb_hr_views.field_hr_laboral_category_name
+#: model:ir.model.fields,field_description:cb_hr_views.field_wizard_bank_account_employee_name
 msgid "Name"
 msgstr ""
 
