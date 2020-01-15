@@ -27,7 +27,7 @@
         "base_report_to_printer",
     ],
     "data": [
-        'views/hr_employee_prl.xml',
+        "views/hr_employee_prl.xml",
         "wizards/wizard_bank_account_employee.xml",
         "views/hr_laboral_category.xml",
         "views/hr_holidays_views.xml",
@@ -41,6 +41,7 @@
         "views/hr_attendance_module_views.xml",
         "views/hr_contract_views.xml",
         "views/hr_employee_views.xml",
+        "views/hr_employee_medical_examination.xml",
         "views/hr_job_views.xml",
         "views/hr_department_views.xml",
         "views/hr_course_views.xml",
