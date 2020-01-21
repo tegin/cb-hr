@@ -8,6 +8,11 @@ class ResUsers(models.Model):
 
     _inherit = "res.users"
 
+    def name_get(self):
+        return super(
+            ResUsers, self.with_context(not_display_company=True)
+        ).name_get()
+
     @api.model
     def create(self, vals):
         res = super().create(vals)
