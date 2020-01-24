@@ -38,4 +38,27 @@
             </xpath>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="view_partners_form_crm1">
+        <field name="name">res.partner.form.crm (in cb_hr_views)</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="crm.view_partners_form_crm1"/>
+        <field name="arch" type="xml">
+            <button name="schedule_meeting" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_lead_partner_kanban_view">
+        <field name="name">res.partner.kanban.crm (in cb_hr_views)</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="crm.crm_lead_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@t-esc='record.meeting_count.value']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
