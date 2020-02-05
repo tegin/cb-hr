@@ -50,7 +50,7 @@ class HrEmployee(models.Model):
     )
 
     parent_id = fields.Many2one(
-        related="department_id.manager_id", readonly=True, store=True
+        compute="_compute_department_parent_id", readonly=True, store=True
     )
     company_id = fields.Many2one(
         related="contract_id.company_id", readonly=True
@@ -114,6 +114,17 @@ class HrEmployee(models.Model):
     work_location = fields.Char(string="Location")
 
     prl_ids = fields.One2many("hr.employee.prl", "employee_id")
+
+    @api.depends("department_id", "department_id.manager_id")
+    def _compute_department_parent_id(self):
+        for record in self:
+            if record.department_id:
+                manager_id = record.department_id.manager_id
+                record.parent_id = (
+                    manager_id if (manager_id != record) else False
+                )
+            else:
+                record.parent_id = False
 
     @api.depends("contract_ids")
     def _compute_contract_id(self):
