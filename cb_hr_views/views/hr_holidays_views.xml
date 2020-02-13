@@ -22,4 +22,51 @@
         <field name="name">Leave Types</field>
     </record>
 
+    <record model="ir.ui.view" id="view_holiday_allocation_tree">
+        <field name="name">hr.holidays.tree (in cb_hr_views)</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="hr_holidays.view_holiday_allocation_tree"/>
+        <field name="arch" type="xml">
+            <tree position="inside">
+                <field name="tree_color" invisible="1"/>
+            </tree>
+            <tree position="attributes">
+                <attribute name="colors">background_color_field: tree_color</attribute>
+                <attribute name="decoration-danger"/>
+                <attribute name="decoration-info"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_holiday_simple">
+        <field name="name">hr.holidays.tree (in cb_hr_views)</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="hr_holidays.view_holiday_simple"/>
+        <field name="arch" type="xml">
+            <tree position="inside">
+                <field name="tree_color" invisible="1"/>
+            </tree>
+            <tree position="attributes">
+                <attribute name="colors">background_color_field: tree_color</attribute>
+                <attribute name="decoration-danger"/>
+                <attribute name="decoration-info"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_holiday">
+        <field name="name">hr.holidays.tree (in cb_hr_views)</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="hr_holidays.view_holiday"/>
+        <field name="arch" type="xml">
+            <tree position="inside">
+                <field name="tree_color" invisible="1"/>
+            </tree>
+            <tree position="attributes">
+                <attribute name="colors">background_color_field: tree_color</attribute>
+                <attribute name="decoration-danger"/>
+                <attribute name="decoration-info"/>
+            </tree>
+        </field>
+    </record>
 </odoo>
