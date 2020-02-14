@@ -27,9 +27,7 @@ class HrHolidays(models.Model):
     )
 
     count_in_hours = fields.Boolean(
-        related='holiday_status_id.count_in_hours',
-        store=True,
-        readonly=True,
+        related="holiday_status_id.count_in_hours", store=True, readonly=True
     )
 
     date_from_full = fields.Date(
@@ -78,7 +76,9 @@ class HrHolidays(models.Model):
     )
 
     description = fields.Text(
-        related="holiday_status_id.description", readonly=True
+        related="holiday_status_id.description",
+        readonly=True,
+        string="Holiday Type Description",
     )
 
     ####################################################
