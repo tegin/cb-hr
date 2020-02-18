@@ -12,7 +12,7 @@
     "depends": [
         "base_fontawesome",
         "crm",
-        "hr_attendance",
+        "hr_attendance_modification_tracking",
         "hr_contract",
         "hr_family",
         "hr_job_category",
