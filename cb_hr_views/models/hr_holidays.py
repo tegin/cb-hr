@@ -9,6 +9,10 @@ class HrHolidays(models.Model):
     _name = "hr.holidays"
     _inherit = ["mail.thread", "mail.activity.mixin", "hr.holidays"]
 
+    department_id = fields.Many2one(
+        related="employee_id.department_id", readonly=True, store=True
+    )
+
     @api.multi
     def _prepare_holidays_meeting_values(self):
         result = super()._prepare_holidays_meeting_values()
