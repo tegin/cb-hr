@@ -13,3 +13,5 @@ class HrAttendance(models.Model):
         readonly=True,
         store=True,
     )
+
+    department_id = fields.Many2one(store=True)
