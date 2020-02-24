@@ -30,6 +30,6 @@
         "views/hr_holidays_views.xml",
         "views/hr_module_views.xml",
     ],
-    "installable": True,
+    "installable": False,
     "post_init_hook": "post_init_hook",
 }

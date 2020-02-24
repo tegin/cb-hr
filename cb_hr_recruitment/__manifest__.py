@@ -11,4 +11,5 @@
     "website": "www.creublanca.es",
     "depends": ["cb_hr_views", "hr_recruitment"],
     "data": ["views/hr_applicant.xml"],
+    "installable": False,
 }

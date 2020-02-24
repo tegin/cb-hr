@@ -14,7 +14,7 @@
         "crm",
         "hr_attendance_modification_tracking",
         "hr_contract",
-        "hr_family",
+        "hr_employee_relative",
         "hr_job_category",
         "hr_course",
         "hr_attendance_report_theoretical_time",
@@ -48,4 +48,5 @@
         "views/hr_course_views.xml",
     ],
     "pre_init_hook": "pre_init_hook",
+    "installable": False,
 }
