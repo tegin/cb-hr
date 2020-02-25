@@ -9,7 +9,7 @@
         <field name="model">hr.holidays.status</field>
         <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
         <field name="arch" type="xml">
-            <field name="limit" position="after">
+            <field name="request_unit" position="after">
                 <field name="extendable"/>
             </field>
         </field>
