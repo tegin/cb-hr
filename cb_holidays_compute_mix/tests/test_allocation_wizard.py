@@ -67,9 +67,7 @@ class TestAllocationWizard(common.TransactionCase):
             }
         )
 
-        self.status = self.env["hr.holidays.status"].create(
-            {"name": "Status 1"}
-        )
+        self.status = self.env["hr.leave.type"].create({"name": "Status 1"})
 
         self.wizard = self.env["hr.holidays.allocation.wizard"].create(
             {"holiday_status_id": self.status.id, "duration": 12}
@@ -105,27 +103,21 @@ class TestAllocationWizard(common.TransactionCase):
         )
         self.wizard.populate()
         self.wizard.create_allocations()
-        allocation = self.env["hr.holidays"].search(
+        allocation = self.env["hr.leave.allocation"].search(
             [
                 ("employee_id", "=", self.employee_3.id),
-                ("type", "=", "add"),
                 ("state", "=", "validate"),
             ]
         )
         self.assertTrue(allocation)
 
-        status2 = self.env["hr.holidays.status"].create(
-            {
-                "name": "Status 2",
-                "double_validation": True,
-                "count_in_hours": True,
-            }
+        status2 = self.env["hr.leave.type"].create(
+            {"name": "Status 2", "double_validation": True}
         )
         self.wizard.write({"holiday_status_id": status2.id})
         self.wizard.create_allocations()
-        allocation = self.env["hr.holidays"].search(
+        allocation = self.env["hr.leave.allocation"].search(
             [
-                ("type", "=", "add"),
                 ("holiday_status_id", "=", status2.id),
                 ("state", "=", "validate"),
             ]

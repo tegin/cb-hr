@@ -25,7 +25,7 @@
 
     <record id="action_view_leaves_left" model="ir.actions.act_window">
         <field name="name">Leaves</field>
-        <field name="res_model">hr.holidays.status</field>
+        <field name="res_model">hr.leave.type</field>
         <field name="view_mode">kanban</field>
         <field name="view_type">form</field>
         <field name="view_ids" eval="[(5,0,0),

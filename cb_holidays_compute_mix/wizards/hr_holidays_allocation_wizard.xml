@@ -8,12 +8,10 @@
                 <group>
                     <group>
                         <field name="holiday_status_id"/>
-                        <field name="count_in_hours" invisible="1"/>
                         <label for="duration" string="Duration"/>
                         <div>
                             <field name="duration" class="oe_inline"/>
-                            <span attrs="{'invisible':[('count_in_hours','=',True)]}"> days</span>
-                            <span attrs="{'invisible':[('count_in_hours','=',False)]}"> hours</span>
+                            <span><field name="request_unit" nolabel="1"/></span>
                         </div>
                     </group>
                     <group>

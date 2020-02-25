@@ -10,31 +10,28 @@ class TestPendingEmployees(TransactionCase):
         self.employee1 = self.env["hr.employee"].create({"name": "Employee1"})
         self.employee2 = self.env["hr.employee"].create({"name": "Employee2"})
 
-        self.status1 = self.env["hr.holidays.status"].create(
-            {"name": "Status1"}
+        self.status1 = self.env["hr.leave.type"].create(
+            {"name": "Status1", "allocation_type": "fixed"}
         )
-        self.status2 = self.env["hr.holidays.status"].create(
-            {"name": "Status2", "count_in_hours": True}
+        self.status2 = self.env["hr.leave.type"].create(
+            {"name": "Status2", "allocation_type": "fixed"}
         )
-
         self.wizard = self.env["hr.holidays.pending.employees"].create({})
 
     def test_pending_employees(self):
-        allocation1 = self.env["hr.holidays"].create(
+        allocation1 = self.env["hr.leave.allocation"].create(
             {
                 "holiday_status_id": self.status1.id,
-                "type": "add",
-                "number_of_days_temp": 3,
+                "number_of_days": 3,
                 "employee_id": self.employee1.id,
             }
         )
         allocation1.action_approve()
 
-        allocation2 = self.env["hr.holidays"].create(
+        allocation2 = self.env["hr.leave.allocation"].create(
             {
                 "holiday_status_id": self.status2.id,
-                "type": "add",
-                "number_of_hours_temp": 3,
+                "number_of_days": 3,
                 "employee_id": self.employee2.id,
             }
         )

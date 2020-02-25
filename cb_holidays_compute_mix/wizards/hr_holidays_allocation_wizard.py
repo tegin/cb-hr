@@ -7,20 +7,25 @@ from odoo import api, fields, models, _
 class HrHolidaysAllocationWizard(models.TransientModel):
 
     _name = "hr.holidays.allocation.wizard"
+    _description = "hr.holidays.allocation.wizard"
 
     name = fields.Char(string="Description")
     holiday_status_id = fields.Many2one(
-        "hr.holidays.status", string="Leave Type", required=True
+        "hr.leave.type",
+        string="Leave Type",
+        required=True,
+        domain=[("allocation_type", "!=", "no")],
     )
     duration = fields.Float(string="Duration", required=True)
     employee_ids = fields.Many2many(
         "hr.employee", string="Employees", required=True
     )
-    count_in_hours = fields.Boolean(
-        related="holiday_status_id.count_in_hours", readonly=True
-    )
     second_validation = fields.Boolean(
         related="holiday_status_id.double_validation", readonly=True
+    )
+    request_unit = fields.Selection(
+        [("day", "Day"), ("hour", "Hours")],
+        related="holiday_status_id.request_unit",
     )
     approve = fields.Boolean(string="Automatically Approve", default=True)
     department_id = fields.Many2one("hr.department", string="Department")
@@ -52,27 +57,26 @@ class HrHolidaysAllocationWizard(models.TransientModel):
 
     @api.multi
     def create_allocations(self):
-        for form in self:
-            for employee in form.employee_ids:
-                allocation = self.env["hr.holidays"].create(
-                    {
-                        "name": form.name,
-                        "holiday_status_id": form.holiday_status_id.id,
-                        "holiday_type": "employee",
-                        "employee_id": employee.id,
-                        "department_id": employee.department_id.id,
-                        "type": "add",
-                    }
-                )
-                if form.count_in_hours:
-                    allocation.write({"number_of_hours_temp": form.duration})
-                else:
-                    allocation.write({"number_of_days_temp": form.duration})
+        self.ensure_one()
+        for employee in self.employee_ids:
+            allocation = self.env["hr.leave.allocation"].create(
+                {
+                    "name": self.name,
+                    "holiday_status_id": self.holiday_status_id.id,
+                    "holiday_type": "employee",
+                    "employee_id": employee.id,
+                    "department_id": employee.department_id.id,
+                }
+            )
+            if self.request_unit == "hour":
+                allocation.write({"number_of_hours_display": self.duration})
+            else:
+                allocation.write({"number_of_days_display": self.duration})
 
-                if form.approve:
-                    allocation.action_approve()
-                    if form.second_validation:
-                        allocation.action_validate()
+            if self.approve:
+                allocation.action_approve()
+                if self.second_validation:
+                    allocation.action_validate()
         action = self.env.ref(
             "cb_holidays_compute_mix.action_open_all_allocations"
         )

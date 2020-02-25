@@ -5,7 +5,7 @@
 
 {
     "name": " CB Holidays",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "category": "Human Resources",
     "license": "AGPL-3",
     "summary": "Módulo Holidays adaptado a Creu Blanca. "
@@ -20,16 +20,13 @@
     "depends": ["hr_holidays_public"],
     "data": [
         "wizards/hr_holidays_allocation_wizard.xml",
-        "wizards/hr_holidays_next_year_wizard.xml",
         "wizards/hr_holidays_pending_employees_wizard.xml",
         "wizards/hr_holidays_summary_department.xml",
         "security/holidays_security.xml",
         "views/hr_holidays_public_views.xml",
-        "views/hr_holidays_status_views.xml",
+        "views/hr_leave_type_views.xml",
         "views/hr_employee_views.xml",
-        "views/hr_holidays_views.xml",
+        "views/hr_leave_views.xml",
         "views/hr_module_views.xml",
     ],
-    "installable": False,
-    "post_init_hook": "post_init_hook",
 }

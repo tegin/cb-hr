@@ -2,99 +2,70 @@
 <odoo>
     <!-- Hide Calendars and other view changes-->
 
+    <record id="hr_holidays.hr_holidays_menu_manager_payroll" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="hr_holidays.hr_holidays_menu_manager_payroll_to_report"
+            model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="hr_holidays.hr_leave_menu_new_request" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="hr_holidays.menu_open_allocation" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="hr_holidays.hr_holidays_menu_manager_approve" model="ir.ui.menu">
+        <field name="name">Leaves To Approve</field>
+        <field name="action" ref="hr_holidays.hr_leave_action_action_approve_department"/>
+    </record>
+    <record id="hr_holidays.hr_holidays_menu_manager_approve_allocations" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+    <record id="hr_holidays.menu_open_department_leave_approve" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+        <record id="hr_holidays.hr_holidays_menu_manager_all" model="ir.ui.menu">
+        <field name="name">All Leaves</field>
+        <field name="action" ref="hr_holidays.hr_leave_action_all"/>
+    </record>
+    <record id="hr_holidays.hr_holidays_menu_manager_all_allocations" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
     <record id="hr_holidays.menu_open_employee_leave" model="ir.ui.menu">
         <field name="active" eval="False"/>
     </record>
-
-    <record id="hr_holidays.menu_hr_available_holidays_report_tree"
-            model="ir.ui.menu">
+    <record id="hr_holidays.menu_hr_available_holidays_report_tree" model="ir.ui.menu">
         <field name="active" eval="False"/>
     </record>
 
-    <record id="hr_holidays.menu_hr_holidays_approvals" model="ir.ui.menu">
-        <field name="name">Department Leaves</field>
+    <record id="hr_holidays.menu_hr_holidays_my_leaves" model="ir.ui.menu">
+        <field name="action" ref="hr_holidays.hr_leave_action_my"/>
     </record>
 
-    <record id="open_department_holidays_summary"
-            model="ir.actions.act_window">
-        <field name="name">Department Leaves Summary</field>
-        <field name="res_model">hr.holidays</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form,kanban</field>
-        <field name="context">{'search_default_year': 1, 'search_default_group_type': 1, 'search_default_department':1,}</field>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                Click here to create a new leave request.
-            </p>
-        </field>
-        <field name="domain">[('holiday_type','=','employee'),('type','=','remove')]</field>
-        <field name="search_view_id"
-               ref="hr_holidays.view_hr_holidays_filter"/>
-    </record>
-
-    <menuitem id="menu_open_department_leave_summary"
-              name="Leaves Summary"
-              parent="hr_holidays.menu_hr_holidays_approvals"
-              groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user"
-              action="open_department_holidays_summary"
-              sequence="1"/>
-
-    <record id="hr_holidays.menu_open_department_leave_allocation_approve"
-            model="ir.ui.menu">
-        <field name="active" eval="False"/>
-    </record>
-    <record id="hr_holidays.menu_open_allocation_holidays"
-            model="ir.ui.menu">
+    <record id="hr_holidays.menu_open_company_allocation" model="ir.ui.menu">
         <field name="active" eval="False"/>
     </record>
 
-    <record id="hr_holidays.menu_open_department_leave_approve"
-            model="ir.ui.menu">
-        <field name="name">Leaves to Approve</field>
-        <field name="sequence">2</field>
-    </record>
-
-    <record id="hr_holidays.menu_hr_holidays_dashboard" model="ir.ui.menu">
+    <record id="hr_holidays.hr_leave_menu_my" model="ir.ui.menu">
         <field name="active" eval="False"/>
     </record>
 
-    <record id="hr_holidays.menu_open_ask_holidays_new" model="ir.ui.menu">
-        <field name="active" eval="False"/>
+    <record model="ir.actions.act_window" id="hr_holidays.hr_leave_action_action_approve_department">
+        <field name="context">{'search_default_approve': 1}</field>
     </record>
 
-    <record id="hr_holidays.open_department_holidays_allocation_approve"
-            model="ir.actions.act_window">
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <record id="hr_holidays.open_department_holidays_approve"
-            model="ir.actions.act_window">
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <record id="view_holiday_tree" model="ir.ui.view">
-        <field name="name">hr.holidays.report_tree Remove Tag</field>
-        <field name="model">hr.holidays</field>
-        <field name="inherit_id" ref="hr_holidays.view_holiday_allocation_tree"/>
-        <field name="arch" type="xml">
-            <field name="holiday_type" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="category_id" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-        </field>
-    </record>
+    <menuitem id="hr_holidays.menu_hr_holidays_configuration" groups="hr_holidays.group_hr_holidays_manager"/>
 
     <record id="view_allocation_tree_custom_cb" model="ir.ui.view">
-        <field name="name">hr.holidays.allocation.tree.cb"</field>
-        <field name="model">hr.holidays</field>
+        <field name="name">hr.leave.allocation.tree.cb"</field>
+        <field name="model">hr.leave.allocation</field>
         <field name="arch" type="xml">
             <tree string="Allocations" decoration-danger="state == 'refuse'">
                 <field name="employee_id"/>
                 <field name="holiday_status_id"/>
                 <field name="name"/>
-                <field name="time_description"/>
                 <field name="department_id"/>
                 <field name="state"/>
             </tree>
@@ -104,12 +75,11 @@
     <record model="ir.actions.act_window"
             id="action_open_all_allocations">
         <field name="name">Allocations</field>
-        <field name="res_model">hr.holidays</field>
+        <field name="res_model">hr.leave.allocation</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="view_allocation_tree_custom_cb"/>
-        <field name="context">{'default_type':'add',}</field>
-        <field name="domain">[('holiday_type','=','employee'), ('type','=','add')]</field>
+        <field name="domain">[('holiday_type','=','employee')]</field>
     </record>
 
     <record model="ir.actions.act_window"
@@ -120,10 +90,6 @@
         <field name="view_mode">form</field>
         <field name="view_id" ref="hr_holidays_allocation_wizard"/>
         <field name="target">new</field>
-    </record>
-
-    <record id="hr_holidays_public.action_create_next_year_public_holidays" model="ir.actions.act_window">
-        <field name="res_model">hr.holidays.next.year.public.holidays</field>
     </record>
 
     <menuitem id="menu_open_allocation"
@@ -149,21 +115,6 @@
               groups="hr_holidays.group_hr_holidays_manager"
     />
 
-    <record id="action_hr_holidays_all_leaves" model="ir.actions.act_window">
-        <field name="name">All Leaves Summary</field>
-        <field name="res_model">hr.holidays</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">calendar,tree,form,kanban</field>
-        <field name="context">{'search_default_year': 1, 'search_default_group_type': 1}</field>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                Click here to create a new leave request.
-            </p>
-        </field>
-        <field name="domain">[('holiday_type','=','employee'),('type','=','remove')]</field>
-        <field name="search_view_id"
-               ref="hr_holidays.view_hr_holidays_filter"/>
-    </record>
 
     <record model="ir.actions.act_window"
             id="act_open_pending_employees">
@@ -181,13 +132,5 @@
           groups="hr_holidays.group_hr_holidays_manager"
           parent="hr_holidays.menu_hr_holidays_report"
           sequence="4"/>
-
-    <menuitem id="menu_open_all_leave_summary"
-              name="All leaves"
-              parent="hr_holidays.menu_hr_holidays_root"
-              sequence="1"
-              action="action_hr_holidays_all_leaves"
-              groups="hr_holidays.group_hr_holidays_manager"
-    />
 
 </odoo>
