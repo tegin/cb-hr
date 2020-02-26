@@ -5,6 +5,7 @@ from datetime import timedelta
 
 class HolidaysCountReport(models.AbstractModel):
     _name = "report.cb_number_of_holidays_report.report_holidays_count"
+    _description = "Report of number of holidays"
 
     @api.model
     def get_report_values(self, docids, data=None):
@@ -21,14 +22,13 @@ class HolidaysCountReport(models.AbstractModel):
         for employee in self.env["hr.employee"].browse(
             data["form"]["employee_ids"]
         ):
-            holidays = self.env["hr.holidays"].search(
+            holidays = self.env["hr.leave"].search(
                 [
                     ("employee_id", "=", employee.id),
-                    ("type", "=", "remove"),
                     ("date_from", "<=", date_to),
                     ("date_to", ">=", date_from),
                     ("state", "=", "validate"),
-                    ("count_in_hours", "=", False),
+                    ("request_unit_hours", "=", False),
                 ]
             )
 
@@ -37,22 +37,22 @@ class HolidaysCountReport(models.AbstractModel):
             date_to_day = fields.Datetime.from_string(date_to)
             date_to_day += timedelta(days=1)
             for holiday in holidays:
-                if date_from >= holiday.date_from and (
-                    date_to <= holiday.date_to
+                if date_from_day >= holiday.date_from and (
+                    date_to_day <= holiday.date_to
                 ):
                     days = (date_to_day - date_from_day).days
-                elif date_from < holiday.date_from and (
-                    date_to > holiday.date_to
+                elif date_from_day < holiday.date_from and (
+                    date_to_day > holiday.date_to
                 ):
                     days = abs(holiday.number_of_days)
-                elif date_from >= holiday.date_from and (
-                    date_to >= holiday.date_to
+                elif date_from_day >= holiday.date_from and (
+                    date_to_day >= holiday.date_to
                 ):
-                    days = self.env["hr.holidays"]._get_number_of_days(
+                    days = self.env["hr.leave"]._get_number_of_days(
                         date_from, holiday.date_to, False
                     )
                 else:
-                    days = self.env["hr.holidays"]._get_number_of_days(
+                    days = self.env["hr.leave"]._get_number_of_days(
                         holiday.date_from,
                         fields.Datetime.to_string(date_to_day),
                         False,

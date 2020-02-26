@@ -8,8 +8,13 @@ from odoo.exceptions import UserError
 class TestNumberOfHolidaysReport(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.holiday_type = self.env["hr.holidays.status"].create(
-            {"name": "Holiday Type", "limit": True}
+        self.holiday_type = self.env["hr.leave.type"].create(
+            {
+                "name": "Holiday Type",
+                "request_unit": "day",
+                "allocation_type": "no",
+                "validity_start": False,
+            }
         )
         self.partner_id = self.env["res.partner"].create(
             {"name": "Pieter", "is_practitioner": True}
@@ -24,22 +29,21 @@ class TestNumberOfHolidaysReport(TransactionCase):
             {
                 "name": "Pieter",
                 "partner_id": self.partner_id.id,
-                "is_practitioner": True,
                 "department_id": self.department.id,
                 "category_ids": [(4, self.category.id)],
             }
         )
-        self.holiday = self.env["hr.holidays"].create(
+        self.holiday = self.env["hr.leave"].create(
             {
                 "name": "Test",
-                "type": "remove",
                 "employee_id": self.employee.id,
                 "holiday_status_id": self.holiday_type.id,
-                "date_from": "2019-08-05 00:00:00",
-                "date_to": "2019-08-09 23:59:59",
-                "number_of_days_temp": 5,
+                "request_date_from": "2019-08-05",
+                "request_date_to": "2019-08-09",
+                "request_unit_hours": False,
             }
         )
+        self.holiday._onchange_request_parameters()
         self.holiday.action_validate()
         self.wizard = self.env["wizard.holidays.count"].create(
             {
