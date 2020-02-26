@@ -5,8 +5,8 @@
 <odoo>
 
     <record model="ir.ui.view" id="edit_holiday_status_form">
-        <field name="name">hr.holidays.status.form (in hr_holidays_extendable)</field>
-        <field name="model">hr.holidays.status</field>
+        <field name="name">hr.leave.type.form (in hr_holidays_extendable)</field>
+        <field name="model">hr.leave.type</field>
         <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form"/>
         <field name="arch" type="xml">
             <field name="request_unit" position="after">
@@ -14,7 +14,5 @@
             </field>
         </field>
     </record>
-
-
 
 </odoo>
