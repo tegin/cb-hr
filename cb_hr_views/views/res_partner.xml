@@ -20,9 +20,9 @@
                 <field name="can_create_employee" invisible="1"/>
                 <button name="create_employee" string="Create employee" icon="fa-user-tie" type="object"
                         attrs="{'invisible': [('can_create_employee', '=', False)]}"/>
-                <field name="has_employee" invisible="1"/>
+                <field name="employee" invisible="1"/>
                 <button name="action_open_related_employee" string="Related employee" icon="fa-user-tie" type="object"
-                        attrs="{'invisible': [('has_employee', '=', False)]}"/>
+                        attrs="{'invisible': [('employee', '=', False)]}"/>
             </xpath>
             <xpath expr="//group/group[1]" position="before">
                 <field name="show_info" invisible="1"/>

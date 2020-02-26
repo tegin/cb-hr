@@ -11,7 +11,7 @@
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
                             <div class="o_kanban_image">
-                                <img t-att-src="kanban_image('hr.department', 'image_medium', record.id.raw_value)"/>
+                                <img alt="default_image" t-att-src="kanban_image('hr.department', 'image_medium', record.id.raw_value)"/>
                                 <span title="Employees"><i class="fa fa-users"/> <field name="total_employee"/></span>
                             </div>
                             <div class="oe_kanban_details">

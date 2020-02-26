@@ -5,7 +5,7 @@
     "name": "Cb Hr Views",
     "summary": """
         Views for HR modules in Creu Blanca""",
-    "version": "11.0.1.0.0",
+    "version": "12.0.1.0.0",
     "license": "AGPL-3",
     "author": "Creu Blanca",
     "website": "www.creublanca.es",
@@ -31,7 +31,6 @@
         "views/hr_employee_prl.xml",
         "wizards/wizard_bank_account_employee.xml",
         "views/hr_laboral_category.xml",
-        "views/hr_holidays_views.xml",
         "reports/hr_attendance_theoretical_time_report_views.xml",
         "views/resource_calendar_views.xml",
         "views/res_partner.xml",
@@ -42,11 +41,9 @@
         "views/hr_attendance_module_views.xml",
         "views/hr_contract_views.xml",
         "views/hr_employee_views.xml",
-        "views/hr_employee_medical_examination.xml",
         "views/hr_job_views.xml",
         "views/hr_department_views.xml",
         "views/hr_course_views.xml",
     ],
     "pre_init_hook": "pre_init_hook",
-    "installable": False,
 }
