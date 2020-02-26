@@ -1,6 +1,6 @@
 // MOBILE LAYOUT CUSTOMIZATIONS
 @include media-breakpoint-down(sm) {
-    #o_employee_right {
+    #o_department_right {
         .o_org_chart_title {
             font-size: 20px;
             padding: 5px 0;
@@ -11,14 +11,14 @@
 
 // SMALL DESKTOP LAYOUT
 @include media-breakpoint-up(md) {
-    #o_employee_container {
+    #o_department_container {
         display: flex;
         width: 100%;
     }
-    #o_employee_main {
+    #o_department_main {
         flex: 1 1 60%;
     }
-    #o_employee_right {
+    #o_department_right {
         flex: 0 1 35%;
         margin-left: 2%;
         padding-left: 2%;
@@ -32,19 +32,19 @@
 
 // MEDIUM DESKTOP LAYOUT
 @include media-breakpoint-up(lg) {
-    #o_employee_right {
+    #o_department_right {
         flex: 0 1 33%;
     }
 }
 
 // LARGE DESKTOP LAYOUT
 @include media-breakpoint-up(xl) {
-    #o_employee_right {
+    #o_department_right {
         flex: 0 1 30%;
     }
 }
 
-#o_employee_right {
+#o_department_right {
     $tmp-gap-base: $o-hr-org-chart-entry-pic-size*0.7;
 
     // ORGANIGRAM LINES
