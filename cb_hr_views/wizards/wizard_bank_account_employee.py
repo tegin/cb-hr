@@ -8,6 +8,7 @@ from odoo.addons.base_iban.models.res_partner_bank import validate_iban
 class WizardBankAccountEmployee(models.TransientModel):
 
     _name = "wizard.bank.account.employee"
+    _description = "Add a bank account to an employee"
 
     name = fields.Char()
 

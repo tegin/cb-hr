@@ -15,7 +15,6 @@ from pytz import timezone, utc, UTC
 
 class HrLeave(models.Model):
     _inherit = "hr.leave"
-
     _order = "create_date desc"
 
     def _default_employee(self):
@@ -34,6 +33,24 @@ class HrLeave(models.Model):
 
     date_from_custom = fields.Datetime()
     date_to_custom = fields.Datetime()
+
+    department_id = fields.Many2one(
+        related="employee_id.department_id", readonly=True, store=True
+    )
+
+    tree_color = fields.Char(compute="_compute_color", store=True)
+
+    @api.depends("state")
+    def _compute_color(self):
+        for record in self:
+            if record.state == "validate":
+                record.tree_color = "#e2ffe6"
+            elif record.state == "validate1":
+                record.tree_color = "#e2f0ff"
+            elif record.state == "refuse":
+                record.tree_color = "#ffefef"
+            else:
+                record.tree_color = "#ffffff"
 
     @api.onchange("leave_type_request_unit")
     def _onchange_leave_type_request_unit(self):

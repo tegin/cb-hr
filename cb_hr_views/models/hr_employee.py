@@ -149,23 +149,18 @@ class HrEmployee(models.Model):
                 ("date_from", "<=", now),
                 ("date_to", ">=", now),
                 ("employee_id", "=", record.id),
-                ("type", "=", "remove"),
                 ("state", "=", "validate"),
             ]
-            personal_holidays = self.env["hr.holidays"].search(domain, limit=1)
+            personal_holidays = self.env["hr.leave"].search(domain, limit=1)
             if personal_holidays:
                 date_from = fields.Date.context_today(
-                    self,
-                    fields.Datetime.from_string(personal_holidays.date_from),
+                    self, personal_holidays.date_from
                 )
-                record.today_schedule = _(
-                    "Absent because of %s since %s"
-                    % (personal_holidays.holiday_status_id.name, date_from)
-                )
+                record.today_schedule = _("Out of office since %s" % date_from)
                 continue
-            if public_holidays.is_public_holiday(today, record.id):
+            if public_holidays.is_public_holiday(day_date, record.id):
                 record.today_schedule = _(
-                    "Absent today because " "of public holidays"
+                    "Absent today because of public holidays"
                 )
                 continue
 
@@ -197,10 +192,15 @@ class HrEmployee(models.Model):
                     float_to_time(attendances[-1].hour_to).strftime("%H:%M"),
                 )
 
-    @api.depends("fam_children_ids")
+    @api.depends("relative_ids")
     def _compute_children_count(self):
+        child_relation = self.env.ref("hr_employee_relative.relation_child").id
         for record in self:
-            record.children = len(record.fam_children_ids)
+            record.children = len(
+                record.relative_ids.filtered(
+                    lambda r: r.relation_id.id == child_relation
+                )
+            )
 
     @api.depends("partner_id")
     def _compute_user(self):
@@ -216,12 +216,21 @@ class HrEmployee(models.Model):
             return super()._onchange_company()
         return {}
 
+    @api.onchange("department_id")
+    def _onchange_department(self):
+        if not self.env.context.get("use_old_onchange"):
+            return super()._onchange_department()
+        return {}
+
+    def _update_employee_manager(self, manager_id):
+        return
+
     @api.multi
     def toggle_active(self):
         for record in self:
             record.active = not record.active
-            if record.partner_id:
-                record.partner_id.write({"active": record.active})
+            record.user_id.write({"active": record.active})
+            record.partner_id.write({"active": record.active})
 
     @api.multi
     def action_open_related_partner(self):

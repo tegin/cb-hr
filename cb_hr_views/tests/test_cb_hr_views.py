@@ -49,7 +49,7 @@ class TestCbHrViews(TransactionCase):
     def test_res_partner(self):
         self.partner._compute_can_create_employee()
         self.assertFalse(self.partner.can_create_employee)
-        self.assertTrue(self.partner.has_employee)
+        self.assertTrue(self.partner.employee)
 
         self.partner.toggle_active()
         self.assertFalse(self.employee.active)
@@ -143,19 +143,25 @@ class TestCbHrViews(TransactionCase):
                 ]
             }
         )
+
         with patch("odoo.fields.Datetime.now") as now, patch(
             "odoo.fields.Date.today"
         ) as today:
-            now.return_value = "2020-05-10 12:00:00"
-            today.return_value = "2020-05-10"
+            now.return_value = fields.Datetime.from_string(
+                "2020-05-10 12:00:00"
+            )
+            today.return_value = fields.Date.from_string("2020-05-10")
+
             self.employee._compute_today_schedule()
             self.assertEqual(
                 self.employee.today_schedule,
                 "This employee doesn't work today",
             )
 
-            now.return_value = "2020-05-12 12:00:00"
-            today.return_value = "2020-05-12"
+            now.return_value = fields.Datetime.from_string(
+                "2020-05-12 12:00:00"
+            )
+            today.return_value = fields.Date.from_string("2020-05-12")
 
             self.employee._compute_today_schedule()
             self.assertEqual(
@@ -178,24 +184,25 @@ class TestCbHrViews(TransactionCase):
                 "Absent today because of public holidays",
             )
 
-            status = self.env["hr.holidays.status"].create(
-                {"name": "Sick", "limit": True}
+            status = self.env["hr.leave.type"].create(
+                {
+                    "name": "Sick",
+                    "allocation_type": "no",
+                    "validity_start": False,
+                }
             )
-            holiday = self.env["hr.holidays"].create(
+            holiday = self.env["hr.leave"].create(
                 {
                     "name": "Holiday",
                     "employee_id": self.employee.id,
                     "holiday_status_id": status.id,
-                    "type": "remove",
                     "holiday_type": "employee",
-                    "date_from": "2020-05-09",
-                    "date_to": "2020-05-17",
-                    "number_of_days_temp": 8.0,
+                    "date_from": "2020-05-09 08:00:00",
+                    "date_to": "2020-05-17 17:00:00",
                 }
             )
             holiday.action_approve()
             self.employee._compute_today_schedule()
             self.assertEqual(
-                self.employee.today_schedule,
-                "Absent because of Sick since 2020-05-09",
+                self.employee.today_schedule, "Out of office since 2020-05-09"
             )

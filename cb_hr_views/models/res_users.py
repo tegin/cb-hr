@@ -1,12 +1,14 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class ResUsers(models.Model):
 
     _inherit = "res.users"
+
+    notification_type = fields.Selection(default="inbox")
 
     def name_get(self):
         return super(
