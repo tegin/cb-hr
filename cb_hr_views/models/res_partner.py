@@ -14,11 +14,6 @@ class ResPartner(models.Model):
         inverse_name="partner_id",
         domain=["|", ("active", "=", True), ("active", "=", False)],
     )
-
-    user_ids = fields.One2many(
-        domain=["|", ("active", "=", True), ("active", "=", False)]
-    )
-
     can_create_employee = fields.Boolean(
         compute="_compute_can_create_employee"
     )
@@ -38,6 +33,8 @@ class ResPartner(models.Model):
     @api.multi
     def toggle_active(self):
         for record in self:
+            if record.user_ids:
+                record.user_ids.toggle_active()
             record.active = not record.active
             if record.employee_ids:
                 record.employee_ids[0].write({"active": record.active})

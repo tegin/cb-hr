@@ -4,9 +4,9 @@
 from odoo import fields, models
 
 
-class HrHolidays(models.Model):
+class HrLeave(models.Model):
 
-    _inherit = "hr.holidays"
+    _inherit = "hr.leave"
 
     extendable = fields.Boolean(
         related="holiday_status_id.extendable", store=True, readonly=True
