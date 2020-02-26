@@ -14,17 +14,26 @@ class ResPartner(models.Model):
         inverse_name="partner_id",
         domain=["|", ("active", "=", True), ("active", "=", False)],
     )
+
+    user_ids = fields.One2many(
+        domain=["|", ("active", "=", True), ("active", "=", False)]
+    )
+
     can_create_employee = fields.Boolean(
         compute="_compute_can_create_employee"
     )
-    has_employee = fields.Boolean(compute="_compute_can_create_employee")
+    employee = fields.Boolean(
+        compute="_compute_can_create_employee",
+        store=True,
+        string="Is Employee",
+    )
 
     show_info = fields.Boolean(compute="_compute_show_info", default=True)
 
     def _compute_show_info(self):
         is_manager = self.env.user.has_group("hr.group_hr_manager")
         for partner in self:
-            partner.show_info = is_manager or not partner.has_employee
+            partner.show_info = is_manager or not partner.employee
 
     @api.multi
     def toggle_active(self):
@@ -50,7 +59,7 @@ class ResPartner(models.Model):
             record.can_create_employee = (
                 not employees and record.is_practitioner
             )
-            record.has_employee = len(employees) > 0 and record.is_practitioner
+            record.employee = len(employees) > 0 and record.is_practitioner
 
     @api.constrains("employee_ids", "is_practitioner")
     def _check_employee(self):

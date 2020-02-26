@@ -10,7 +10,7 @@
             <field name="employee_id" position="after">
                 <field name="department_id"/>
             </field>
-            <filter name="my_attendances" position="after">
+            <filter name="my" position="after">
                 <separator/>
                 <filter name="monday" string="Monday" domain="[('week_day', '=', 1)]"/>
                 <filter name="tuesday" string="Tuesday" domain="[('week_day', '=', 2)]"/>
