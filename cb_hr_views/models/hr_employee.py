@@ -40,8 +40,9 @@ class HrEmployee(models.Model):
         readonly=True,
         copy=False,
     )
-    work_email = fields.Char(related="partner_id.email")
-    personal_email = fields.Char(string="Email")
+    personal_email = fields.Char(
+        related="partner_id.email", string="Personal Email", store=True
+    )
     personal_phone = fields.Char(string="Phone", related="partner_id.mobile")
     personal_mobile = fields.Char(related="partner_id.phone", string="Mobile")
 
@@ -205,10 +206,16 @@ class HrEmployee(models.Model):
     @api.depends("partner_id")
     def _compute_user(self):
         for record in self:
-            user = False
-            if record.partner_id.user_ids:
-                user = record.partner_id.user_ids[0]
-            record.user_id = user
+            user_id = self.env["res.users"].search(
+                [
+                    "|",
+                    ("active", "=", True),
+                    ("active", "=", False),
+                    ("partner_id", "=", record.partner_id.id),
+                ],
+                limit=1,
+            )
+            record.user_id = user_id
 
     @api.onchange("company_id")
     def _onchange_company(self):
