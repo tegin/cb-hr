@@ -40,8 +40,9 @@ class HrEmployee(models.Model):
         readonly=True,
         copy=False,
     )
-    work_email = fields.Char(related="partner_id.email")
-    personal_email = fields.Char(string="Email")
+    personal_email = fields.Char(
+        related="partner_id.email", string="Personal Email", store=True
+    )
     personal_phone = fields.Char(string="Phone", related="partner_id.mobile")
     personal_mobile = fields.Char(related="partner_id.phone", string="Mobile")
 
