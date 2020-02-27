@@ -33,8 +33,16 @@ class ResPartner(models.Model):
     @api.multi
     def toggle_active(self):
         for record in self:
-            if record.user_ids:
-                record.user_ids.toggle_active()
+            user_ids = self.env["res.users"].search(
+                [
+                    "|",
+                    ("active", "=", True),
+                    ("active", "=", False),
+                    ("partner_id", "=", record.id),
+                ]
+            )
+            if user_ids:
+                user_ids.write({"active": record.active})
             record.active = not record.active
             if record.employee_ids:
                 record.employee_ids[0].write({"active": record.active})
