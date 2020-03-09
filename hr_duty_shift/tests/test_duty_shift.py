@@ -49,6 +49,9 @@ class TestDutyShift(TransactionCase):
             .replace(tzinfo=utc)
             .astimezone(timez)
         )
+        import logging
+
+        logging.info(self.start_date)
         self.end_date = self.start_date + timedelta(hours=3)
 
     def create_shift(self):
