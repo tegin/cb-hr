@@ -203,8 +203,8 @@ class TestHrAttendanceWarning(common.TransactionCase):
             warning_line._compute_message()
             self.assertEqual(
                 warning_line.message,
-                "Didn't check in between \"2018-06-11"
-                ' 07:30:00" and "2018-06-11 08:30:00".',
+                "Didn't check in between \"2018-06-10"
+                ' 07:30:00" and "2018-06-10 08:30:00".',
             )
 
             warning_in.pending2solved()
@@ -229,8 +229,8 @@ class TestHrAttendanceWarning(common.TransactionCase):
             warning_out._compute_message()
             self.assertEqual(
                 warning_out.message,
-                "Didn't check out between \"2018-06-11 "
-                '15:30:00" and "2018-06-11 16:30:00".',
+                "Didn't check out between \"2018-06-10 "
+                '15:30:00" and "2018-06-10 16:30:00".',
             )
 
             monday.margin_from = 1
