@@ -2,7 +2,6 @@ import odoo.tests.common as common
 from odoo import fields
 from mock import patch
 from datetime import date, datetime, timedelta
-from dateutil import tz
 
 
 class TestHrAttendanceWarning(common.TransactionCase):
@@ -59,10 +58,7 @@ class TestHrAttendanceWarning(common.TransactionCase):
         with patch("odoo.fields.Datetime.now") as now, patch(
             "odoo.fields.Date.today"
         ) as today:
-            utz = self.env.user.tz
-            now.return_value = datetime(
-                2018, 6, 15, 12, 0, 0, 0, tzinfo=tz.gettz(utz)
-            )
+            now.return_value = datetime(2018, 6, 15, 12, 0, 0, 0)
             today.return_value = date(2018, 6, 15)
 
             holiday_start = fields.Datetime.to_string(
@@ -272,10 +268,7 @@ class TestHrAttendanceWarning(common.TransactionCase):
         with patch("odoo.fields.Datetime.now") as now, patch(
             "odoo.fields.Date.today"
         ) as today:
-            utz = self.env.user.tz
-            now.return_value = datetime(
-                2018, 6, 15, 12, 0, 0, 0, tzinfo=tz.gettz(utz)
-            )
+            now.return_value = datetime(2018, 6, 15, 12, 0, 0, 0)
             today.return_value = date(2018, 6, 15)
 
             holiday_start = fields.Datetime.to_string(
@@ -322,10 +315,7 @@ class TestHrAttendanceWarning(common.TransactionCase):
         with patch("odoo.fields.Datetime.now") as now, patch(
             "odoo.fields.Date.today"
         ) as today:
-            utz = self.env.user.tz
-            now.return_value = datetime(
-                2018, 6, 15, 10, 0, 0, 0, tzinfo=tz.gettz(utz)
-            )
+            now.return_value = datetime(2018, 6, 15, 10, 0, 0, 0)
             today.return_value = date(2018, 6, 15)
 
             self.env["resource.calendar.attendance"].cron_attendance_checks()
