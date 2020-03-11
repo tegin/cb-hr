@@ -1,4 +1,4 @@
-import pytz
+from pytz import timezone, utc
 from datetime import datetime, time, timedelta
 
 from odoo import api, fields, models, SUPERUSER_ID
@@ -66,31 +66,33 @@ class HrEmployee(models.Model):
 
     @api.multi
     def attendance_action_change(self):
-        tz = self.env.user.tz
+        timez = timezone(self.env.user.tz)
         attendance = super(HrEmployee, self).attendance_action_change()
         if attendance:
-            action_time = fields.Datetime.from_string(
-                attendance.check_out or attendance.check_in
-            ).replace(tzinfo=pytz.timezone(tz))
+            action_time = (
+                fields.Datetime.from_string(
+                    attendance.check_out or attendance.check_in
+                )
+                .replace(tzinfo=utc)
+                .astimezone(timez)
+            )
             in_interval = any(
                 [
-                    att[0] + timedelta(minutes=-(att[2].margin_from) or 0)
+                    start + timedelta(minutes=-meta.margin_from or 0)
                     <= action_time
-                    <= att[1] + timedelta(minutes=att[2].margin_to or 0)
-                    for att in self.resource_calendar_id._work_intervals(
+                    <= stop + timedelta(minutes=meta.margin_to or 0)
+                    for start, stop, meta in self.resource_calendar_id._work_intervals(
                         datetime.combine(
-                            action_time.date(),
-                            time(0, 0, 0, 0, tzinfo=pytz.timezone(tz)),
+                            action_time.date(), time(0, 0, 0, 0, tzinfo=timez)
                         ),
                         datetime.combine(
                             action_time.date(),
-                            time(23, 59, 59, 99999, tzinfo=pytz.timezone(tz)),
+                            time(23, 59, 59, 99999, tzinfo=timez),
                         ),
                         resource=self.resource_id,
                     )
                 ]
             )
-
             public_holiday = self.env["hr.holidays.public"].is_public_holiday(
                 action_time.date(), self.id
             )
