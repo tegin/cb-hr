@@ -15,8 +15,10 @@ class ResourceCalendar(models.Model):
         for interval in intervals:
             start, stop, meta = interval
             if (
-                meta._name == "resource.calendar.attendance"
-            ) and not meta._check_week(start_dt.date()):
+                (meta._name == "resource.calendar.attendance")
+                and meta
+                and not meta[0]._check_week(start_dt.date())
+            ):
                 intervals_filtered -= Intervals([interval])
         return intervals_filtered
 
