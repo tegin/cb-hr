@@ -219,6 +219,7 @@ class TestResourceCalendar(TransactionCase):
                 "hour_from": 8,
                 "hour_to": 12,
                 "calendar_week_number": 2,
+                "week_number": 1,
                 "date_from": False,
                 "calendar_id": self.calendar.id,
             }
@@ -228,7 +229,7 @@ class TestResourceCalendar(TransactionCase):
                 "name": "2",
                 "dayofweek": "3",
                 "hour_from": 11,
-                "hour_to": 14,
+                "hour_to": 15,
                 "calendar_week_number": 2,
                 "week_number": 2,
                 "date_from": False,
@@ -237,9 +238,9 @@ class TestResourceCalendar(TransactionCase):
         )
         date_start = self.start_date + timedelta(days=3)
         date_end = self.end_date + timedelta(days=3)
+        self.calendar.refresh()
         intervals = self.calendar._work_intervals(date_start, date_end)
+        self.assertEqual(1, len(intervals))
         for start, stop, meta in intervals:
-            import logging
-
-            logging.info(meta)
             self.assertEqual(len(meta), 1)
+            self.assertEqual(4, (stop - start).seconds / 3600)

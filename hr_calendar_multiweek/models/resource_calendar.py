@@ -1,26 +1,64 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-
+from datetime import datetime
+from dateutil.rrule import rrule, DAILY
+from pytz import timezone
 from datetime import timedelta
 from odoo import api, fields, models
-from odoo.addons.resource.models.resource import Intervals
+from odoo.addons.resource.models.resource import Intervals, float_to_time
 
 
 class ResourceCalendar(models.Model):
     _inherit = "resource.calendar"
 
-    def _work_intervals(self, start_dt, end_dt, resource=None, domain=None):
-        intervals = super()._work_intervals(start_dt, end_dt, resource, domain)
-        intervals_filtered = intervals
+    def _attendance_intervals(self, start_dt, end_dt, resource=None):
+        intervals = super()._attendance_intervals(
+            start_dt, end_dt, resource=resource
+        )
+        result = []
+        combine = datetime.combine
+
+        # express all dates and times in the resource's timezone
+        tz = timezone((resource or self).tz)
+        start_dt = start_dt.astimezone(tz)
+        end_dt = end_dt.astimezone(tz)
         for interval in intervals:
             start, stop, meta = interval
-            if (
-                (meta._name == "resource.calendar.attendance")
-                and meta
-                and not meta[0]._check_week(start_dt.date())
-            ):
-                intervals_filtered -= Intervals([interval])
-        return intervals_filtered
+            if meta._name == "resource.calendar.attendance":
+                dt = start_dt.date()
+                new_meta = meta.filtered(lambda r: r._check_week(dt))
+                if new_meta:
+                    for attendance in new_meta:
+                        start = start.date()
+                        if attendance.date_from:
+                            start = max(start, attendance.date_from)
+                        until = stop.date()
+                        if attendance.date_to:
+                            until = min(until, attendance.date_to)
+                        weekday = int(attendance.dayofweek)
+                        for day in rrule(
+                            DAILY, start, until=until, byweekday=weekday
+                        ):
+                            # attendance hours are interpreted in the
+                            # resource's timezone
+                            dt0 = tz.localize(
+                                combine(
+                                    day, float_to_time(attendance.hour_from)
+                                )
+                            )
+                            dt1 = tz.localize(
+                                combine(day, float_to_time(attendance.hour_to))
+                            )
+                            result.append(
+                                (
+                                    max(start_dt, dt0),
+                                    min(end_dt, dt1),
+                                    attendance,
+                                )
+                            )
+            else:
+                result.append(interval)
+        return Intervals(result)
 
 
 class ResourceCalendarAttendance(models.Model):
