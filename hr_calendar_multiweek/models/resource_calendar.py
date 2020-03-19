@@ -28,11 +28,11 @@ class ResourceCalendar(models.Model):
                 dt = start_dt.date()
                 new_meta = meta.filtered(lambda r: r._check_week(dt))
                 if new_meta:
+                    start = start.date()
+                    until = stop.date()
                     for attendance in new_meta:
-                        start = start.date()
                         if attendance.date_from:
                             start = max(start, attendance.date_from)
-                        until = stop.date()
                         if attendance.date_to:
                             until = min(until, attendance.date_to)
                         weekday = int(attendance.dayofweek)
