@@ -25,7 +25,7 @@ odoo.define('hr_attendance_warning.systray', function (require) {
                 'hr_attendance.group_hr_attendance_user'
             ).then(function (data) {
                 if (data) {
-                    self.do_show();
+                    // self.do_show();
                 }
             });
         },
