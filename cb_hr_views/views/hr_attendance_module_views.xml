@@ -78,4 +78,9 @@
             </xpath>
         </field>
     </record>
+
+    <record id="hr_attendance_report_theoretical_time.hr_attendance_theoretical_action" model="ir.actions.act_window">
+        <field name="context">{'search_default_previous_month': 1, 'search_default_current_month': 1, 'search_default_my': 0}</field>
+    </record>
+
 </odoo>
