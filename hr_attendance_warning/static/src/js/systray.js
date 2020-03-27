@@ -25,12 +25,14 @@ odoo.define('hr_attendance_warning.systray', function (require) {
                 'hr_attendance.group_hr_attendance_user'
             ).then(function (data) {
                 if (data) {
+                    self.show_item = true
                     // self.do_show();
                 }
             });
         },
         start: function () {
             self = this
+            this.show_item = false
             this.$warnings_preview = this.$(
                 '.o_mail_systray_dropdown_items'
             );
@@ -81,13 +83,15 @@ odoo.define('hr_attendance_warning.systray', function (require) {
 
         _updateWarningsPreview: function () {
             var self = this;
-            self._getWarningsData().then(function () {
-                self.$warnings_preview.html(QWeb.render(
-                    'att_warning.view.Data', {
-                        warnings : self.warnings,
-                    }
-                ));
-            });
+            if (self.show_item) {
+                self._getWarningsData().then(function () {
+                    self.$warnings_preview.html(QWeb.render(
+                        'att_warning.view.Data', {
+                            warnings : self.warnings,
+                        }
+                    ));
+                });
+            }
         },
 
         _onWarningClick: function (event) {
