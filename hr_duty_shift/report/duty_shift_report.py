@@ -7,7 +7,7 @@ class DutyShiftReport(models.AbstractModel):
     _description = "report.hr_duty_shift.report_duty_shift"
 
     @api.model
-    def get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data=None):
         if not data.get("form"):
             raise UserError(
                 _("Form content is missing, this report cannot be printed.")
