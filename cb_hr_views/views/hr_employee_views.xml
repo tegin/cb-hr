@@ -94,6 +94,9 @@
             <field name="job_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
+            <field name="tz" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
             <field name="address_home_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>

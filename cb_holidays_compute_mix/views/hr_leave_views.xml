@@ -117,6 +117,9 @@
             <filter name="validated" position="after">
                 <filter name="not_rejected" string="Not Rejected" domain="[('state', '!=', 'refuse')]"/>
             </filter>
+            <filter name="year" position="attributes">
+                <attribute name="domain">[('date_to', '&gt;=', datetime.date.today().strftime('%Y-01-01'))]</attribute>
+            </filter>
         </field>
     </record>
 
