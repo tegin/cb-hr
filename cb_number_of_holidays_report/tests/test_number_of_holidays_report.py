@@ -60,7 +60,7 @@ class TestNumberOfHolidaysReport(TransactionCase):
         with self.assertRaises(UserError):
             self.env[
                 "report.cb_number_of_holidays_report.report_holidays_count"
-            ].get_report_values(False, {})
+            ]._get_report_values(False, {})
 
         data = dict({"form": {}})
         data["ids"] = self.wizard.ids
@@ -71,28 +71,28 @@ class TestNumberOfHolidaysReport(TransactionCase):
         data["form"]["date_to"] = "2019-08-10"
         result = self.env[
             "report.cb_number_of_holidays_report.report_holidays_count"
-        ].get_report_values(False, data)
+        ]._get_report_values(False, data)
         self.assertEqual(result["docs"][0]["num_of_days"], 5.0)
         self.assertEqual(result["docs"][0]["employee"], "Pieter")
 
         data["form"]["date_from"] = "2019-08-07"
         result = self.env[
             "report.cb_number_of_holidays_report.report_holidays_count"
-        ].get_report_values(False, data)
+        ]._get_report_values(False, data)
 
         self.assertEqual(result["docs"][0]["num_of_days"], 3.0)
 
         data["form"]["date_to"] = "2019-08-08"
         result = self.env[
             "report.cb_number_of_holidays_report.report_holidays_count"
-        ].get_report_values(False, data)
+        ]._get_report_values(False, data)
 
         self.assertEqual(result["docs"][0]["num_of_days"], 2.0)
 
         data["form"]["date_from"] = "2019-08-04"
         result = self.env[
             "report.cb_number_of_holidays_report.report_holidays_count"
-        ].get_report_values(False, data)
+        ]._get_report_values(False, data)
 
         self.assertEqual(result["docs"][0]["num_of_days"], 4.0)
 
