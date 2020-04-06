@@ -317,6 +317,8 @@
                 <field name="contract_id"/>
                 <field name="contract_type_id"/>
                 <field name="laboral_category_id"/>
+                <field name="working_hours_type"/>
+                <field name="turn"/>
             </field>
         </field>
     </record>

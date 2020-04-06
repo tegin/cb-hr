@@ -112,6 +112,7 @@ class HrEmployee(models.Model):
     )
 
     contract_id = fields.Many2one(store=True)
+    turn = fields.Char(related="contract_id.turn")
     address_id = fields.Many2one(string="Center")
     work_location = fields.Char(string="Location")
 
