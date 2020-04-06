@@ -27,7 +27,8 @@ class HrContract(models.Model):
     )
 
     substitute_contract = fields.Boolean(
-        related="type_id.substitute_contract", track_visibility="onchange",
+        related="type_id.substitute_contract",
+        track_visibility="onchange",
         readonly=True,
     )
 
@@ -45,6 +46,8 @@ class HrContract(models.Model):
     department_id = fields.Many2one(track_visibility="onchange")
     employee_id = fields.Many2one(track_visibility="onchange", required=True)
     name = fields.Char(track_visibility="onchange")
+
+    turn = fields.Char()
 
     @api.onchange("type_id")
     def _onchange_type_id(self):
