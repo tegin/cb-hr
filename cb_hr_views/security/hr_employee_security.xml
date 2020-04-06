@@ -72,4 +72,9 @@
     <record id="hr.group_hr_manager" model="res.groups">
         <field name="implied_ids" eval="[(4, ref('hr_contract.group_hr_contract_manager'))]"/>
     </record>
+
+    <record id="hr.hr_employee_comp_rule" model="ir.rule">
+        <field name="active" eval="False"/>
+    </record>
+
 </odoo>
