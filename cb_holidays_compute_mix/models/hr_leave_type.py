@@ -17,3 +17,5 @@ class HrLeaveType(models.Model):
 
     company_id = fields.Many2one(default=False)
     description = fields.Text()
+
+    validation_type = fields.Selection(default="both")
