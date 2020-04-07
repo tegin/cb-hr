@@ -16,7 +16,7 @@
                 <div class="header">
                     <div>
                         <div class="row" t-if="employee.company_id">
-                            <div class="col-3">
+                            <div class="col-3 mb8">
                                 <img t-if="employee.company_id.logo"
                                      t-att-src="image_data_uri(employee.company_id.logo)"
                                      alt="Logo" height="100" width="150"/>
