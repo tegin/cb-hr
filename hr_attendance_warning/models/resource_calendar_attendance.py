@@ -142,9 +142,6 @@ class ResourceCalendarAttendance(models.Model):
                     hours=self.hour_from, minutes=-self.margin_from
                 )
                 min_check_in_tz = min_check_in.replace(tzinfo=tz.gettz(utz))
-                import logging
-
-                logging.info(min_check_in_tz)
                 min_check_in = fields.Datetime.to_string(
                     min_check_in_tz.astimezone(pytz.utc)
                 )
