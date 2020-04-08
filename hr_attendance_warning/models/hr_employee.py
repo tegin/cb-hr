@@ -68,6 +68,7 @@ class HrEmployee(models.Model):
     def attendance_action_change(self):
         timez = timezone(self.env.user.tz)
         attendance = super(HrEmployee, self).attendance_action_change()
+        return attendance
         if attendance:
             action_time = (
                 fields.Datetime.from_string(
