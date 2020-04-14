@@ -2,6 +2,7 @@ from pytz import timezone, utc
 from datetime import datetime, time, timedelta
 
 from odoo import api, fields, models, SUPERUSER_ID
+from odoo.addons.resource.models.resource import float_to_time
 
 
 class HrEmployee(models.Model):
@@ -68,7 +69,6 @@ class HrEmployee(models.Model):
     def attendance_action_change(self):
         timez = timezone(self.env.user.tz)
         attendance = super(HrEmployee, self).attendance_action_change()
-        return attendance
         if attendance:
             action_time = (
                 fields.Datetime.from_string(
@@ -77,21 +77,41 @@ class HrEmployee(models.Model):
                 .replace(tzinfo=utc)
                 .astimezone(timez)
             )
+            work_intervals = self.resource_calendar_id._work_intervals(
+                datetime.combine(
+                    action_time.date(), time(0, 0, 0, 0, tzinfo=timez)
+                ),
+                datetime.combine(
+                    action_time.date(),
+                    time(23, 59, 59, 99999, tzinfo=timez),
+                ),
+                resource=self.resource_id,
+            )
+            calendar_attendances = self.env['resource.calendar.attendance']
+            for start, stop, meta in work_intervals:
+                if meta._name == 'resource.calendar.attendance':
+                    calendar_attendances |= meta
+                    import logging
+                    logging.info(meta)
+
+            intervals = []
+            for att in calendar_attendances:
+                start = datetime.combine(
+                    action_time.date(), float_to_time(att.hour_from)
+                ).replace(tzinfo=utc).astimezone(timez)
+                import logging
+                logging.info(start)
+                stop = datetime.combine(
+                    action_time.date(), float_to_time(att.hour_to)
+                ).replace(tzinfo=utc).astimezone(timez)
+                intervals.append((start, stop, att))
+
             in_interval = any(
                 [
                     start + timedelta(minutes=-meta.margin_from or 0)
                     <= action_time
                     <= stop + timedelta(minutes=meta.margin_to or 0)
-                    for start, stop, meta in self.resource_calendar_id._work_intervals(
-                        datetime.combine(
-                            action_time.date(), time(0, 0, 0, 0, tzinfo=timez)
-                        ),
-                        datetime.combine(
-                            action_time.date(),
-                            time(23, 59, 59, 99999, tzinfo=timez),
-                        ),
-                        resource=self.resource_id,
-                    )
+                    for start, stop, meta in intervals
                 ]
             )
             public_holiday = self.env["hr.holidays.public"].is_public_holiday(
