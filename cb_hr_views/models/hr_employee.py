@@ -239,8 +239,9 @@ class HrEmployee(models.Model):
         for record in self:
             active = not record.active
             record.active = active
-            record.user_id.write({"active": record.active})
-            if not active:
+            if record.user_id:
+                record.user_id.write({"active": record.active})
+            if not active or not record.user_id:
                 record.partner_id.write({"active": record.active})
 
     @api.multi
