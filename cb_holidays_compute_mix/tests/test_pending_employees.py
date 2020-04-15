@@ -11,10 +11,18 @@ class TestPendingEmployees(TransactionCase):
         self.employee2 = self.env["hr.employee"].create({"name": "Employee2"})
 
         self.status1 = self.env["hr.leave.type"].create(
-            {"name": "Status1", "allocation_type": "fixed"}
+            {
+                "name": "Status1",
+                "allocation_type": "fixed",
+                "validation_type": "hr",
+            }
         )
         self.status2 = self.env["hr.leave.type"].create(
-            {"name": "Status2", "allocation_type": "fixed"}
+            {
+                "name": "Status2",
+                "allocation_type": "fixed",
+                "validation_type": "hr",
+            }
         )
         self.wizard = self.env["hr.holidays.pending.employees"].create({})
 

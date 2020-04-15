@@ -91,16 +91,12 @@ class HrEmployee(models.Model):
             for start, stop, meta in work_intervals:
                 if meta._name == 'resource.calendar.attendance':
                     calendar_attendances |= meta
-                    import logging
-                    logging.info(meta)
 
             intervals = []
             for att in calendar_attendances:
                 start = datetime.combine(
                     action_time.date(), float_to_time(att.hour_from)
                 ).replace(tzinfo=utc).astimezone(timez)
-                import logging
-                logging.info(start)
                 stop = datetime.combine(
                     action_time.date(), float_to_time(att.hour_to)
                 ).replace(tzinfo=utc).astimezone(timez)

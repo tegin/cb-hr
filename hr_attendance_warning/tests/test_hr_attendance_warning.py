@@ -75,6 +75,7 @@ class TestHrAttendanceWarning(common.TransactionCase):
                     "name": "Status 1",
                     "allocation_type": "no",
                     "validity_start": False,
+                    "validation_type": "hr",
                 }
             )
             leave_1 = self.env["hr.leave"].create(
@@ -285,6 +286,7 @@ class TestHrAttendanceWarning(common.TransactionCase):
                     "name": "Status 1",
                     "allocation_type": "no",
                     "validity_start": False,
+                    "validation_type": "hr",
                 }
             )
             leave_1 = self.env["hr.leave"].create(
