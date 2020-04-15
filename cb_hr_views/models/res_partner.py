@@ -31,8 +31,10 @@ class ResPartner(models.Model):
             partner.show_info = is_manager or not partner.employee
 
     @api.multi
-    def toggle_active(self):
+    def toggle_active_modified(self):
         for record in self:
+
+            active = not record.active
             user_ids = self.env["res.users"].search(
                 [
                     "|",
@@ -42,13 +44,9 @@ class ResPartner(models.Model):
                 ]
             )
             if user_ids:
-                user_ids.write({"active": not record.active})
-            record.active = not record.active
-            if record.employee_ids:
-                record.employee_ids[0].write({"active": record.active})
-                record.employee_ids[0].resource_id.write(
-                    {"active": record.active}
-                )
+                user_ids.write({"active": active})
+            if not active:
+                record.active = active
 
     @api.depends("employee_ids", "is_practitioner")
     def _compute_can_create_employee(self):
