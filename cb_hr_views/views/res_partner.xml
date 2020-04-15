@@ -24,6 +24,14 @@
                 <button name="action_open_related_employee" string="Related employee" icon="fa-user-tie" type="object"
                         attrs="{'invisible': [('employee', '=', False)]}"/>
             </xpath>
+            <button name="toggle_active" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
+            <button name="toggle_active" position="after">
+                <button name="toggle_active_modified" type="object" class="oe_stat_button" icon="fa-archive" attrs="{'invisible': [('employee', '!=', False)]}">
+                    <field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                </button>
+            </button>
             <xpath expr="//group/group[1]" position="before">
                 <field name="show_info" invisible="1"/>
             </xpath>
