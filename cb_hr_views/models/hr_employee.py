@@ -237,9 +237,11 @@ class HrEmployee(models.Model):
     @api.multi
     def toggle_active(self):
         for record in self:
-            record.active = not record.active
+            active = not record.active
+            record.active = active
             record.user_id.write({"active": record.active})
-            record.partner_id.write({"active": record.active})
+            if not active:
+                record.partner_id.write({"active": record.active})
 
     @api.multi
     def action_open_related_partner(self):
