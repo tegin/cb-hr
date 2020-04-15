@@ -51,8 +51,10 @@ class TestCbHrViews(TransactionCase):
         self.assertFalse(self.partner.can_create_employee)
         self.assertTrue(self.partner.employee)
 
-        self.partner.toggle_active()
-        self.assertFalse(self.employee.active)
+        self.employee.toggle_active()
+        self.assertFalse(self.partner.active)
+        self.employee.toggle_active()
+        self.assertTrue(self.partner.active)
 
         self.assertTrue(self.partner.show_info)
 
@@ -189,6 +191,7 @@ class TestCbHrViews(TransactionCase):
                     "name": "Sick",
                     "allocation_type": "no",
                     "validity_start": False,
+                    "validation_type": "hr",
                 }
             )
             holiday = self.env["hr.leave"].create(
