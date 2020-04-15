@@ -42,7 +42,7 @@ class ResPartner(models.Model):
                 ]
             )
             if user_ids:
-                user_ids.write({"active": record.active})
+                user_ids.write({"active": not record.active})
             record.active = not record.active
             if record.employee_ids:
                 record.employee_ids[0].write({"active": record.active})
