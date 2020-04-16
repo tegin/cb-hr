@@ -36,6 +36,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12 border-top" style="border-width: medium;"/>
+                    </div>
                 </div>
                 <div class="article o_report_layout_standard"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                     <div style="font-size: 25px;">
@@ -46,8 +49,16 @@
                         <b>Aditional data</b>
                         <div class="row">
                             <div class="col-6">
+                                <span>DNI / NIE: </span>
+                                <span t-field="employee.identification_id"/><br/>
+                                <span>Valid Until: </span>
+                                <span t-field="employee.identification_id_expiration"/><br/>
                                 <span>Birth date: </span>
                                 <span t-field="employee.birthday"/><br/>
+                                <span>SS: </span>
+                                <span t-field="employee.ssnid"/><br/>
+                                <span>CC: </span>
+                                <span t-field="employee.bank_account_id"/><br/>
                                 <span>Address: </span>
                                 <span t-field="employee.partner_id.street"/><br/>
                                 <span>City: </span>
@@ -76,15 +87,9 @@
                         </div><br/>
                         <div>
                             <b>Observations</b><br/>
-                            <span>DNI / NIE: </span>
-                            <span t-field="employee.identification_id"/>
-                            <span> - Valid Until </span>
-                            <span t-field="employee.identification_id_expiration"/>
-                            <br/>
-                            <span>SS: </span>
-                            <span t-field="employee.ssnid"/><br/>
-                            <span>CC: </span>
-                            <span t-field="employee.bank_account_id"/><br/>
+                            <div class="row">
+                                <div class="col-12 border" style="height: 200px;"/>
+                            </div>
                         </div>
                     </div>
                 </div>
