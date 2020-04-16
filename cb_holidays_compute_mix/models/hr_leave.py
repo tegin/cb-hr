@@ -66,6 +66,15 @@ class HrLeave(models.Model):
     # Overriding methods
     ####################################################
 
+    # https://github.com/odoo/odoo/blob/12.0/addons/hr_holidays/models/hr_leave.py#L628
+    def _validate_leave_request(self):
+        """ Validate leave requests (holiday_type='employee')
+        by creating a calendar event and a resource leaves. """
+        holidays = self.filtered(
+            lambda request: request.holiday_type == 'employee'
+        )
+        holidays._create_resource_leave()
+
     def _get_number_of_days(self, date_from, date_to, employee_id):
         utz = tz.gettz(self.env.user.tz)
 
