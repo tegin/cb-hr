@@ -45,7 +45,7 @@ class ResPartner(models.Model):
             )
             if user_ids:
                 user_ids.write({"active": active})
-            if not active:
+            if not active or (not user_ids and active):
                 record.active = active
 
     @api.depends("employee_ids", "is_practitioner")
