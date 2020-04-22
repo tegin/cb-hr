@@ -46,7 +46,7 @@ class ResPartner(models.Model):
             if user_ids:
                 user_ids.write({"active": active})
             if not user_ids or not active:
-                record.active = active
+                record.toggle_active()
 
     @api.depends("employee_ids", "is_practitioner")
     def _compute_can_create_employee(self):

@@ -51,6 +51,14 @@ class TestCbHrViews(TransactionCase):
         self.assertFalse(self.partner.can_create_employee)
         self.assertTrue(self.partner.employee)
 
+        partner_without_user = self.env['res.partner'].create(
+            {'name': 'No User'}
+        )
+        partner_without_user.toggle_active_modified()
+        self.assertFalse(partner_without_user.active)
+        partner_without_user.toggle_active_modified()
+        self.assertTrue(partner_without_user.active)
+
         self.employee.toggle_active()
         self.assertFalse(self.partner.active)
         self.employee.toggle_active()
