@@ -319,6 +319,7 @@
                 <field name="laboral_category_id"/>
                 <field name="working_hours_type"/>
                 <field name="turn"/>
+                <field name="contract_notes"/>
             </field>
         </field>
     </record>

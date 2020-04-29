@@ -113,6 +113,8 @@ class HrEmployee(models.Model):
 
     contract_id = fields.Many2one(store=True)
     turn = fields.Char(related="contract_id.turn")
+    contract_notes = fields.Text()
+
     address_id = fields.Many2one(string="Center")
     work_location = fields.Char(string="Location")
 
@@ -239,6 +241,15 @@ class HrEmployee(models.Model):
         for record in self:
             active = not record.active
             record.active = active
+            contracts = self.env["hr.contract"].search(
+                [
+                    "|",
+                    ("active", "=", True),
+                    ("active", "=", False),
+                    ("employee_id", "=", record.id),
+                ]
+            )
+            contracts.write({"active": active})
             if record.user_id:
                 record.user_id.write({"active": record.active})
             if not active or not record.user_id:
