@@ -66,12 +66,18 @@ class HrLeave(models.Model):
     # Overriding methods
     ####################################################
 
+    # Was giving problems with mail_activity_team module
+    def activity_update(self):
+        return super(
+            HrLeave, self.with_context(default_team_id=False)
+        ).activity_update()
+
     # https://github.com/odoo/odoo/blob/12.0/addons/hr_holidays/models/hr_leave.py#L628
     def _validate_leave_request(self):
         """ Validate leave requests (holiday_type='employee')
         by creating a calendar event and a resource leaves. """
         holidays = self.filtered(
-            lambda request: request.holiday_type == 'employee'
+            lambda request: request.holiday_type == "employee"
         )
         holidays._create_resource_leave()
 
@@ -194,14 +200,6 @@ class HrLeave(models.Model):
                 .replace(tzinfo=None)
             )
         self._onchange_leave_dates()
-
-    def _validate_leave_request(self):
-        """ Validate leave requests (holiday_type='employee')
-        by creating a calendar event and a resource leaves. """
-        holidays = self.filtered(
-            lambda request: request.holiday_type == "employee"
-        )
-        holidays._create_resource_leave()
 
     def _check_approval_update(self, state):
         """ Check if target state is achievable. """
