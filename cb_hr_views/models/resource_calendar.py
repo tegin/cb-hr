@@ -40,4 +40,4 @@ class ResourceCalendar(models.Model):
             if end_time and float_to_time(attendance.hour_from) > end_time:
                 continue
             attendances |= attendance
-        return attendances
+        return attendances.filtered(lambda r: r._check_week(day_date))
