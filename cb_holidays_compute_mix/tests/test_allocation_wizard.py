@@ -123,3 +123,4 @@ class TestAllocationWizard(common.TransactionCase):
             ]
         )
         self.assertTrue(allocation)
+        self.assertEqual(allocation.number_of_days, 12)

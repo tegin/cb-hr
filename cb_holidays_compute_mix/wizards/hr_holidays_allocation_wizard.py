@@ -66,12 +66,9 @@ class HrHolidaysAllocationWizard(models.TransientModel):
                     "holiday_type": "employee",
                     "employee_id": employee.id,
                     "department_id": employee.department_id.id,
+                    "number_of_days": self.duration,
                 }
             )
-            if self.request_unit == "hour":
-                allocation.write({"number_of_hours_display": self.duration})
-            else:
-                allocation.write({"number_of_days_display": self.duration})
 
             if self.approve:
                 allocation.action_approve()
@@ -81,5 +78,4 @@ class HrHolidaysAllocationWizard(models.TransientModel):
             "cb_holidays_compute_mix.action_open_all_allocations"
         )
         result = action.read()[0]
-        result["views"] = [(False, "tree")]
         return result
