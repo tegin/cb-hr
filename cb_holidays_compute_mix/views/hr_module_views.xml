@@ -61,12 +61,13 @@
     </record>
 
     <record id="view_allocation_tree_custom_cb" model="ir.ui.view">
-        <field name="name">hr.leave.allocation.tree.cb"</field>
+        <field name="name">hr.leave.allocation.tree.cb</field>
         <field name="model">hr.leave.allocation</field>
         <field name="arch" type="xml">
             <tree string="Allocations" decoration-danger="state == 'refuse'">
                 <field name="employee_id"/>
                 <field name="holiday_status_id"/>
+                <field name="duration_display"/>
                 <field name="name"/>
                 <field name="department_id"/>
                 <field name="state"/>

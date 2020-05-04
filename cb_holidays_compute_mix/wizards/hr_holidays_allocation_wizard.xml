@@ -11,7 +11,7 @@
                         <label for="duration" string="Duration"/>
                         <div>
                             <field name="duration" class="oe_inline"/>
-                            <span><field name="request_unit" nolabel="1"/></span>
+                            <span>Days</span>
                         </div>
                     </group>
                     <group>
