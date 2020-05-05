@@ -1,6 +1,7 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo.exceptions import ValidationError
 from odoo.tests import common
 
 
@@ -124,3 +125,6 @@ class TestAllocationWizard(common.TransactionCase):
         )
         self.assertTrue(allocation)
         self.assertEqual(allocation.number_of_days, 12)
+
+        with self.assertRaises(ValidationError):
+            self.wizard.write({"duration": 0})

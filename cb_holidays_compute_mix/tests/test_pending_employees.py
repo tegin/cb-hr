@@ -66,3 +66,6 @@ class TestPendingEmployees(TransactionCase):
         self.assertTrue(
             self.wizard.pending_employees_ids[0].remaining, "3 hours"
         )
+        self.wizard.write({"holiday_status_id": False})
+        self.wizard._compute_pending_employees()
+        self.assertFalse(self.wizard.pending_employees_ids)
