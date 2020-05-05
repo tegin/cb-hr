@@ -18,9 +18,12 @@
             <xpath expr="//sheet/group/group/div/div[hasclass('o_row')][3]"  position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//sheet/group/group/div/div[hasclass('o_hr_holidays_dates')]/span"  position="attributes">
+                <attribute name="attrs">{}</attribute>
+            </xpath>
             <field name="request_date_from" position="after">
                 <field name="date_from_custom" attrs="{'readonly': [('state', 'not in', ('draft', 'confirm'))],
-                 'invisible': [('request_unit_hours', '=', False)]}"/>
+                 'invisible': [('request_unit_hours', '=', False)]}" class="oe_inline"/>
             </field>
             <field name="request_date_from" position="attributes">
                 <attribute name="attrs">
@@ -34,7 +37,7 @@
             </field>
             <field name="request_date_to" position="after">
                 <field name="date_to_custom" attrs="{'readonly': [('state', 'not in', ('draft', 'confirm'))],
-                 'invisible': [('request_unit_hours', '=', False)]}"/>
+                 'invisible': [('request_unit_hours', '=', False)]}" class="oe_inline"/>
             </field>
             <field name="request_date_from_period" position="attributes">
                 <attribute name="invisible">1</attribute>
