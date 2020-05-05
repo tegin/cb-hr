@@ -112,6 +112,15 @@
             <field name="coach_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
+            <xpath expr="//page[@name='personal_information']/group/group[last()]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='google_drive_link']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='additional_note']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath expr="//button[@name='toggle_active']" position="before">
                 <field name="partner_id" invisible="1"/>
                 <button name="action_open_related_partner" type="object"
