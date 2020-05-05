@@ -2,6 +2,7 @@
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 
 class HrHolidaysAllocationWizard(models.TransientModel):
@@ -79,3 +80,9 @@ class HrHolidaysAllocationWizard(models.TransientModel):
         )
         result = action.read()[0]
         return result
+
+    @api.constrains("duration")
+    def check_negative_duration(self):
+        for record in self:
+            if record.duration <= 0:
+                raise ValidationError(_("Duration must be greater than 0"))
