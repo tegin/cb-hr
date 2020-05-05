@@ -21,7 +21,7 @@ class WizardBankAccountEmployee(models.TransientModel):
         res = super().default_get(fields)
         active_id = self.env.context.get("active_id", False)
         if active_id:
-            res["employee_id"] = self.env["hr.employee"].browse(active_id).id
+            res["employee_id"] = active_id
         return res
 
     @api.multi
