@@ -51,8 +51,8 @@ class TestCbHrViews(TransactionCase):
         self.assertFalse(self.partner.can_create_employee)
         self.assertTrue(self.partner.employee)
 
-        partner_without_user = self.env['res.partner'].create(
-            {'name': 'No User'}
+        partner_without_user = self.env["res.partner"].create(
+            {"name": "No User"}
         )
         partner_without_user.toggle_active_modified()
         self.assertFalse(partner_without_user.active)
@@ -217,3 +217,20 @@ class TestCbHrViews(TransactionCase):
             self.assertEqual(
                 self.employee.today_schedule, "Out of office since 2020-05-09"
             )
+
+    def test_create_bank_account(self):
+        self.assertFalse(self.employee.bank_account_id)
+        bank = self.env["res.bank"].create({"name": "bank 1"})
+        wizard = (
+            self.env["wizard.bank.account.employee"]
+            .with_context(active_id=self.employee.id)
+            .create({"acc_number": "1234", "bank_id": bank.id})
+        )
+        with patch(
+            "odoo.addons.cb_hr_views.wizards.wizard_bank_account_employee."
+            "validate_iban"
+        ) as p:
+            p.return_value = True
+            wizard.create_account()
+            p.assert_called()
+        self.assertTrue(self.employee.bank_account_id)
