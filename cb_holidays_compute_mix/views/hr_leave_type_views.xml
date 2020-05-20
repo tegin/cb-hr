@@ -38,6 +38,12 @@
             <field name="display_name" position="after">
                 <field name="description"/>
             </field>
+            <field name="allocation_type" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="double_validation" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
         </field>
     </record>
 

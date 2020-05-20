@@ -270,3 +270,6 @@ class HrLeave(models.Model):
 class HolidaysAllocation(models.Model):
     _inherit = "hr.leave.allocation"
     _order = "id desc"
+
+    def activity_update(self):
+        return
