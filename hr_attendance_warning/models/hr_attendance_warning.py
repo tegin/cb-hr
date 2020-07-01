@@ -118,10 +118,8 @@ class HrAttendanceWarning(models.Model):
 
     @api.multi
     def pending2solved(self):
-        for record in self:
-            record.write(record._pending2solved_values())
-            for line in record.warning_line_ids:
-                line.write({"state": "solved"})
+        self.write(self._pending2solved_values())
+        self.mapped("warning_line_ids").write({"state": "solved"})
         self.update_counter()
 
     def _solved2pending_values(self):
@@ -129,10 +127,8 @@ class HrAttendanceWarning(models.Model):
 
     @api.multi
     def solved2pending(self):
-        for record in self:
-            record.write(record._solved2pending_values())
-            for line in record.warning_line_ids:
-                line.write({"state": "pending"})
+        self.write(self._solved2pending_values())
+        self.mapped("warning_line_ids").write({"state": "pending"})
         self.update_counter()
 
     @api.multi

@@ -82,24 +82,27 @@ class HrEmployee(models.Model):
                     action_time.date(), time(0, 0, 0, 0, tzinfo=timez)
                 ),
                 datetime.combine(
-                    action_time.date(),
-                    time(23, 59, 59, 99999, tzinfo=timez),
+                    action_time.date(), time(23, 59, 59, 99999, tzinfo=timez)
                 ),
                 resource=self.resource_id,
             )
-            calendar_attendances = self.env['resource.calendar.attendance']
+            calendar_attendances = self.env["resource.calendar.attendance"]
             for start, stop, meta in work_intervals:
-                if meta._name == 'resource.calendar.attendance':
+                if meta._name == "resource.calendar.attendance":
                     calendar_attendances |= meta
 
             intervals = []
             for att in calendar_attendances:
-                start = datetime.combine(
-                    action_time.date(), float_to_time(att.hour_from)
-                ).replace(tzinfo=utc).astimezone(timez)
-                stop = datetime.combine(
-                    action_time.date(), float_to_time(att.hour_to)
-                ).replace(tzinfo=utc).astimezone(timez)
+                start = timez.localize(
+                    datetime.combine(
+                        action_time.date(), float_to_time(att.hour_from)
+                    )
+                )
+                stop = timez.localize(
+                    datetime.combine(
+                        action_time.date(), float_to_time(att.hour_to)
+                    )
+                )
                 intervals.append((start, stop, att))
 
             in_interval = any(
