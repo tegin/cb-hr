@@ -63,13 +63,13 @@ odoo.define('hr_attendance_warning.systray', function (require) {
                     context: session.user_context,
                 },
             }).then(function (data) {
-                self.warnings = data;
+                self.warnings = data.data;
                 for (var i = 0; i < self.warnings.length; ++i) {
                     self.warnings[i].date_ago = moment(time.str_to_datetime(
                         self.warnings[i].date)
                     ).fromNow();
                 }
-                self.warningsCounter = data.length;
+                self.warningsCounter = data.total;
                 self.$('.o_notification_counter').text(self.warningsCounter);
                 self.$el.toggleClass(
                     'o_no_notification', !self.warningsCounter
