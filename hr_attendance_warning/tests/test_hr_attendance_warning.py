@@ -110,7 +110,7 @@ class TestHrAttendanceWarning(common.TransactionCase):
             )
 
             count = self.env["hr.attendance.warning"].pending_warnings_count()
-            self.assertEqual(len(count), 1)
+            self.assertEqual(count["total"], 1)
 
             self.env["hr.attendance.warning.solve"].with_context(
                 active_ids=[warning.id]

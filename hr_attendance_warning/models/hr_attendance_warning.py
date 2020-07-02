@@ -67,7 +67,8 @@ class HrAttendanceWarning(models.Model):
     @api.model
     def pending_warnings_count(self):
         warnings = {}
-        for warning in self.search([("state", "=", "pending")]):
+        domain = [("state", "=", "pending")]
+        for warning in self.search(domain, limit=25):
             warnings[warning.id] = {
                 "name": warning.message_preview,
                 "employee": warning.employee_id.name,
@@ -78,9 +79,12 @@ class HrAttendanceWarning(models.Model):
                 "count": len(warning.warning_line_ids),
                 "id": warning.id,
             }
-        return sorted(
-            list(warnings.values()), key=lambda w: w["date"], reverse=True
-        )
+        return {
+            "data": sorted(
+                list(warnings.values()), key=lambda w: w["date"], reverse=True
+            ),
+            "total": self.search_count(domain),
+        }
 
     @api.model
     def update_counter(self):
