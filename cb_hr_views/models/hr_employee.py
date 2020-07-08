@@ -26,9 +26,9 @@ class HrEmployee(models.Model):
         "res.partner", required=True, store=True, string="Related partner"
     )
     name = fields.Char(compute=False, related="partner_id.name", readonly=True)
-    firstname = fields.Char(related="partner_id.firstname")
-    lastname = fields.Char(related="partner_id.lastname")
-    lastname2 = fields.Char(related="partner_id.lastname2")
+    firstname = fields.Char(related="partner_id.firstname", readonly=False)
+    lastname = fields.Char(related="partner_id.lastname", readonly=False)
+    lastname2 = fields.Char(related="partner_id.lastname2", readonly=False)
 
     identification_id_expiration = fields.Date(string="Expiration Date")
     user_id = fields.Many2one(
