@@ -41,3 +41,17 @@ class ResourceCalendar(models.Model):
                 continue
             attendances |= attendance
         return attendances.filtered(lambda r: r._check_week(day_date))
+
+
+class ResourceCalendarAttendance(models.Model):
+    _inherit = "resource.calendar.attendance"
+
+    def attendances_check_from_domain(self):
+        domain = super().attendances_check_from_domain()
+        domain.append(("calendar_id.active", "=", False))
+        return domain
+
+    def attendances_check_to_domain(self):
+        domain = super().attendances_check_to_domain()
+        domain.append(("calendar_id.active", "=", False))
+        return domain
