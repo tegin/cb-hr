@@ -12,8 +12,8 @@
             <field name="date_to" position="after">
                 <field name="margin_from"/>
                 <field name="margin_to"/>
-                <field name="next_check_from" group="base.group_no_one"/>
-                <field name="next_check_to" group="base.group_no_one"/>
+                <field name="next_check_from" groups="base.group_no_one"/>
+                <field name="next_check_to" groups="base.group_no_one"/>
             </field>
         </field>
     </record>
