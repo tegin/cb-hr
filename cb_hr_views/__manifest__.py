@@ -18,6 +18,7 @@
         "crm",
         "hr_attendance_modification_tracking",
         "hr_attendance_report_theoretical_time",
+        "hr_attendance_warning",
         "hr_calendar_multiweek",
         "hr_contract",
         "hr_course",

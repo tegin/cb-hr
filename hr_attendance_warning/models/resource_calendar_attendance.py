@@ -70,41 +70,46 @@ class ResourceCalendarAttendance(models.Model):
         if self.margin_to:
             self._compute_next_check_to()
 
-    @api.model
-    def cron_attendance_checks(self):
+    def attendances_check_from_domain(self):
         now = fields.Datetime.now()
         today = fields.Date.today()
-        for attendance in self.search(
-            [
-                ("margin_from", ">", 0),
-                "|",
-                ("date_from", "=", False),
-                ("date_from", "<=", today),
-                "|",
-                ("date_to", "=", False),
-                ("date_to", ">=", today),
-                "|",
-                ("next_check_from", "=", False),
-                ("next_check_from", "<", now),
-            ]
-        ):
+        return [
+            ("margin_from", ">", 0),
+            "|",
+            ("date_from", "=", False),
+            ("date_from", "<=", today),
+            "|",
+            ("date_to", "=", False),
+            ("date_to", ">=", today),
+            "|",
+            ("next_check_from", "=", False),
+            ("next_check_from", "<", now),
+        ]
+
+    def attendances_check_to_domain(self):
+        now = fields.Datetime.now()
+        today = fields.Date.today()
+        return [
+            ("margin_to", ">", 0),
+            "|",
+            ("date_from", "=", False),
+            ("date_from", "<=", today),
+            "|",
+            ("date_to", "=", False),
+            ("date_to", ">=", today),
+            "|",
+            ("next_check_to", "=", False),
+            ("next_check_to", "<", now),
+        ]
+
+    @api.model
+    def cron_attendance_checks(self):
+        today = fields.Date.today()
+        for attendance in self.search(self.attendances_check_from_domain()):
             attendance._check_issue_start(today)
             attendance._compute_next_check_from()
 
-        for attendance in self.search(
-            [
-                ("margin_to", ">", 0),
-                "|",
-                ("date_from", "=", False),
-                ("date_from", "<=", today),
-                "|",
-                ("date_to", "=", False),
-                ("date_to", ">=", today),
-                "|",
-                ("next_check_to", "=", False),
-                ("next_check_to", "<", now),
-            ]
-        ):
+        for attendance in self.search(self.attendances_check_to_domain()):
             attendance._check_issue_end(today)
             attendance._compute_next_check_to()
 
