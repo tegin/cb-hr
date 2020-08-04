@@ -101,7 +101,8 @@
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="address_home_id" position="after">
-                <field name="partner_id" context="{'show_address': 1}" string="Private Address" options='{"always_reload": True, "highlight_first_line": True}'/>
+                <field name="partner_id" context="{'show_address': 1}" string="Private Address"
+                       options='{"always_reload": True, "highlight_first_line": True, "no_open": True}'/>
             </field>
             <xpath expr="//page[@name='personal_information']//field[@name='bank_account_id']" position="attributes">
                 <attribute name="invisible">1</attribute>
