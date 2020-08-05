@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="article o_report_layout_standard"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
-                    <div style="font-size: 25px;">
+                    <div style="font-size: 19px;">
                         <b>Name: </b>
                         <span t-field="employee.name"/><br/>
                         <b>Company: </b>
@@ -85,10 +85,12 @@
                                 <span t-if="employee" t-field="employee.laboral_category_id"/><br/>
                             </div>
                         </div><br/>
-                        <div>
+                        <div t-if="employee.contract_notes">
                             <b>Observations</b><br/>
                             <div class="row">
-                                <div class="col-12 border" style="height: 200px;"/>
+                                <div class="col-12 border">
+                                    <span t-field="employee.contract_notes"/>
+                                </div>
                             </div>
                         </div>
                     </div>
