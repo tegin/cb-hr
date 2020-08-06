@@ -140,7 +140,7 @@ class HrEmployee(models.Model):
         Contract = self.env["hr.contract"]
         for employee in self:
             employee.contract_id = Contract.search(
-                [("employee_id", "=", employee.id), ("state", "!=", "draft")],
+                [("employee_id", "=", employee.id)],
                 order="date_start desc",
                 limit=1,
             )
