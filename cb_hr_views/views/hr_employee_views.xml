@@ -177,6 +177,13 @@
             <field name="visa_no" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
+            <field name="mobile_phone" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="km_home_work" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+
             <field name="permit_no" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
@@ -202,9 +209,14 @@
                     %
                 </div>
             </field>
+
+            <xpath expr="//field[@name='leaves_count']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
             <xpath expr="//div[hasclass('oe_chatter')]" position="replace"/>
             <page name="hr_settings" position="inside">
-                <group name="prl" string="Prevention of Occupational Hazards">
+                <group name="prl" string="Prevention of Occupational Hazards" invisible="1">
                     <group>
                         <field name="prl_ids" nolabel="1">
                             <tree editable="top">
@@ -289,6 +301,39 @@
         </field>
     </record>
 
+    <record id="view_employee_form_inherit_hr_employee_service" model="ir.ui.view">
+        <field name="name">CB HR Views hr.employee.form service</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_employee_service.view_employee_form_inherit_extension"/>
+        <field name="arch" type="xml">
+            <field name="service_hire_date" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_employee_form_inherit_hr_autoclose_attendance" model="ir.ui.view">
+        <field name="name">CB HR Views hr.employee.form autoclose attendance</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_attendance_autoclose.view_employee_form_inherit_hr_attendance"/>
+        <field name="arch" type="xml">
+            <field name="no_autoclose" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_employee_form_inherit_hr_attendance_theoretical" model="ir.ui.view">
+        <field name="name">CB HR Views hr.employee.form autoclose attendance</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_attendance_report_theoretical_time.view_employee_form_inherit_hr_attendance"/>
+        <field name="arch" type="xml">
+            <field name="theoretical_hours_start_date" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+
     <record id="hr_employee_view_form" model="ir.ui.view">
         <field name="name">	hr.employee.form</field>
         <field name="model">hr.employee</field>
@@ -333,6 +378,7 @@
                 <field name="laboral_category_id"/>
                 <field name="working_hours_type"/>
                 <field name="turn"/>
+                <field name="transport_plus"/>
                 <field name="contract_notes"/>
             </field>
         </field>

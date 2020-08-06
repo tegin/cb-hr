@@ -115,6 +115,8 @@ class HrEmployee(models.Model):
     turn = fields.Char(related="contract_id.turn")
     contract_notes = fields.Text()
 
+    transport_plus = fields.Char(string="Transport Plus")
+
     address_id = fields.Many2one(string="Center")
     work_location = fields.Char(string="Location")
 
@@ -138,7 +140,7 @@ class HrEmployee(models.Model):
         Contract = self.env["hr.contract"]
         for employee in self:
             employee.contract_id = Contract.search(
-                [("employee_id", "=", employee.id), ("state", "!=", "draft")],
+                [("employee_id", "=", employee.id)],
                 order="date_start desc",
                 limit=1,
             )
