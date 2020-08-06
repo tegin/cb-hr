@@ -41,6 +41,7 @@
                     </div>
                 </div>
                 <div class="article o_report_layout_standard"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <br/>
                     <div style="font-size: 19px;">
                         <b>Name: </b>
                         <span t-field="employee.name"/><br/>
@@ -51,14 +52,12 @@
                             <div class="col-6">
                                 <span>DNI / NIE: </span>
                                 <span t-field="employee.identification_id"/><br/>
-                                <span>Valid Until: </span>
-                                <span t-field="employee.identification_id_expiration"/><br/>
                                 <span>Birth date: </span>
                                 <span t-field="employee.birthday"/><br/>
                                 <span>SS: </span>
                                 <span t-field="employee.ssnid"/><br/>
                                 <span>CC: </span>
-                                <span t-field="employee.bank_account_id"/><br/>
+                                <span t-esc="employee.bank_account_id or 'Pendiente'"/><br/>
                                 <span>Address: </span>
                                 <span t-field="employee.partner_id.street"/><br/>
                                 <span>City: </span>
@@ -83,6 +82,8 @@
                                 <span t-if="employee" t-field="employee.turn"/><br/>
                                 <span>Laboral Category: </span>
                                 <span t-if="employee" t-field="employee.laboral_category_id"/><br/>
+                                <span>Tipo de Contrato: </span> <!-- Pending Translation -->
+                                <span t-if="employee" t-field="employee.contract_id.type_id.name"/><br/>
                             </div>
                         </div><br/>
                         <div t-if="employee.contract_notes">
