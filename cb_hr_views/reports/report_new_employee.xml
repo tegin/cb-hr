@@ -57,7 +57,7 @@
                                 <span>SS: </span>
                                 <span t-field="employee.ssnid"/><br/>
                                 <span>CC: </span>
-                                <span t-esc="employee.bank_account_id or 'Pendiente'"/><br/>
+                                <span t-esc="employee.bank_account_id.acc_number or 'Pendiente'"/><br/>
                                 <span>Address: </span>
                                 <span t-field="employee.partner_id.street"/><br/>
                                 <span>City: </span>
@@ -79,15 +79,19 @@
                                 <span>Working Hours: </span>
                                 <span t-field="employee.working_hours_type"/><br/>
                                 <span>Turn: </span>
-                                <span t-if="employee" t-field="employee.turn"/><br/>
-                                <span>Laboral Category: </span>
-                                <span t-if="employee" t-field="employee.laboral_category_id"/><br/>
+                                <span t-field="employee.turn"/><br/>
+                                <div t-if="employee.working_hours_type == 'reduced'">
+                                    <span>Porcentaje de Reducción: </span> <!-- Pending Translation -->
+                                    <span t-field="employee.percentage_of_reduction"/><span> %</span><br/>
+                                </div>
+                                <span>Categoría Laboral: </span> <!-- Pending Translation -->
+                                <span t-field="employee.laboral_category_id"/><br/>
                                 <span>Tipo de Contrato: </span> <!-- Pending Translation -->
-                                <span t-if="employee" t-field="employee.contract_id.type_id.name"/><br/>
+                                <span t-field="employee.contract_id.type_id.name"/><br/>
                             </div>
                         </div><br/>
                         <div t-if="employee.contract_notes">
-                            <b>Observations</b><br/>
+                            <b>Observaciones</b><br/> <!-- Pending Translation -->
                             <div class="row">
                                 <div class="col-12 border">
                                     <span t-field="employee.contract_notes"/>
