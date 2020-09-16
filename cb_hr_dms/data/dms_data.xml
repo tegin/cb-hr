@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="storage_employee" model="dms.storage">
+        <field name="name">Employee Storage</field>
+        <field name="save_type">database</field>
+        <field name="model_id" ref="hr.model_hr_employee" />
+    </record>
+
+    <record id="storage_practitioners" model="dms.storage">
+        <field name="name">Practitioners Storage</field>
+        <field name="save_type">database</field>
+        <field name="model_id" ref="hr.model_res_partner" />
+    </record>
+
+</odoo>
