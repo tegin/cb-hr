@@ -1,3 +1,4 @@
 cb-medical https://github.com/tegin/cb-medical 12.0
 hr https://github.com/tegin/hr 12.0-mig-hr_employee_medical_examination
 report-print-send https://github.com/tegin/report-print-send 12.0-mig-remote_report_to_printer
+dms https://github.com/tegin/dms 12.0-dms_field_2
