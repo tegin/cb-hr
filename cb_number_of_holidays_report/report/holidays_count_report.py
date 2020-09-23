@@ -1,6 +1,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from datetime import timedelta
+from pytz import timezone, utc
 
 
 class HolidaysCountReport(models.AbstractModel):
@@ -9,6 +10,8 @@ class HolidaysCountReport(models.AbstractModel):
 
     @api.model
     def _get_report_values(self, docids, data=None):
+        utz = timezone(self.env.user.tz)
+
         if not data.get("form"):
             raise UserError(
                 _("Form content is missing, this report cannot be printed.")
@@ -25,16 +28,25 @@ class HolidaysCountReport(models.AbstractModel):
             holidays = self.env["hr.leave"].search(
                 [
                     ("employee_id", "=", employee.id),
-                    ("date_from", "<=", date_to),
-                    ("date_to", ">=", date_from),
+                    ("request_date_from", "<=", date_to),
+                    ("request_date_to", ">=", date_from),
                     ("state", "=", "validate"),
-                    ("request_unit_hours", "=", False),
+                    ("count_in_holidays_report", "=", True),
                 ]
             )
 
             days_count = 0.0
-            date_from_day = fields.Datetime.from_string(date_from)
-            date_to_day = fields.Datetime.from_string(date_to)
+            date_from_day = (
+                utz.localize(fields.Datetime.from_string(date_from))
+                .astimezone(utc)
+                .replace(tzinfo=None)
+            )
+
+            date_to_day = (
+                utz.localize(fields.Datetime.from_string(date_to))
+                .astimezone(utc)
+                .replace(tzinfo=None)
+            )
             date_to_day += timedelta(days=1)
             for holiday in holidays:
                 if date_from_day >= holiday.date_from and (

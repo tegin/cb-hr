@@ -25,11 +25,26 @@ class TestNumberOfHolidaysReport(TransactionCase):
         self.category = self.env["hr.employee.category"].create(
             {"name": "Tag 1"}
         )
+        self.calendar = self.env["resource.calendar"].create(
+            {"name": "Calendar 1", "attendance_ids": []}
+        )
+        for i in range(0, 7):
+            self.env["resource.calendar.attendance"].create(
+                {
+                    "name": "Day " + str(i),
+                    "dayofweek": str(i),
+                    "hour_from": 8.0,
+                    "hour_to": 17.0,
+                    "calendar_id": self.calendar.id,
+                }
+            )
+
         self.employee = self.env["hr.employee"].create(
             {
                 "name": "Pieter",
                 "partner_id": self.partner_id.id,
                 "department_id": self.department.id,
+                "resource_calendar_id": self.calendar.id,
                 "category_ids": [(4, self.category.id)],
             }
         )
