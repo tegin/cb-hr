@@ -21,8 +21,6 @@ class ResourceCalendarAttendance(models.Model):
         real_dayofweek = now.weekday()
         diff = abs(int(self.dayofweek) - real_dayofweek)
         days = diff if int(self.dayofweek) > real_dayofweek else 7 - diff
-        if not self.next_check_from and days == 7:
-            days = 0
         now = now + timedelta(
             days=days,
             hours=-now.hour,
@@ -42,8 +40,6 @@ class ResourceCalendarAttendance(models.Model):
         real_dayofweek = now.weekday()
         diff = abs(int(self.dayofweek) - real_dayofweek)
         days = diff if int(self.dayofweek) > real_dayofweek else 7 - diff
-        if not self.next_check_to and days == 7:
-            days = 0
         now = now + timedelta(
             days=days,
             hours=-now.hour,
