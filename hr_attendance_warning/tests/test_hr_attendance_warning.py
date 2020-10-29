@@ -186,7 +186,8 @@ class TestHrAttendanceWarning(common.TransactionCase):
                 ),
                 "2018-06-12 16:30:00",
             )
-
+            now.return_value = datetime(2018, 6, 17, 21, 0, 0, 0)
+            today.return_value = date(2018, 6, 17)
             self.env["resource.calendar.attendance"].cron_attendance_checks()
 
             warning_in = self.env["hr.attendance.warning"].search(
@@ -200,8 +201,8 @@ class TestHrAttendanceWarning(common.TransactionCase):
             warning_line._compute_message()
             self.assertEqual(
                 warning_line.message,
-                "Didn't check in between \"2018-06-10"
-                ' 07:30:00" and "2018-06-10 08:30:00".',
+                "Didn't check in between \"2018-06-17"
+                ' 07:30:00" and "2018-06-17 08:30:00".',
             )
 
             warning_in.pending2solved()
@@ -226,8 +227,8 @@ class TestHrAttendanceWarning(common.TransactionCase):
             warning_out._compute_message()
             self.assertEqual(
                 warning_out.message,
-                "Didn't check out between \"2018-06-10 "
-                '15:30:00" and "2018-06-10 16:30:00".',
+                "Didn't check out between \"2018-06-17 "
+                '15:30:00" and "2018-06-17 16:30:00".',
             )
 
             monday.margin_from = 1
@@ -239,7 +240,7 @@ class TestHrAttendanceWarning(common.TransactionCase):
                         fields.Datetime.from_string(monday.next_check_from),
                     )
                 ),
-                "2018-06-11 08:01:00",
+                "2018-06-18 08:01:00",
             )
 
             monday.margin_to = 1
@@ -251,11 +252,11 @@ class TestHrAttendanceWarning(common.TransactionCase):
                         fields.Datetime.from_string(monday.next_check_to),
                     )
                 ),
-                "2018-06-11 16:01:00",
+                "2018-06-18 16:01:00",
             )
 
             self.employee.write({"active": False})
-            self.employee._create_warning("no_check_out", "2018-06-11")
+            self.employee._create_warning("no_check_out", "2018-06-18")
             warning_out = self.env["hr.attendance.warning.line"].search(
                 [
                     ("employee_id", "=", self.employee.id),
