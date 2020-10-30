@@ -20,6 +20,7 @@
         "security/ir.model.access.csv",
         "views/assets_backend.xml",
         "views/hr_attendance_warning.xml",
+        "views/hr_employee_views.xml",
         "views/resource_calendar_attendance.xml",
         "wizards/hr_attendance_warning_solve.xml",
     ],
