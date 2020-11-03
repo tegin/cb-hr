@@ -273,3 +273,6 @@ class HolidaysAllocation(models.Model):
 
     def activity_update(self):
         return
+
+    def add_follower(self, employee_id):
+        return
