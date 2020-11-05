@@ -6,7 +6,11 @@
         <field name="inherit_id" ref="cb_hr_views.res_partner_view_form" />
         <field name="arch" type="xml">
             <notebook position="inside">
-                <page name="dms" string="Documents" attrs="{'invisible': [('employee', '=', True)]}">
+                <page
+                    name="dms"
+                    string="Documents"
+                    attrs="{'invisible': [('employee', '=', True)]}"
+                >
                     <field name="dms_directory_ids" mode="dms_tree" />
                 </page>
             </notebook>
