@@ -24,6 +24,7 @@
         "wizards/hr_holidays_summary_department.xml",
         "security/holidays_security.xml",
         "views/hr_holidays_public_views.xml",
+        "views/hr_holidays_templates.xml",
         "views/hr_leave_type_views.xml",
         "views/hr_employee_views.xml",
         "views/hr_leave_views.xml",

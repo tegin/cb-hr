@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models
 from odoo.addons.resource.models.resource import Intervals
-from pytz import timezone, UTC
+from pytz import UTC, timezone
 
 
 class ResourceCalendar(models.Model):

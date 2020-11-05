@@ -1,9 +1,10 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests.common import TransactionCase
+from datetime import datetime, timedelta
+
 from odoo import fields
-from datetime import timedelta, datetime
+from odoo.tests.common import TransactionCase
 from pytz import timezone, utc
 
 
@@ -64,7 +65,9 @@ class TestDutyShift(TransactionCase):
         shift = self.create_shift()
         self.assertEqual(
             shift.display_name,
-            "%s - %s" % (self.employee.name, self.date.strftime("%Y-%m-%d")),
+            "{} - {}".format(
+                self.employee.name, self.date.strftime("%Y-%m-%d")
+            ),
         )
 
     def test_resource(self):

@@ -1,7 +1,8 @@
-import odoo.tests.common as common
-from odoo import fields
-from mock import patch
 from datetime import date, datetime, timedelta
+
+import odoo.tests.common as common
+from mock import patch
+from odoo import fields
 
 
 class TestHrAttendanceWarning(common.TransactionCase):
