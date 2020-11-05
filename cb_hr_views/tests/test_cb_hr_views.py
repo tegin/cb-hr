@@ -2,10 +2,11 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime, timedelta
-from odoo.tests.common import TransactionCase
-from odoo.exceptions import ValidationError
-from odoo import fields
+
 from mock import patch
+from odoo import fields
+from odoo.exceptions import ValidationError
+from odoo.tests.common import TransactionCase
 
 
 class TestCbHrViews(TransactionCase):
