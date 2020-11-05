@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <report
-            id="action_report_holidays_count"
-            string="Holidays Count"
-            model="wizard.holidays.count"
-            report_type="qweb-pdf"
-            name="cb_number_of_holidays_report.report_holidays_count"
-            menu="False"/>
-
+        id="action_report_holidays_count"
+        string="Holidays Count"
+        model="wizard.holidays.count"
+        report_type="qweb-pdf"
+        name="cb_number_of_holidays_report.report_holidays_count"
+        menu="False"
+    />
     <template id="report_holidays_count">
         <t t-call="web.html_container">
             <t t-call="web.internal_layout">
@@ -16,9 +15,9 @@
                     <h3 class="mb32">Leaves Count</h3>
                     <h3 class="text-center mb32">
                         <strong>From</strong>:
-                        <t t-esc="date_from"/>
+                        <t t-esc="date_from" />
                         <strong>To</strong>:
-                        <t t-esc="date_to"/>
+                        <t t-esc="date_to" />
                     </h3>
                     <table class="table table-bordered mb32" style="table-layout:auto">
                         <thead>
@@ -31,10 +30,10 @@
                             <t t-foreach="docs" t-as="doc">
                                 <tr>
                                     <td>
-                                        <t t-esc="doc['employee']"/>
+                                        <t t-esc="doc['employee']" />
                                     </td>
                                     <td>
-                                        <t t-esc="doc['num_of_days']"/>
+                                        <t t-esc="doc['num_of_days']" />
                                     </td>
                                 </tr>
                             </t>
