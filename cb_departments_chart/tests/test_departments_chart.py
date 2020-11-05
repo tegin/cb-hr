@@ -1,9 +1,10 @@
 # Copyright 2019 Creu Blanca
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 
-from odoo.tests.common import TransactionCase, HttpCase, HOST, PORT
-import mock
 import json
+
+import mock
+from odoo.tests.common import HOST, PORT, HttpCase, TransactionCase
 
 
 class TestCBDepartmentsChart(TransactionCase):
@@ -48,7 +49,7 @@ class TestCBDepartmentsChartHttp(HttpCase):
     def test_departments_chart_controller(self, r):
         data = {"params": {"department_id": self.department_1.id}}
         url = "/cb_departments_chart/get_org_chart"
-        url = "http://%s:%s%s" % (HOST, PORT, url)
+        url = "http://{}:{}{}".format(HOST, PORT, url)
         headers = {"Content-Type": "application/json"}
         data = json.dumps(data)
         response = self.opener.post(
