@@ -6,10 +6,10 @@ from odoo import fields, models
 
 class HrEmployeePrl(models.Model):
 
-    _name = 'hr.employee.prl'
-    _description = 'Hr Employee Prl'
+    _name = "hr.employee.prl"
+    _description = "Hr Employee Prl"
 
     name = fields.Char(required=True)
-    prl_date = fields.Date(string='Date', required=True)
+    prl_date = fields.Date(string="Date", required=True)
     notes = fields.Text()
-    employee_id = fields.Many2one('hr.employee')
+    employee_id = fields.Many2one("hr.employee")

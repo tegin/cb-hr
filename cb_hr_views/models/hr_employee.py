@@ -1,8 +1,9 @@
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
 from random import choice
 from string import digits
+
+from odoo import _, api, fields, models
 from odoo.addons.resource.models.resource import float_to_time
+from odoo.exceptions import ValidationError
 
 
 class HrEmployee(models.Model):

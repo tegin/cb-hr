@@ -2,9 +2,10 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-from psycopg2.extensions import AsIs
+
+from odoo import SUPERUSER_ID, api
 from odoo.tools import sql
-from odoo import api, SUPERUSER_ID
+from psycopg2.extensions import AsIs
 
 _logger = logging.getLogger(__name__)
 
