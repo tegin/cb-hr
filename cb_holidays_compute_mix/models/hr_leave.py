@@ -5,13 +5,12 @@
 import math
 from datetime import datetime
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
-from odoo.addons.resource.models.resource import float_to_time
-from odoo.addons.hr_holidays.models.hr_leave import DummyAttendance
-
 from dateutil import tz
-from pytz import timezone, utc, UTC
+from odoo import _, api, fields, models
+from odoo.addons.hr_holidays.models.hr_leave import DummyAttendance
+from odoo.addons.resource.models.resource import float_to_time
+from odoo.exceptions import UserError
+from pytz import UTC, timezone, utc
 
 
 class HrLeave(models.Model):
@@ -72,7 +71,8 @@ class HrLeave(models.Model):
             HrLeave, self.with_context(default_team_id=False)
         ).activity_update()
 
-    # https://github.com/odoo/odoo/blob/12.0/addons/hr_holidays/models/hr_leave.py#L628
+    # https://github.com/odoo/odoo/blob/12.0/addons/
+    # hr_holidays/models/hr_leave.py#L628
     def _validate_leave_request(self):
         """ Validate leave requests (holiday_type='employee')
         by creating a calendar event and a resource leaves. """
@@ -221,7 +221,8 @@ class HrLeave(models.Model):
                 if holiday.employee_id != current_employee and not is_manager:
                     raise UserError(
                         _(
-                            "Only a Leave Manager can reset other people leaves."
+                            "Only a Leave Manager can reset"
+                            " other people leaves."
                         )
                     )
                 continue
@@ -229,12 +230,14 @@ class HrLeave(models.Model):
             if not is_officer:
                 raise UserError(
                     _(
-                        "Only a Leave Officer or Manager can approve or refuse leave requests."
+                        "Only a Leave Officer or Manager can "
+                        "approve or refuse leave requests."
                     )
                 )
 
             if is_officer:
-                # use ir.rule based first access check: department, members, ... (see security.xml)
+                # use ir.rule based first access check: department,
+                # members, ... (see security.xml)
                 holiday.check_access_rule("write")
 
             if (state == "validate1" and val_type == "both") or (
@@ -251,9 +254,10 @@ class HrLeave(models.Model):
                 ):
                     raise UserError(
                         _(
-                            "You must be either %s's manager or Leave manager to approve this leave"
+                            "You must be either %s's manager or Leave "
+                            "manager to approve this leave"
                         )
-                        % (holiday.employee_id.name)
+                        % holiday.employee_id.name
                     )
 
             if state == "validate" and val_type == "both":
@@ -262,7 +266,8 @@ class HrLeave(models.Model):
                 ):
                     raise UserError(
                         _(
-                            "Only an Leave Manager can apply the second approval on leave requests."
+                            "Only an Leave Manager can apply the"
+                            " second approval on leave requests."
                         )
                     )
 

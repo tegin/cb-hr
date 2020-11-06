@@ -5,8 +5,6 @@ from odoo import fields, models
 
 
 class MailChannel(models.Model):
-    _inherit = 'mail.channel'
+    _inherit = "mail.channel"
 
-    department_id = fields.Many2one(
-        'hr.department'
-    )
+    department_id = fields.Many2one("hr.department")

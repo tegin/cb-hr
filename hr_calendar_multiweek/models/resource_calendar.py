@@ -1,11 +1,11 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from datetime import datetime
-from dateutil.rrule import rrule, DAILY
-from pytz import timezone
-from datetime import timedelta
+from datetime import datetime, timedelta
+
+from dateutil.rrule import DAILY, rrule
 from odoo import api, fields, models
 from odoo.addons.resource.models.resource import Intervals, float_to_time
+from pytz import timezone
 
 
 class ResourceCalendar(models.Model):

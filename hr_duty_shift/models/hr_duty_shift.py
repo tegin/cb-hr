@@ -27,7 +27,6 @@ class HrDutyShift(models.Model):
     @api.depends("employee_id", "start_date")
     def _compute_display_name(self):
         for r in self:
-            r.display_name = "%s - %s" % (
-                r.employee_id.name,
-                r.start_date.strftime("%Y-%m-%d"),
+            r.display_name = "{} - {}".format(
+                r.employee_id.name, r.start_date.strftime("%Y-%m-%d"),
             )

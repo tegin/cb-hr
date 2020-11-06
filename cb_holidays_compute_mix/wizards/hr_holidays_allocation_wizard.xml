@@ -7,45 +7,55 @@
             <form string="Create Allocations">
                 <group>
                     <group>
-                        <field name="holiday_status_id"/>
-                        <label for="duration" string="Duration"/>
+                        <field name="holiday_status_id" />
+                        <label for="duration" string="Duration" />
                         <div>
-                            <field name="duration" class="oe_inline"/>
+                            <field name="duration" class="oe_inline" />
                             <span>Days</span>
                         </div>
                     </group>
                     <group>
-                        <field name="name"/>
-                        <field name="approve"/>
+                        <field name="name" />
+                        <field name="approve" />
                     </group>
                 </group>
                 <group>
                     <group>
-                        <field name="department_id"/>
+                        <field name="department_id" />
                     </group>
                     <group>
-                        <field name="category_id"/>
+                        <field name="category_id" />
                     </group>
                 </group>
                 <div class="text-left">
-                   <button name="populate" string="Populate" type="object" class="btn-primary"/>
+                    <button
+                        name="populate"
+                        string="Populate"
+                        type="object"
+                        class="btn-primary"
+                    />
                 </div>
                 <notebook>
                     <page string="Employees">
                         <field name="employee_ids">
                             <tree delete="1" editable="0">
-                                <field name="name" readonly="1"/>
-                                <field name="department_id" readonly="1"/>
-                                <field name="job_id" readonly="1"/>
-                                <field name="parent_id" readonly="1"/>
+                                <field name="name" readonly="1" />
+                                <field name="department_id" readonly="1" />
+                                <field name="job_id" readonly="1" />
+                                <field name="parent_id" readonly="1" />
                             </tree>
                         </field>
                     </page>
                 </notebook>
                 <footer>
-                    <button name="create_allocations" string="Create" type="object" class="oe_highlight"/>
+                    <button
+                        name="create_allocations"
+                        string="Create"
+                        type="object"
+                        class="oe_highlight"
+                    />
                     or
-                    <button string="Cancel" class="oe_link" special="cancel"/>
+                    <button string="Cancel" class="oe_link" special="cancel" />
                 </footer>
             </form>
         </field>

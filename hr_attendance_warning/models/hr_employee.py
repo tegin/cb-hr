@@ -1,8 +1,8 @@
-from pytz import timezone, utc
 from datetime import datetime, time, timedelta
 
-from odoo import api, fields, models, SUPERUSER_ID
+from odoo import SUPERUSER_ID, api, fields, models
 from odoo.addons.resource.models.resource import float_to_time
+from pytz import timezone, utc
 
 
 class HrEmployee(models.Model):
@@ -87,7 +87,7 @@ class HrEmployee(models.Model):
                 resource=self.resource_id,
             )
             calendar_attendances = self.env["resource.calendar.attendance"]
-            for start, stop, meta in work_intervals:
+            for _, _, meta in work_intervals:
                 if meta._name == "resource.calendar.attendance":
                     calendar_attendances |= meta
 
