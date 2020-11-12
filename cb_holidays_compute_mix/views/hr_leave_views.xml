@@ -88,6 +88,12 @@
             <field name="payslip_status" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
+            <xpath
+                expr="//field[@name='category_id']/../field[@name='holiday_type']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
         </field>
     </record>
     <record id="hr_leave_view_tree" model="ir.ui.view">
