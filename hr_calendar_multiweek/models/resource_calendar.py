@@ -11,6 +11,35 @@ from pytz import timezone
 class ResourceCalendar(models.Model):
     _inherit = "resource.calendar"
 
+    multi_week = fields.Boolean()
+
+    multi_week_inconsistency = fields.Boolean(
+        compute="_compute_multi_week_inconsistency"
+    )
+
+    attendance_ids = fields.One2many(
+        default=lambda r: r._get_default_attendance_ids()
+    )
+
+    def _get_default_attendance_ids(self):
+        res = super()._get_default_attendance_ids()
+        for line in res:
+            line[2].update({"calendar_week_number": 1, "week_number": 1})
+        return res
+
+    @api.depends(
+        "attendance_ids", "attendance_ids.calendar_week_number", "multi_week"
+    )
+    def _compute_multi_week_inconsistency(self):
+        for record in self:
+            record.multi_week_inconsistency = (
+                any(
+                    line.calendar_week_number > 1
+                    for line in record.attendance_ids
+                )
+                and not record.multi_week
+            )
+
     def _attendance_intervals(self, start_dt, end_dt, resource=None):
         intervals = super()._attendance_intervals(
             start_dt, end_dt, resource=resource
@@ -70,6 +99,8 @@ class ResourceCalendarAttendance(models.Model):
     week_number = fields.Integer(
         default=1, help="Week when the rule must be applied"
     )
+
+    multi_week = fields.Boolean(related="calendar_id.multi_week")
 
     _sql_constraints = [
         (

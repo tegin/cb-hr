@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-05 10:40+0000\n"
-"PO-Revision-Date: 2020-05-05 12:48+0200\n"
+"POT-Creation-Date: 2020-11-12 13:46+0000\n"
+"PO-Revision-Date: 2020-11-12 14:48+0100\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,7 +15,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "Language: es\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.3\n"
+
+#. module: hr_calendar_multiweek
+#: model_terms:ir.ui.view,arch_db:hr_calendar_multiweek.resource_calendar_form
+msgid ""
+"<i class=\"fa fa-fw fa-info-circle\"/>\n"
+"                        <span>Some attendance lines are multi week but the calendar isn't!</span>"
+msgstr ""
+"<i class=\"fa fa-fw fa-info-circle\"/>\n"
+"                        <span>Algunas lineas son multi semana pero el calendario no!</span>"
 
 #. module: hr_calendar_multiweek
 #: model:ir.model.fields,field_description:hr_calendar_multiweek.field_resource_calendar_attendance__calendar_week_number
@@ -28,6 +37,17 @@ msgid "Calendar week number must be greater than 1"
 msgstr "El número de semanas del ciclo debe ser mayor que 1"
 
 #. module: hr_calendar_multiweek
+#: model:ir.model.fields,field_description:hr_calendar_multiweek.field_resource_calendar__multi_week
+#: model:ir.model.fields,field_description:hr_calendar_multiweek.field_resource_calendar_attendance__multi_week
+msgid "Multi Week"
+msgstr "Multi Semana"
+
+#. module: hr_calendar_multiweek
+#: model:ir.model.fields,field_description:hr_calendar_multiweek.field_resource_calendar__multi_week_inconsistency
+msgid "Multi Week Inconsistency"
+msgstr "Inconsistencia multiweek"
+
+#. module: hr_calendar_multiweek
 #: model:ir.model,name:hr_calendar_multiweek.model_resource_calendar
 msgid "Resource Working Time"
 msgstr "Tiempo de Trabajo de Recursos"
@@ -36,6 +56,11 @@ msgstr "Tiempo de Trabajo de Recursos"
 #: model:ir.model.fields,help:hr_calendar_multiweek.field_resource_calendar_attendance__calendar_week_number
 msgid "Total number of weeks to use for the rule"
 msgstr "Número total del ciclo de semanas a usar en esta línea"
+
+#. module: hr_calendar_multiweek
+#: model_terms:ir.ui.view,arch_db:hr_calendar_multiweek.resource_calendar_form
+msgid "Warning"
+msgstr "Alerta"
 
 #. module: hr_calendar_multiweek
 #: model:ir.model.fields,field_description:hr_calendar_multiweek.field_resource_calendar_attendance__week_number
