@@ -87,6 +87,7 @@ class TestResourceCalendar(TransactionCase):
         self.assertNotIn(self.attendance_03.id, attendances)
 
     def test_week_behaviour_01(self):
+        self.calendar.multi_week = True
         monday_start = self.start_date
         monday_end = self.end_date
         self.attendance_01.calendar_week_number = 2
@@ -108,6 +109,9 @@ class TestResourceCalendar(TransactionCase):
         self.assertNotIn(self.attendance_01.id, attendances)
         self.assertNotIn(self.attendance_02.id, attendances)
         self.assertNotIn(self.attendance_03.id, attendances)
+
+        self.calendar.multi_week = False
+        self.assertTrue(self.calendar.multi_week_inconsistency)
 
     def test_week_behaviour_02(self):
         monday_start = self.start_date
