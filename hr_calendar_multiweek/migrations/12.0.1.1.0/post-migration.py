@@ -5,8 +5,8 @@ from openupgradelib import openupgrade
 
 @openupgrade.migrate(use_env=True)
 def migrate(env, version):
-    for calendar in env["resource.calendar"].search(
-        ["|", ("active", "=", True), ("active", "=", False)]
+    for calendar in (
+        env["resource.calendar"].with_context(active_test=False).search([])
     ):
         calendar.multi_week = any(
             line.calendar_week_number > 1 for line in calendar.attendance_ids
