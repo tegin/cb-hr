@@ -123,6 +123,25 @@ class HrEmployee(models.Model):
 
     prl_ids = fields.One2many("hr.employee.prl", "employee_id")
 
+    inversed_decimal_rfid = fields.Char(
+        compute="_compute_inversed_decimal_rfid"
+    )
+
+    @api.depends("rfid_card_code")
+    def _compute_inversed_decimal_rfid(self):
+        for record in self:
+            if not record.rfid_card_code:
+                record.inversed_decimal_rfid = False
+            else:
+                hexa_value = record.rfid_card_code.zfill(8)
+                hexa_inverted = (
+                    hexa_value[6:]
+                    + hexa_value[4:6]
+                    + hexa_value[2:4]
+                    + hexa_value[:2]
+                )
+                record.inversed_decimal_rfid = str(int(hexa_inverted, 16))
+
     @api.depends("department_id", "department_id.manager_id")
     def _compute_department_parent_id(self):
         for record in self:

@@ -16,6 +16,7 @@
         "cb_departments_chart",
         "cb_medical_administration_center",
         "crm",
+        "hr_attendance_rfid",
         "hr_attendance_autoclose",
         "hr_attendance_modification_tracking",
         "hr_attendance_report_theoretical_time",

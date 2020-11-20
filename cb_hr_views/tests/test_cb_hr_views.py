@@ -218,6 +218,8 @@ class TestCbHrViews(TransactionCase):
             self.assertEqual(
                 self.employee.today_schedule, "Out of office since 2020-05-09"
             )
+        self.employee.write({"rfid_card_code": "00DEDC46"})
+        self.assertEqual(self.employee.inversed_decimal_rfid, "1188879872")
 
     def test_create_bank_account(self):
         self.assertFalse(self.employee.bank_account_id)
