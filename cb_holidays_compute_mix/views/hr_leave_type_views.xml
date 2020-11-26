@@ -67,9 +67,10 @@
                                     <span>No limit</span>
                                 </t>
                                 <t t-else="">
-                                    <span>Remaining: <field name="max_leaves" /> <field
-                                            name="request_unit"
-                                        />s</span>
+                                    <span>Remaining: <field
+                                            name="remaining_leaves"
+                                        /> <field name="request_unit" />s</span>
+                                    <br />
                                     <span class="pull-right">Taken: <field
                                             name="leaves_taken"
                                         /> <field name="request_unit" />s</span>
