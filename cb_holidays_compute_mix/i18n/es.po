@@ -320,7 +320,7 @@ msgstr "Tomar ausencias en"
 #. module: cb_holidays_compute_mix
 #: model_terms:ir.ui.view,arch_db:cb_holidays_compute_mix.leaves_left_holidays_status_kanban
 msgid "Taken:"
-msgstr "Horas ya cogidas:"
+msgstr "Ya cogidas:"
 
 #. module: cb_holidays_compute_mix
 #: model:ir.model.fields,field_description:cb_holidays_compute_mix.field_hr_leave__tree_color
