@@ -52,8 +52,9 @@ class HrLeave(models.Model):
             else:
                 record.tree_color = "#ffffff"
 
-    @api.onchange("leave_type_request_unit")
-    def _onchange_leave_type_request_unit(self):
+    @api.onchange("holiday_status_id")
+    def _onchange_holiday_status_id(self):
+        super()._onchange_holiday_status_id()
         for record in self:
             hours = record.leave_type_request_unit == "hour"
             record.request_unit_hours = hours
@@ -112,6 +113,7 @@ class HrLeave(models.Model):
         "employee_id",
     )
     def _onchange_request_parameters(self):
+
         if not self.request_date_from:
             self.date_from = False
             return

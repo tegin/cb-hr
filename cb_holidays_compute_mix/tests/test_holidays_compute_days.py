@@ -79,7 +79,7 @@ class TestHolidaysComputeDays(common.TransactionCase):
                 "employee_id": self.employee.id,
             }
         )
-        holidays._onchange_leave_type_request_unit()
+        holidays._onchange_holiday_status_id()
         holidays._onchange_request_parameters()
 
         holidays._compute_number_of_hours_display()
