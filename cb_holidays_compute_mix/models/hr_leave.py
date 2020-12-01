@@ -52,6 +52,18 @@ class HrLeave(models.Model):
             else:
                 record.tree_color = "#ffffff"
 
+    @api.onchange("request_unit_half")
+    def _onchange_request_unit_half(self):
+        return
+
+    @api.onchange("request_unit_custom")
+    def _onchange_request_unit_custom(self):
+        return
+
+    @api.onchange("request_unit_hours")
+    def _onchange_request_unit_hours(self):
+        return
+
     @api.onchange("holiday_status_id")
     def _onchange_holiday_status_id(self):
         super()._onchange_holiday_status_id()
