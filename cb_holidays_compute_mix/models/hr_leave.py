@@ -22,6 +22,8 @@ class HrLeave(models.Model):
             [("user_id", "=", self.env.user.id)], limit=1
         )
 
+    holiday_status_id = fields.Many2one(domain=[])
+
     employee_id = fields.Many2one(
         required=True, default=lambda self: self._default_employee()
     )
@@ -39,6 +41,26 @@ class HrLeave(models.Model):
     )
 
     tree_color = fields.Char(compute="_compute_color", store=True)
+
+    custom_hours_count = fields.Float()
+
+    @api.multi
+    @api.depends("number_of_days")
+    def _compute_number_of_hours_display(self):
+        for holiday in self:
+            if holiday.custom_hours_count:
+                holiday.number_of_hours_display = holiday.custom_hours_count
+            elif holiday.date_from and holiday.date_to:
+                calendar = (
+                    holiday.employee_id.resource_calendar_id
+                    or self.env.user.company_id.resource_calendar_id
+                )
+                number_of_hours = calendar.get_work_hours_count(
+                    holiday.date_from, holiday.date_to
+                )
+                holiday.number_of_hours_display = number_of_hours or 0
+            else:
+                holiday.number_of_hours_display = 0
 
     @api.depends("state")
     def _compute_color(self):
@@ -289,6 +311,8 @@ class HrLeave(models.Model):
 class HolidaysAllocation(models.Model):
     _inherit = "hr.leave.allocation"
     _order = "id desc"
+
+    holiday_status_id = fields.Many2one(domain=[])
 
     def activity_update(self):
         return
