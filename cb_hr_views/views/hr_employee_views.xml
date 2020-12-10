@@ -183,11 +183,6 @@
                     />
                 </group>
             </xpath>
-            <xpath expr="//field[@name='birthday']/.." position="before">
-                <group string="Relatives">
-                    <field name="relative_ids" nolabel="1" />
-                </group>
-            </xpath>
             <!-- Remove officer group and show depending on 'show_info' -->
             <page name="personal_information" position="before">
                 <field name="show_info" invisible="1" />
@@ -406,8 +401,14 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr_employee_relative.hr_employee_view_form" />
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='relative_ids']/.." position="before">
+                <field name="show_info" invisible="1" />
+            </xpath>
             <xpath expr="//field[@name='relative_ids']/.." position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute name="groups">base.group_user</attribute>
+                <attribute
+                    name="attrs"
+                >{'invisible': [('show_info', '=', False)]}</attribute>
             </xpath>
         </field>
     </record>
