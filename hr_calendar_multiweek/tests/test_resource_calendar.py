@@ -44,7 +44,7 @@ class TestResourceCalendar(TransactionCase):
                 "calendar_id": self.calendar.id,
             }
         )
-        today = fields.Date.today()
+        today = fields.Date.from_string("2020-12-02")
         timez = timezone(self.env.user.tz)
         self.date = today + timedelta(days=-(today.weekday()))
         self.start_date = datetime.combine(self.date, datetime.min.time())
@@ -93,7 +93,7 @@ class TestResourceCalendar(TransactionCase):
         self.attendance_01.calendar_week_number = 2
         self.attendance_02.calendar_week_number = 2
         self.attendance_03.calendar_week_number = 2
-        if divmod(monday_start.isocalendar()[1], 2)[1] == 0:
+        if monday_start.isocalendar()[1] % 2 == 0:
             monday_start = self.start_date + timedelta(days=7)
             monday_end = self.end_date + timedelta(days=7)
         intervals = self.calendar._work_intervals(monday_start, monday_end)
@@ -120,9 +120,6 @@ class TestResourceCalendar(TransactionCase):
         self.attendance_02.calendar_week_number = 2
         self.attendance_03.calendar_week_number = 2
         self.attendance_02.week_number = 2
-        if divmod(monday_start.isocalendar()[1], 2)[1] == 0:
-            monday_start = self.start_date + timedelta(days=7)
-            monday_end = self.end_date + timedelta(days=7)
         intervals = self.calendar._work_intervals(monday_start, monday_end)
         attendances = [interval[2].id for interval in intervals]
         self.assertIn(self.attendance_01.id, attendances)
@@ -144,12 +141,6 @@ class TestResourceCalendar(TransactionCase):
         self.attendance_03.calendar_week_number = 3
         self.attendance_02.week_number = 2
         self.attendance_03.week_number = 3
-        if divmod(monday_start.isocalendar()[1], 3)[1] == 0:
-            monday_start += timedelta(days=7)
-            monday_end += timedelta(days=7)
-        if divmod(monday_start.isocalendar()[1], 3)[1] == 2:
-            monday_start += timedelta(days=14)
-            monday_end += timedelta(days=14)
         intervals = self.calendar._work_intervals(monday_start, monday_end)
         attendances = [interval[2].id for interval in intervals]
         self.assertIn(self.attendance_01.id, attendances)

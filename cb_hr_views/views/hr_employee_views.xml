@@ -401,10 +401,10 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr_employee_relative.hr_employee_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//page[4]" position="before">
+            <xpath expr="//field[@name='relative_ids']/.." position="before">
                 <field name="show_info" invisible="1" />
             </xpath>
-            <xpath expr="//page[4]" position="attributes">
+            <xpath expr="//field[@name='relative_ids']/.." position="attributes">
                 <attribute name="groups">base.group_user</attribute>
                 <attribute
                     name="attrs"
