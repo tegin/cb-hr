@@ -109,6 +109,13 @@
                                     t-field="employee.contract_id.date_start"
                                 />
                                 <br />
+                                <div
+                                    t-if="employee.contract_id and employee.contract_id.date_end"
+                                >
+                                    <span>End Date: </span>
+                                    <span t-field="employee.contract_id.date_end" />
+                                    <br />
+                                </div>
                                 <span>Center: </span>
                                 <span
                                     t-if="employee.address_id"
