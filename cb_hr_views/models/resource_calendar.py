@@ -19,8 +19,8 @@ class ResourceCalendar(models.Model):
 
     @api.multi
     def _get_day_attendances(self, day_date, start_time, end_time):
-        """ Given a day date, return matching attendances. Those can be limited
-        by starting and ending time objects. """
+        """Given a day date, return matching attendances. Those can be limited
+        by starting and ending time objects."""
         self.ensure_one()
         weekday = day_date.weekday()
         attendances = self.env["resource.calendar.attendance"]
