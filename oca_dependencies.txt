@@ -1,4 +1,5 @@
 cb-medical https://github.com/tegin/cb-medical 12.0
 hr
 report-print-send
+odoo-door https://github.com/tegin/odoo-door 12.0
 dms https://github.com/tegin/dms 12.0-dms_field_2

@@ -6,12 +6,14 @@ from datetime import datetime, timedelta
 from mock import patch
 from odoo import fields
 from odoo.exceptions import ValidationError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import SavepointCase
 
 
-class TestCbHrViews(TransactionCase):
-    def setUp(self):
-        super(TestCbHrViews, self).setUp()
+class TestCbHrViews(SavepointCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        self = cls
 
         self.partner = self.env["res.partner"].create(
             {
@@ -47,29 +49,38 @@ class TestCbHrViews(TransactionCase):
             }
         )
 
-    def test_res_partner(self):
-        self.partner._compute_can_create_employee()
-        self.assertFalse(self.partner.can_create_employee)
-        self.assertTrue(self.partner.employee)
+    def test_partner_employee_error(self):
+        with self.assertRaises(ValidationError):
+            self.employee.partner_id.toggle_active()
 
+    def test_partner_archive(self):
         partner_without_user = self.env["res.partner"].create(
             {"name": "No User"}
         )
-        partner_without_user.toggle_active_modified()
+        partner_without_user.toggle_active()
         self.assertFalse(partner_without_user.active)
-        partner_without_user.toggle_active_modified()
+        partner_without_user.toggle_active()
         self.assertTrue(partner_without_user.active)
 
+    def test_employee_archive(self):
         self.employee.toggle_active()
         self.assertFalse(self.partner.active)
         self.employee.toggle_active()
         self.assertTrue(self.partner.active)
 
+    def test_show_info(self):
         self.assertTrue(self.partner.show_info)
 
+    def test_is_practitioner_constrain_01(self):
         with self.assertRaises(ValidationError):
             self.partner.write({"is_practitioner": False})
 
+    def test_is_practitioner_constrain_02(self):
+        with self.assertRaises(ValidationError):
+            self.partner.update({"is_practitioner": False})
+            self.employee._check_practitioner()
+
+    def test_employees_constrain(self):
         with self.assertRaises(ValidationError):
             self.partner.write(
                 {
@@ -79,10 +90,7 @@ class TestCbHrViews(TransactionCase):
                 }
             )
 
-        with self.assertRaises(ValidationError):
-            self.partner.update({"is_practitioner": False})
-            self.employee._check_practitioner()
-
+    def test_contract(self):
         contract_type_2 = self.env["hr.contract.type"].create(
             {"name": "Contract Type 2"}
         )
@@ -90,6 +98,7 @@ class TestCbHrViews(TransactionCase):
         self.contract._onchange_type_id()
         self.assertFalse(self.contract.substituting_id)
 
+    def test_employee_creation(self):
         self.partner_2.create_employee()
         employee = self.env["hr.employee"].search(
             [("partner_id", "=", self.partner_2.id)]
@@ -129,6 +138,7 @@ class TestCbHrViews(TransactionCase):
         self.assertEqual(result["res_id"], self.employee.partner_id.id)
 
         self.employee.toggle_active()
+        self.employee.refresh()
         self.assertFalse(self.employee.partner_id.active)
         self.employee.toggle_active()
 
