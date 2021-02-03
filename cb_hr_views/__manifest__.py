@@ -31,6 +31,7 @@
         "hr_employee_medical_examination",
         "medical_administration_practitioner",
         "medical_administration_second_lastname",
+        "oddoor_employee_rfid",
     ],
     "data": [
         "views/hr_employee_prl.xml",

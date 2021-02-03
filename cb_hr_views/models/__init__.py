@@ -8,3 +8,4 @@ from . import resource_calendar
 from . import res_users
 from . import hr_laboral_category
 from . import hr_employee_prl
+from . import oddoor_key

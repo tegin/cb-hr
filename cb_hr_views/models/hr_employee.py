@@ -146,7 +146,6 @@ class HrEmployee(models.Model):
                 limit=1,
             )
 
-    @api.multi
     def _compute_today_schedule(self):
         public_holidays = self.env["hr.holidays.public"]
         today = fields.Date.today()
@@ -239,26 +238,25 @@ class HrEmployee(models.Model):
     def _update_employee_manager(self, manager_id):
         return
 
-    @api.multi
     def toggle_active(self):
+        super().toggle_active()
         for record in self:
-            active = not record.active
-            record.active = active
-            contracts = self.env["hr.contract"].search(
-                [
-                    "|",
-                    ("active", "=", True),
-                    ("active", "=", False),
-                    ("employee_id", "=", record.id),
-                ]
+            active = record.active
+            contracts = (
+                self.env["hr.contract"]
+                .with_context(active_test=False)
+                .search([("employee_id", "=", record.id)])
             )
-            contracts.write({"active": active})
-            if record.user_id:
-                record.user_id.write({"active": record.active})
-            if not active or not record.user_id:
-                record.partner_id.write({"active": record.active})
+            contracts.filtered(lambda r: r.active == active).toggle_active()
+            if record.user_id and record.user_id.active != active:
+                record.user_id.with_context(
+                    ignore_partner_archive_constrain=True
+                ).toggle_active()
+            if record.partner_id.active != active:
+                record.partner_id.with_context(
+                    ignore_partner_archive_constrain=True
+                ).toggle_active()
 
-    @api.multi
     def action_open_related_partner(self):
         action = self.env.ref("cb_hr_views.action_open_related_partner")
         result = action.read()[0]
@@ -266,12 +264,10 @@ class HrEmployee(models.Model):
         result["res_id"] = self.partner_id.id
         return result
 
-    @api.multi
     def _compute_show_leaves(self):
         for employee in self:
             employee.show_leaves = employee.show_info
 
-    @api.multi
     def _compute_show_info(self):
         is_manager = self.env.user.has_group("hr.group_hr_manager")
         is_officer = self.env.user.has_group("hr.group_hr_user")
@@ -282,7 +278,6 @@ class HrEmployee(models.Model):
                 or employee.user_id.id == self.env.uid
             )
 
-    @api.multi
     def _compute_is_manager(self):
         managers = self.env["hr.department"].search([]).mapped("manager_id")
         for record in self:

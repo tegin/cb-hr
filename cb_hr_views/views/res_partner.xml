@@ -26,6 +26,7 @@
                     attrs="{'invisible': [('can_create_employee', '=', False)]}"
                 />
                 <field name="employee" invisible="1" />
+                <field name="employee_ids" invisible="1" />
                 <button
                     name="action_open_related_employee"
                     string="Related employee"
@@ -34,33 +35,15 @@
                     attrs="{'invisible': [('employee', '=', False)]}"
                 />
             </xpath>
-            <button name="toggle_active" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </button>
-            <button name="toggle_active" position="after">
-                <button
-                    name="toggle_active_modified"
-                    type="object"
-                    class="oe_stat_button"
-                    icon="fa-archive"
-                    attrs="{'invisible': [('employee', '!=', False)]}"
-                >
-                    <field
-                        name="active"
-                        widget="boolean_button"
-                        options="{&quot;terminology&quot;: &quot;archive&quot;}"
-                    />
-                </button>
-            </button>
-            <xpath expr="//group/group[1]" position="before">
+            <xpath expr="//field[@name='type']/.." position="before">
                 <field name="show_info" invisible="1" />
             </xpath>
-            <xpath expr="//group/group[1]" position="attributes">
+            <xpath expr="//field[@name='category_id']/.." position="attributes">
                 <attribute
                     name="attrs"
                 >{'invisible': [('show_info', '=', False)]}</attribute>
             </xpath>
-            <xpath expr="//group/group[2]" position="attributes">
+            <xpath expr="//field[@name='type']/.." position="attributes">
                 <attribute
                     name="attrs"
                 >{'invisible': [('show_info', '=', False)]}</attribute>
@@ -70,6 +53,35 @@
                     name="attrs"
                 >{'invisible': [('show_info', '=', False)]}</attribute>
             </xpath>
+        </field>
+    </record>
+    <record id="res_partner_view_form_oddoor_practitioner" model="ir.ui.view">
+        <field name="name">res.partner.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="groups_id" eval="[(4, ref('oddoor.group_oddoor_user'))]" />
+        <field name="arch" type="xml">
+            <button name="action_view_oddoor_key" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+            </button>
+            <button name="action_view_oddoor_key" position="after">
+                <button
+                    name="action_generate_oddoor_key"
+                    type="object"
+                    string="Generate Key"
+                    attrs="{'invisible': ['|', '|', ('employee', '=', True), ('oddoor_key_count', '!=', 0), ('is_practitioner', '=', False)]}"
+                    icon="fa-key"
+                />
+                <button
+                    name="action_generate_oddoor_key"
+                    type="object"
+                    string="Update Key"
+                    attrs="{'invisible': ['|', '|', ('employee', '=', True), ('oddoor_key_count', '=', 0), ('is_practitioner', '=', False)]}"
+                    icon="fa-key"
+                />
+            </button>
         </field>
     </record>
     <record model="ir.ui.view" id="view_partners_form_crm1">
