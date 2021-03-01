@@ -114,7 +114,7 @@ class HrEmployee(models.Model):
 
     contract_id = fields.Many2one(store=True)
     turn = fields.Char(related="contract_id.turn")
-    contract_notes = fields.Text()
+    contract_notes = fields.Text(related="contract_id.notes")
 
     transport_plus = fields.Char(string="Transport Plus")
 
@@ -122,6 +122,32 @@ class HrEmployee(models.Model):
     work_location = fields.Char(string="Location")
 
     prl_ids = fields.One2many("hr.employee.prl", "employee_id")
+    service_start_date = fields.Date(
+        related=False, compute="_compute_service_start_date"
+    )
+    force_service_computation = fields.Boolean()
+    force_service_start_date = fields.Date()
+
+    @api.depends(
+        "contract_ids",
+        "contract_ids.date_start",
+        "force_service_computation",
+        "force_service_start_date",
+    )
+    def _compute_service_start_date(self):
+        for record in self:
+            if record.force_service_computation:
+                record.service_start_date = record.force_service_start_date
+            else:
+                record.service_start_date = record.first_contract_id.date_start
+
+    @api.onchange("force_service_computation")
+    def _onchange_force_service_computation(self):
+        if (
+            self.force_service_computation
+            and not self.force_service_start_date
+        ):
+            self.force_service_start_date = self.first_contract_id.date_start
 
     @api.depends("department_id", "department_id.manager_id")
     def _compute_department_parent_id(self):
