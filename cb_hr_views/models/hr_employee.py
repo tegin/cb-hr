@@ -114,7 +114,7 @@ class HrEmployee(models.Model):
 
     contract_id = fields.Many2one(store=True)
     turn = fields.Char(related="contract_id.turn")
-    contract_notes = fields.Text()
+    contract_notes = fields.Text(related="contract_id.notes")
 
     transport_plus = fields.Char(string="Transport Plus")
 
