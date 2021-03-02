@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<odoo>
+<odoo noupdate="1">
     <record id="storage_employee" model="dms.storage">
         <field name="name">Employee Storage</field>
         <field name="save_type">database</field>
-        <field name="model_id" ref="hr.model_hr_employee" />
+        <field name="model_ids" eval="[(4, ref('hr.model_hr_employee'))]" />
     </record>
     <record id="storage_practitioners" model="dms.storage">
         <field name="name">Practitioners Storage</field>
         <field name="save_type">database</field>
-        <field name="model_id" ref="hr.model_res_partner" />
+        <field name="model_ids" eval="[(4, ref('hr.model_res_partner'))]" />
     </record>
 </odoo>
