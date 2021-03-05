@@ -20,40 +20,46 @@ class ResourceCalendarAttendance(models.Model):
         utz = self.env.user.tz
         now = fields.Datetime.now()
         real_dayofweek = now.weekday()
-        diff = abs(int(self.dayofweek) - real_dayofweek)
-        days = diff if int(self.dayofweek) > real_dayofweek else 7 - diff
-        now = now + timedelta(
+        diff = int(self.dayofweek) - real_dayofweek
+        days = diff if diff >= 0 else 7 + diff
+        today = now + timedelta(
             days=days,
             hours=-now.hour,
             minutes=-now.minute,
             seconds=-now.second,
         )
         datetime_tx = (
-            (now + timedelta(hours=self.hour_from, minutes=self.margin_from))
+            (today + timedelta(hours=self.hour_from, minutes=self.margin_from))
             .replace(tzinfo=tz.gettz(utz))
             .astimezone(pytz.utc)
+            .replace(tzinfo=None)
         )
-        self.next_check_from = fields.Datetime.to_string(datetime_tx)
+        if datetime_tx < now:
+            datetime_tx += timedelta(days=7)
+        self.next_check_from = datetime_tx
 
     def _compute_next_check_to(self):
         utz = self.env.user.tz
         now = fields.Datetime.now()
         real_dayofweek = now.weekday()
-        diff = abs(int(self.dayofweek) - real_dayofweek)
-        days = diff if int(self.dayofweek) > real_dayofweek else 7 - diff
-        now = now + timedelta(
+        diff = int(self.dayofweek) - real_dayofweek
+        days = diff if diff >= 0 else 7 + diff
+        today = now + timedelta(
             days=days,
             hours=-now.hour,
             minutes=-now.minute,
             seconds=-now.second,
         )
-        now.replace(tzinfo=tz.gettz(utz))
+        today.replace(tzinfo=tz.gettz(utz))
         datetime_tx = (
-            (now + timedelta(hours=self.hour_to, minutes=self.margin_to))
+            (today + timedelta(hours=self.hour_to, minutes=self.margin_to))
             .replace(tzinfo=tz.gettz(utz))
             .astimezone(pytz.utc)
+            .replace(tzinfo=None)
         )
-        self.next_check_to = fields.Datetime.to_string(datetime_tx)
+        if datetime_tx < now:
+            datetime_tx += timedelta(days=7)
+        self.next_check_to = datetime_tx
 
     @api.onchange("dayofweek", "hour_from", "margin_from")
     def _onchange_from(self):
