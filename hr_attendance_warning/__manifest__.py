@@ -11,7 +11,13 @@
     "license": "AGPL-3",
     "author": "Creu Blanca,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/hr/",
-    "depends": ["hr_holidays_public", "hr_attendance", "resource", "mail"],
+    "depends": [
+        "hr_holidays_public",
+        "hr_attendance",
+        "resource",
+        "mail",
+        "hr_calendar_multiweek",
+    ],
     "data": [
         "data/ir_sequence_data.xml",
         "data/ir_config_parameter_data.xml",
