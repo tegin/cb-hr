@@ -4,6 +4,7 @@
         <field name="name">res.partner.form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="cb_hr_views.res_partner_view_form" />
+        <field name="groups_id" eval="[(4, ref('dms.group_dms_user'))]" />
         <field name="arch" type="xml">
             <notebook position="inside">
                 <page
