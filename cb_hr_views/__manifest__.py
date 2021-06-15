@@ -53,4 +53,5 @@
         "views/hr_course_views.xml",
     ],
     "pre_init_hook": "pre_init_hook",
+    "post_load": "post_load_hook",
 }

@@ -4,6 +4,7 @@
 import logging
 
 from odoo import SUPERUSER_ID, api
+from odoo.addons.hr.models.res_users import User
 from odoo.tools import sql
 from psycopg2.extensions import AsIs
 
@@ -38,3 +39,12 @@ def pre_init_hook(cr):
     cr.execute(
         "SELECT id FROM %s WHERE %s is null", (AsIs(table), AsIs(column))
     )
+
+
+def post_load_hook():
+    @api.multi
+    def write(self, vals):
+        """ Synchronize user and its related employee """
+        return super(User, self).write(vals)
+
+    User._patch_method("write", write)
