@@ -126,7 +126,6 @@ odoo.define("cb_departments_chart.OrgChart", function(require) {
             );
             return this.do_action({
                 type: "ir.actions.act_window",
-                view_type: "form",
                 view_mode: "form",
                 views: [[false, "form"]],
                 target: "current",

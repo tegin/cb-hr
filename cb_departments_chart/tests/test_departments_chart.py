@@ -11,20 +11,22 @@ class TestCBDepartmentsChart(TransactionCase):
     def setUp(self):
         super(TestCBDepartmentsChart, self).setUp()
 
-        Department = self.env["hr.department"]
+        self.Department = self.env["hr.department"]
 
-        self.department_1 = Department.create({"name": "Dep1"})
-        self.department_2 = Department.create(
+        self.department_1 = self.Department.create({"name": "Dep1"})
+        self.department_2 = self.Department.create(
             {"name": "Dep2", "parent_id": self.department_1.id}
         )
-        self.department_3 = Department.create(
+        self.department_3 = self.Department.create(
+            {"name": "Dep3", "parent_id": self.department_2.id}
+        )
+        self.department_3 = self.Department.create(
             {"name": "Dep3", "parent_id": self.department_2.id}
         )
 
     def test_department_child_count(self):
         self.department_1._compute_child_all_count()
-        self.assertEqual(self.department_1.child_all_count, 2)
-        self.department_1._compute_image_medium()
+        self.assertEqual(self.department_2.child_all_count, 2)
 
 
 class TestCBDepartmentsChartHttp(HttpCase):
@@ -60,3 +62,15 @@ class TestCBDepartmentsChartHttp(HttpCase):
         self.assertEqual(json_data["result"]["self"]["direct_sub_count"], 1)
         self.assertEqual(json_data["result"]["self"]["indirect_sub_count"], 2)
         self.assertEqual(json_data["result"]["children"][0]["name"], "Dep2")
+
+    @mock.patch("odoo.http.WebRequest.validate_csrf", return_value=True)
+    def test_no_department_id(self, r):
+        data = {"params": {"department_id": False}}
+        url = "/cb_departments_chart/get_org_chart"
+        url = "http://{}:{}{}".format(HOST, PORT, url)
+        headers = {"Content-Type": "application/json"}
+        data = json.dumps(data)
+        response = self.opener.post(
+            url, data=data, headers=headers, timeout=10
+        )
+        json.loads(response.text)
