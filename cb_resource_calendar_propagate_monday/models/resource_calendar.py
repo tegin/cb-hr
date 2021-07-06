@@ -1,14 +1,13 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class ResourceCalendar(models.Model):
 
     _inherit = "resource.calendar"
 
-    @api.multi
     def propagate_mondays(self):
         for record in self:
             self.env["resource.calendar.attendance"].search(

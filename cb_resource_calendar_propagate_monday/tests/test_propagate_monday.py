@@ -21,7 +21,7 @@ class TestPropagateMonday(TransactionCase):
             {"hour_from": 7, "hour_to": 11}
         )
         self.calendar_id.propagate_mondays()
-
+        self.calendar_id.refresh()
         for i in range(0, 5):
             self.assertEqual(
                 self.calendar_id.attendance_ids[i * 2].dayofweek, str(i)

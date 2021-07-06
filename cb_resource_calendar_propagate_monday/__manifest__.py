@@ -4,8 +4,8 @@
 {
     "name": "Cb Resource Calendar Clone Monday",
     "summary": """
-        Declarar los lunes y extender al resto de la semana""",
-    "version": "12.0.1.0.0",
+        Declare Mondays and extend to the rest of the week""",
+    "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "Creu Blanca,Odoo Community Association (OCA)",
     "website": "www.creublanca.es",
