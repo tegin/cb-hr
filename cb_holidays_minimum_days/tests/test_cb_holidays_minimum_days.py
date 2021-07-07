@@ -77,3 +77,20 @@ class TestCbHolidaysMinimumDays(TransactionCase):
             "Warning: The number of days remaining (1) will"
             " be less than the minimum for that holiday type (7)",
         )
+
+        holiday = (
+            self.env["hr.leave"]
+            .sudo()
+            .new(
+                {
+                    "name": "Test",
+                    "employee_id": self.employee.id,
+                    "holiday_status_id": self.holiday_type.id,
+                    "date_from": "2019-07-10",
+                    "date_to": "2019-07-19",
+                    "number_of_days": 9,
+                }
+            )
+        )
+
+        self.assertFalse(holiday.warning_minimum)

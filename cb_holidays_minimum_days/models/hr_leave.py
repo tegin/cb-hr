@@ -53,3 +53,5 @@ class HrLeave(models.Model):
                                 min_time,
                             )
                         )
+                        continue
+            rec.warning_minimum = False
