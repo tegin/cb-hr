@@ -15,7 +15,6 @@ class HrEmployee(models.Model):
             res.department_id._add_employee_channel(res)
         return res
 
-    @api.multi
     def write(self, vals):
         if "department_id" in vals or "user_id" in vals:
             for record in self:

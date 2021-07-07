@@ -1,7 +1,7 @@
 # Copyright 2020 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class WizardCreateDepartmentChannel(models.TransientModel):
@@ -10,7 +10,6 @@ class WizardCreateDepartmentChannel(models.TransientModel):
 
     name = fields.Char(required=True)
 
-    @api.multi
     def generate_channel(self):
         department_id = self.env.context.get("active_id")
         department_id = self.env["hr.department"].browse(department_id)

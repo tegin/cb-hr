@@ -45,7 +45,6 @@ class HrDepartment(models.Model):
             {"channel_partner_ids": [(3, employee.user_id.partner_id.id)]}
         )
 
-    @api.multi
     def write(self, vals):
         if "manager_id" in vals:
             for record in self:
@@ -58,7 +57,6 @@ class HrDepartment(models.Model):
                     record._add_employee_channel(record.manager_id)
         return res
 
-    @api.multi
     def generate_channel(self):
         self.ensure_one()
         members = self.member_ids.mapped("user_id")
