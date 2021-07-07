@@ -10,7 +10,7 @@ class HrContract(models.Model):
     _inherit = "hr.contract"
 
     state = fields.Selection(
-        [
+        selection_add=[
             ("draft", "New"),
             ("open", "Running"),
             ("pending", "To Renew"),
@@ -67,12 +67,10 @@ class HrContract(models.Model):
         ).write({"state": "close"})
         return True
 
-    @api.multi
     def pending2to_expire(self):
         for record in self:
             record.write({"state": "to_expire"})
 
-    @api.multi
     def renew_contract(self):
         self.ensure_one()
         date_end = self.date_end or fields.Date.today()
@@ -95,7 +93,6 @@ class HrContract(models.Model):
         self.update_state(res.id)
         return res
 
-    @api.multi
     def write(self, vals):
         res = super().write(vals)
         if ("date_start" in vals) or ("date_end" in vals):
