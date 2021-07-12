@@ -1,6 +1,6 @@
 from datetime import datetime, time, timedelta
 
-from odoo import SUPERUSER_ID, api, fields, models
+from odoo import SUPERUSER_ID, fields, models
 from odoo.addons.resource.models.resource import float_to_time
 from pytz import timezone, utc
 
@@ -27,7 +27,7 @@ class HrEmployee(models.Model):
         warning_obj = self.env["hr.attendance.warning"]
         warning = warning_obj.search(self.get_warning_domain(date), limit=1)
         if warning:
-            warning.sudo(user=SUPERUSER_ID).write(
+            warning.with_user(user=SUPERUSER_ID).write(
                 {
                     "state": "pending",
                     "warning_line_ids": [
@@ -44,7 +44,7 @@ class HrEmployee(models.Model):
                 }
             )
         else:
-            self.env["hr.attendance.warning"].sudo(user=SUPERUSER_ID).create(
+            self.env["hr.attendance.warning"].sudo().create(
                 self._create_warning_vals(w_type, min_int, max_int)
             )
         warning_obj.update_counter()
@@ -65,10 +65,9 @@ class HrEmployee(models.Model):
             ],
         }
 
-    @api.multi
     def attendance_action_change(self):
         timez = timezone(self.env.user.tz)
-        attendance = super(HrEmployee, self).attendance_action_change()
+        attendance = self._attendance_action_change()
         if attendance:
             action_time = (
                 fields.Datetime.from_string(

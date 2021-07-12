@@ -191,7 +191,6 @@ class ResourceCalendarAttendance(models.Model):
         # Special case, attendance until its next check is properly calculated
         if not self.next_check_to:
             return
-
         employees = self.calendar_id.employee_ids.filtered(
             lambda emp: not self.env["hr.holidays.public"].is_public_holiday(
                 day_date, emp.id

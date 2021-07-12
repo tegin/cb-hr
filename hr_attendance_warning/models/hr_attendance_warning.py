@@ -120,7 +120,6 @@ class HrAttendanceWarning(models.Model):
             "solved_by": self.env.user.id,
         }
 
-    @api.multi
     def pending2solved(self):
         self.write(self._pending2solved_values())
         self.mapped("warning_line_ids").write({"state": "solved"})
@@ -129,13 +128,11 @@ class HrAttendanceWarning(models.Model):
     def _solved2pending_values(self):
         return {"state": "pending", "solved_on": False, "solved_by": False}
 
-    @api.multi
     def solved2pending(self):
         self.write(self._solved2pending_values())
         self.mapped("warning_line_ids").write({"state": "pending"})
         self.update_counter()
 
-    @api.multi
     def open_employee_attendances(self):
         self.ensure_one()
         action = self.env.ref("hr_attendance.hr_attendance_action")

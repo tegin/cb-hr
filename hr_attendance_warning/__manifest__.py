@@ -16,7 +16,7 @@
         "hr_attendance",
         "resource",
         "mail",
-        "hr_calendar_multiweek",
+        "hr_holidays",
     ],
     "data": [
         "data/ir_sequence_data.xml",

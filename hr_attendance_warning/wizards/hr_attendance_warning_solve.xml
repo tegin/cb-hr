@@ -25,12 +25,9 @@
     <act_window
         id="hr_attendance_warning_solve_act_window"
         name="Solve Warnings"
-        src_model="hr.attendance.warning"
+        binding_model="hr.attendance.warning"
         res_model="hr.attendance.warning.solve"
-        multi="True"
-        view_type="form"
         view_mode="form"
-        key2="client_action_multi"
         target="new"
     />
 </odoo>
