@@ -44,18 +44,23 @@ class WizardExtendHolidays(models.TransientModel):
         days = time_delta.days + 1
         self.number_of_days = days if days > 0 else 0
 
-    @api.multi
     def extend_holidays(self):
-        self.holidays_id.write({"request_date_to": self.date_to})
-        self.holidays_id._onchange_request_parameters()
-        self.holidays_id._remove_resource_leave()
-        self.holidays_id._create_resource_leave()
+        holidays = self.holidays_id.with_context(no_check_state_date=True)
+        vals = {"request_date_to": self.date_to}
+        vals.update(
+            holidays.onchange(
+                vals, ["request_date_to"], holidays._onchange_spec()
+            )["value"]
+        )
+        holidays.write(vals)
+        holidays._remove_resource_leave()
+        holidays._create_resource_leave()
 
         action = {
             "type": "ir.actions.act_window",
-            "name": self.holidays_id.display_name,
+            "name": holidays.display_name,
             "res_model": "hr.leave",
-            "res_id": self.holidays_id.id,
+            "res_id": holidays.id,
             "view_mode": "form",
         }
         return action
