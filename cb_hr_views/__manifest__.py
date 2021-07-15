@@ -5,7 +5,7 @@
     "name": "Cb Hr Views",
     "summary": """
         Views for HR modules in Creu Blanca""",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "Creu Blanca",
     "website": "www.creublanca.es",
@@ -14,13 +14,12 @@
         "base_iban",
         "base_report_to_printer",
         "cb_departments_chart",
-        "cb_medical_administration_center",
+        "medical_administration_center",
         "crm",
         "hr_attendance_autoclose",
         "hr_attendance_modification_tracking",
         "hr_attendance_report_theoretical_time",
         "hr_attendance_warning",
-        "hr_calendar_multiweek",
         "hr_contract",
         "hr_employee_service_contract",
         "hr_course",
@@ -32,6 +31,7 @@
         "medical_administration_practitioner",
         "medical_administration_second_lastname",
         "oddoor_employee_rfid",
+        "hr_holidays_extendable",
     ],
     "data": [
         "views/hr_employee_prl.xml",
@@ -53,5 +53,4 @@
         "views/hr_course_views.xml",
     ],
     "pre_init_hook": "pre_init_hook",
-    "post_load": "post_load_hook",
 }

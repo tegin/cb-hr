@@ -6,14 +6,12 @@ from datetime import datetime, timedelta
 from mock import patch
 from odoo import fields
 from odoo.exceptions import ValidationError
-from odoo.tests.common import SavepointCase
+from odoo.tests.common import TransactionCase
 
 
-class TestCbHrViews(SavepointCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        self = cls
+class TestCbHrViews(TransactionCase):
+    def setUp(self):
+        super(TestCbHrViews, self).setUp()
 
         self.partner = self.env["res.partner"].create(
             {
@@ -30,10 +28,11 @@ class TestCbHrViews(SavepointCase):
             }
         )
         self.employee = self.env["hr.employee"].create(
-            {"name": "John", "partner_id": self.partner.id}
-        )
-        self.contract_type = self.env["hr.contract.type"].create(
-            {"name": "Contract Type", "substitute_contract": True}
+            {
+                "name": "John",
+                "partner_id": self.partner.id,
+                "rfid_card_code": False,
+            }
         )
         self.contract = self.env["hr.contract"].create(
             {
@@ -43,7 +42,6 @@ class TestCbHrViews(SavepointCase):
                 "date_start": fields.Date.today(),
                 "name": "Contract",
                 "wage": 5000.0,
-                "type_id": self.contract_type.id,
                 "employee_id": self.employee.id,
                 "substituting_id": self.employee.id,
             }
@@ -63,6 +61,8 @@ class TestCbHrViews(SavepointCase):
         self.assertTrue(partner_without_user.active)
 
     def test_employee_archive(self):
+        self.employee.regenerate_calendar()
+        self.employee.flush()
         self.employee.toggle_active()
         self.assertFalse(self.partner.active)
         self.employee.toggle_active()
@@ -90,14 +90,6 @@ class TestCbHrViews(SavepointCase):
                 }
             )
 
-    def test_contract(self):
-        contract_type_2 = self.env["hr.contract.type"].create(
-            {"name": "Contract Type 2"}
-        )
-        self.contract.write({"type_id": contract_type_2.id})
-        self.contract._onchange_type_id()
-        self.assertFalse(self.contract.substituting_id)
-
     def test_employee_creation(self):
         self.partner_2.create_employee()
         employee = self.env["hr.employee"].search(
@@ -111,19 +103,20 @@ class TestCbHrViews(SavepointCase):
         employee._compute_is_manager()
         self.assertTrue(employee.manager)
 
-        calendar = self.env["resource.calendar"].create({"name": "Calendar"})
-        self.assertTrue(calendar.not_archived)
-        calendar.toggle_archive_calendar()
-        self.assertFalse(calendar.not_archived)
-
     def test_hr_employee(self):
-        user_id = self.env["res.users"].create(
-            {
-                "name": "user",
-                "login": "login",
-                "email": "email",
-                "partner_id": self.partner.id,
-            }
+        self.employee.regenerate_calendar()
+        self.employee.flush()
+        user_id = (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "user",
+                    "login": "login",
+                    "email": "email",
+                    "partner_id": self.partner.id,
+                }
+            )
         )
 
         with self.assertRaises(ValidationError):
@@ -147,7 +140,10 @@ class TestCbHrViews(SavepointCase):
 
         self.employee._compute_children_count()
         self.assertEqual(self.employee.children, 0)
-
+        resource_calendar = self.env["resource.calendar"].create(
+            {"name": "Resource calendar test"}
+        )
+        self.employee.resource_calendar_id = resource_calendar.id
         self.employee.resource_calendar_id.write(
             {
                 "attendance_ids": [
@@ -164,7 +160,6 @@ class TestCbHrViews(SavepointCase):
                 ]
             }
         )
-
         with patch("odoo.fields.Datetime.now") as now, patch(
             "odoo.fields.Date.today"
         ) as today:
@@ -172,7 +167,6 @@ class TestCbHrViews(SavepointCase):
                 "2020-05-10 12:00:00"
             )
             today.return_value = fields.Date.from_string("2020-05-10")
-
             self.employee._compute_today_schedule()
             self.assertEqual(
                 self.employee.today_schedule,

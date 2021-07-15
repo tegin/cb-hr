@@ -4,7 +4,6 @@
         <field name="name">Related Partner</field>
         <field name="res_model">res.partner</field>
         <field name="view_mode">form</field>
-        <field name="view_type">form</field>
     </record>
     <record id="view_employee_tree" model="ir.ui.view">
         <field name="name">CB HR views hr.employee.tree</field>
@@ -41,10 +40,7 @@
                 <attribute name="create">false</attribute>
                 <attribute name="delete">false</attribute>
             </xpath>
-            <xpath expr="//field[@name='job_id']/.." position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='work_location']/.." position="attributes">
+            <xpath expr="//field[@name='job_title']/.." position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <field name="category_ids" position="attributes">
@@ -64,6 +60,9 @@
             <xpath expr="//form" position="attributes">
                 <attribute name="create">false</attribute>
                 <attribute name="delete">false</attribute>
+            </xpath>
+            <xpath expr="//field[@name='marital']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//h1//field[@name='name']/.." position="after">
                 <div class="oe_edit_only">
@@ -92,7 +91,7 @@
             <field name="address_id" position="attributes">
                 <attribute name="domain">[('is_center', '=', True)]</attribute>
             </field>
-            <field name="manager" position="attributes">
+            <field name="coach_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="passport_id" position="attributes">
@@ -127,10 +126,6 @@
             <field name="coach_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
-            <xpath
-                expr="//page[@name='personal_information']/group/group[2]/div"
-                position="replace"
-            />
             <field name="emergency_phone" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
@@ -140,13 +135,7 @@
             >
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//field[@name='google_drive_link']/.." position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='additional_note']/.." position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
-            <xpath expr="//button[@name='toggle_active']" position="before">
+            <xpath expr="//button[@id='hr_presence_button']" position="after">
                 <field name="partner_id" invisible="1" />
                 <button
                     name="action_open_related_partner"
@@ -217,9 +206,6 @@
             <field name="visa_expire" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
-            <field name="vehicle" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
             <field name="visa_expire" position="after">
                 <field string="Social Security Number" name="ssnid" />
             </field>
@@ -247,9 +233,6 @@
                     %
                 </div>
             </field>
-            <xpath expr="//field[@name='leaves_count']/.." position="attributes">
-                <attribute name="invisible">1</attribute>
-            </xpath>
             <xpath expr="//div[hasclass('oe_chatter')]" position="replace" />
             <page name="hr_settings" position="inside">
                 <group
@@ -316,12 +299,6 @@
         <field name="groups_id" eval="[(6, 0, [ref('hr.group_hr_manager')])]" />
     </record>
     <record
-        id="hr.hr_employee_action_subordinate_hierachy"
-        model="ir.actions.act_window"
-    >
-        <field name="groups_id" eval="[(6, 0, [ref('base.group_no_one')])]" />
-    </record>
-    <record
         id="hr_holidays.action_hr_holidays_summary_employee"
         model="ir.actions.act_window"
     >
@@ -347,9 +324,6 @@
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="pin" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="manual_attendance" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
         </field>
@@ -419,10 +393,10 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr_employee_relative.hr_employee_view_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='relative_ids']/.." position="before">
+            <xpath expr="//field[@name='company_id']" position="after">
                 <field name="show_info" invisible="1" />
             </xpath>
-            <xpath expr="//field[@name='relative_ids']/.." position="attributes">
+            <xpath expr="//button[@name='action_view_relatives']" position="attributes">
                 <attribute name="groups">base.group_user</attribute>
                 <attribute
                     name="attrs"
@@ -456,12 +430,8 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2" />
         <field name="arch" type="xml">
-            <field name="medic_exam" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="medic_exam" position="before">
+            <field name="bank_account_id" position="after">
                 <field name="contract_id" />
-                <field name="contract_type_id" />
                 <field name="laboral_category_id" />
                 <field name="working_hours_type" />
                 <field name="turn" />
