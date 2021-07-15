@@ -12,13 +12,13 @@ class HrAttendanceTheoreticalTimeReport(models.Model):
     )
     week_day = fields.Selection(
         [
-            (0, "Sunday"),
-            (1, "Monday"),
-            (2, "Tuesday"),
-            (3, "Wednesday"),
-            (4, "Thursday"),
-            (5, "Friday"),
-            (6, "Saturday"),
+            ("0", "Sunday"),
+            ("1", "Monday"),
+            ("2", "Tuesday"),
+            ("3", "Wednesday"),
+            ("4", "Thursday"),
+            ("5", "Friday"),
+            ("6", "Saturday"),
         ]
     )
     is_public_holiday = fields.Boolean()

@@ -139,10 +139,6 @@
                                 <!-- Pending Translation -->
                                 <span t-field="employee.laboral_category_id" />
                                 <br />
-                                <span>Tipo de Contrato: </span>
-                                <!-- Pending Translation -->
-                                <span t-field="employee.contract_id.type_id.name" />
-                                <br />
                             </div>
                         </div>
                         <br />
