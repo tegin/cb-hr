@@ -16,20 +16,20 @@ class HrContract(models.Model):
         ],
         string="Working Hours Type",
         default="full",
-        track_visibility="onchange",
+        tracking=True,
     )
     percentage_of_reduction = fields.Float(
-        "Percentage of Reduction", track_visibility="onchange"
+        "Percentage of Reduction", tracking=True
     )
 
     substituting_id = fields.Many2one(
-        "hr.employee", "Substituting", track_visibility="onchange"
+        "hr.employee", "Substituting", tracking=True
     )
 
     substitute_contract = fields.Boolean(
-        related="type_id.substitute_contract",
-        track_visibility="onchange",
-        readonly=True,
+        string="Substitute Contract",
+        help="Check if this is a substitution contract",
+        tracking=True,
     )
 
     resource_calendar_id = fields.Many2one(required=False, default=False)
@@ -37,36 +37,25 @@ class HrContract(models.Model):
     laboral_category_id = fields.Many2one("hr.laboral.category")
 
     # Track Visibility
-    type_id = fields.Many2one(track_visibility="onchange")
-    job_id = fields.Many2one(track_visibility="onchange")
-    company_id = fields.Many2one(track_visibility="onchange")
-    date_start = fields.Date(track_visibility="onchange")
-    date_end = fields.Date(track_visibility="onchange")
-    trial_date_end = fields.Date(track_visibility="onchange")
-    department_id = fields.Many2one(track_visibility="onchange")
-    employee_id = fields.Many2one(track_visibility="onchange", required=True)
-    name = fields.Char(track_visibility="onchange")
+    job_id = fields.Many2one(tracking=True)
+    company_id = fields.Many2one(tracking=True)
+    date_start = fields.Date(tracking=True)
+    date_end = fields.Date(tracking=True)
+    trial_date_end = fields.Date(tracking=True)
+    department_id = fields.Many2one(tracking=True)
+    employee_id = fields.Many2one(tracking=True, required=True)
+    name = fields.Char(tracking=True)
 
     turn = fields.Char()
 
-    @api.onchange("type_id")
-    def _onchange_type_id(self):
+    @api.onchange("substitute_contract")
+    def _onchange_substitute_contract(self):
         for record in self:
-            if not record.type_id.substitute_contract:
+            if not record.substitute_contract:
                 record.substituting_id = False
 
-    @api.multi
     def write(self, vals):
         res = super().write(vals)
         for record in self.filtered("employee_id"):
             record.employee_id._compute_contract_id()
         return res
-
-
-class ContractType(models.Model):
-
-    _inherit = "hr.contract.type"
-    substitute_contract = fields.Boolean(
-        string="Substitute Contract",
-        help="Check if this is a substitution contract",
-    )

@@ -6,7 +6,6 @@
         <field name="name">Related Employee</field>
         <field name="res_model">hr.employee</field>
         <field name="view_mode">form</field>
-        <field name="view_type">form</field>
     </record>
     <record model="ir.ui.view" id="res_partner_view_form">
         <field name="name">res.partner.form (in cb_hr_views)</field>

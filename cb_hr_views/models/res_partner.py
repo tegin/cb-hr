@@ -15,15 +15,14 @@ class ResPartner(models.Model):
         context={"active_test": False},
     )
     can_create_employee = fields.Boolean(
-        compute="_compute_can_create_employee"
+        compute="_compute_can_create_employee", store=True
     )
     employee = fields.Boolean(
         compute="_compute_can_create_employee",
         store=True,
         string="Is Employee",
     )
-
-    show_info = fields.Boolean(compute="_compute_show_info", default=True)
+    show_info = fields.Boolean(compute="_compute_show_info")
 
     @api.depends("employee_ids", "is_practitioner")
     def _compute_can_create_employee(self):
@@ -65,6 +64,8 @@ class ResPartner(models.Model):
     def _get_default_oddoor_key_groups(self):
         return []
 
+    # @api.depends_context("uid")
+    @api.depends("employee_ids")
     def _compute_show_info(self):
         is_manager = self.env.user.has_group("hr.group_hr_manager")
         for partner in self:
@@ -116,7 +117,6 @@ class ResPartner(models.Model):
         result["res_id"] = employee.id
         return result
 
-    @api.multi
     def action_open_related_employee(self):
         action = self.env.ref("cb_hr_views.action_open_related_employee")
         result = action.read()[0]

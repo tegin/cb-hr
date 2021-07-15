@@ -45,8 +45,8 @@ class HrEmployee(models.Model):
 
     work_email = fields.Char(related="partner_id.email", store=True)
 
-    personal_phone = fields.Char(string="Phone", related="partner_id.mobile")
-    personal_mobile = fields.Char(related="partner_id.phone", string="Mobile")
+    personal_phone = fields.Char(string="Phone", related="partner_id.phone")
+    personal_mobile = fields.Char(related="partner_id.mobile", string="Mobile")
 
     show_info = fields.Boolean(
         "Able to see Private Info", compute="_compute_show_info"
@@ -73,9 +73,6 @@ class HrEmployee(models.Model):
         string="Percentage of reduction",
         related="contract_id.percentage_of_reduction",
         readonly=True,
-    )
-    contract_type_id = fields.Many2one(
-        string="Contract Type", related="contract_id.type_id", readonly=True
     )
     laboral_category_id = fields.Many2one(
         "hr.laboral.category",
@@ -112,7 +109,7 @@ class HrEmployee(models.Model):
         compute="_compute_today_schedule", readonly=True
     )
 
-    contract_id = fields.Many2one(store=True)
+    contract_id = fields.Many2one(store=True, readonly=True)
     turn = fields.Char(related="contract_id.turn")
     contract_notes = fields.Text(related="contract_id.notes")
 
@@ -196,7 +193,6 @@ class HrEmployee(models.Model):
                     "Absent today because of public holidays"
                 )
                 continue
-
             attendances = record.resource_calendar_id._get_day_attendances(
                 day_date, False, False
             )

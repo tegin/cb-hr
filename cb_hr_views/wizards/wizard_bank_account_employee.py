@@ -24,7 +24,6 @@ class WizardBankAccountEmployee(models.TransientModel):
             res["employee_id"] = active_id
         return res
 
-    @api.multi
     def create_account(self):
         self.ensure_one()
         validate_iban(self.acc_number)
