@@ -63,6 +63,8 @@ class HrAttendanceWarning(models.Model):
             )
             if lines:
                 warning.message_preview = lines[0].message
+            else:
+                warning.message_preview = False
 
     @api.model
     def pending_warnings_count(self):
@@ -197,3 +199,5 @@ class HrAttendanceWarningLine(models.Model):
                 ) % (warning.min_int, warning.max_int)
             elif warning.warning_type == "out_of_interval":
                 warning.message = _("Came to work out of working hours.")
+            else:
+                warning.message = False
