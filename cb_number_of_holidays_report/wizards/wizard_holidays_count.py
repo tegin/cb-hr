@@ -36,13 +36,11 @@ class WizardHolidaysCount(models.TransientModel):
             res.append(("department_id", "child_of", self.department_id.id))
         return res
 
-    @api.multi
     def populate(self):
         domain = self._prepare_employee_domain()
         self.employee_ids = self.env["hr.employee"].search(domain)
         return {"type": "ir.actions.do_nothing"}
 
-    @api.multi
     def print_report(self):
         self.ensure_one()
         [data] = self.read()

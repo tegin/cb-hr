@@ -113,9 +113,12 @@ class TestNumberOfHolidaysReport(TransactionCase):
 
         printing = self.wizard.print_report()
         self.assertEqual(
-            printing["report_name"],
+            printing["context"]["report_action"]["report_name"],
             "cb_number_of_holidays_report.report_holidays_count",
         )
         self.assertEqual(
-            printing["data"]["form"]["employee_ids"], [self.employee.id]
+            printing["context"]["report_action"]["data"]["form"][
+                "employee_ids"
+            ],
+            [self.employee.id],
         )
