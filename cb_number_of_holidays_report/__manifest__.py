@@ -5,7 +5,7 @@
     "name": "Cb Number Of Holidays Report",
     "summary": """
         Report para saber quien tiene vacaciones en un intervalo de tiempo""",
-    "version": "12.0.1.0.0",
+    "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "Creu Blanca",
     "website": "www.creublanca.es",
