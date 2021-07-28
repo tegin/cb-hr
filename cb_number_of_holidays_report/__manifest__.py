@@ -9,7 +9,7 @@
     "license": "AGPL-3",
     "author": "Creu Blanca",
     "website": "www.creublanca.es",
-    "depends": ["cb_holidays_compute_mix", "cb_hr_views"],
+    "depends": ["cb_hr_views"],
     "data": [
         "views/hr_leave_type.xml",
         "report/holidays_count_report.xml",
