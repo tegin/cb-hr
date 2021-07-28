@@ -62,14 +62,16 @@ class HolidaysCountReport(models.AbstractModel):
                     date_to_day >= holiday.date_to
                 ):
                     days = self.env["hr.leave"]._get_number_of_days(
-                        date_from, holiday.date_to, False
-                    )
+                        fields.Datetime.from_string(date_from),
+                        holiday.date_to,
+                        False,
+                    )["days"]
                 else:
                     days = self.env["hr.leave"]._get_number_of_days(
                         holiday.date_from,
-                        fields.Datetime.to_string(date_to_day),
+                        fields.Datetime.from_string(date_to_day),
                         False,
-                    )
+                    )["days"]
                 days_count += days
             docs.append({"employee": employee.name, "num_of_days": days_count})
 
