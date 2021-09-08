@@ -18,7 +18,7 @@ addon | version | maintainers | summary
 --- | --- | --- | ---
 [cb_departments_chart](cb_departments_chart/) | 13.0.1.0.0 |  | Departments Chart
 [cb_holidays_minimum_days](cb_holidays_minimum_days/) | 13.0.1.0.0 |  | Minimum leaves for holidays
-[cb_hr_dms](cb_hr_dms/) | 12.0.1.0.0 |  | Link cb_hr with dms
+[cb_hr_dms](cb_hr_dms/) | 13.0.1.0.1 |  | Link cb_hr with dms
 [cb_hr_views](cb_hr_views/) | 13.0.1.0.0 |  | Views for HR modules in Creu Blanca
 [cb_number_of_holidays_report](cb_number_of_holidays_report/) | 13.0.1.0.0 |  | Report para saber quien tiene vacaciones en un intervalo de tiempo
 [cb_resource_calendar_propagate_monday](cb_resource_calendar_propagate_monday/) | 13.0.1.0.0 |  | Declare Mondays and extend to the rest of the week
