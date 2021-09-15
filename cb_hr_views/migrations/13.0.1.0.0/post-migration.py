@@ -9,7 +9,7 @@ def migrate(env, version):
         env.cr,
         """
         UPDATE hr_contract hc
-        SET substitute_contract = hct.substitute_contract,
+        SET substitute_contract = hct.substitute_contract
         FROM hr_contract_type hct
         WHERE hct.id = am.old_type_id""",
     )
