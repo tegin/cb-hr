@@ -11,5 +11,5 @@ def migrate(env, version):
         UPDATE hr_contract hc
         SET substitute_contract = hct.substitute_contract
         FROM hr_contract_type hct
-        WHERE hct.id = am.old_type_id""",
+        WHERE hct.id = hc.type_id""",
     )
