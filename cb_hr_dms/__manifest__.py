@@ -11,6 +11,7 @@
     "website": "www.creublanca.es",
     "depends": ["dms_field", "cb_hr_views"],
     "data": [
+        "templates/assets.xml",
         "data/dms_data.xml",
         "views/hr_employee_views.xml",
         "views/res_partner_views.xml",
