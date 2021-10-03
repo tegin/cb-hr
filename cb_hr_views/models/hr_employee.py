@@ -315,3 +315,9 @@ class HrEmployee(models.Model):
 class HrEmployeeCalendar(models.Model):
     _inherit = "hr.employee.calendar"
     _order = "date_end desc"
+
+
+class HrEmployeePublic(models.Model):
+    _inherit = "hr.employee.public"
+
+    partner_id = fields.Many2one("res.partner")
