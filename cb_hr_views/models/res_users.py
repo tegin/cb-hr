@@ -10,6 +10,14 @@ class ResUsers(models.Model):
 
     notification_type = fields.Selection(default="inbox")
 
+    @api.depends("employee_ids")
+    @api.depends_context("force_company")
+    def _compute_company_employee(self):
+        for user in self:
+            user.employee_id = self.env["hr.employee"].search(
+                [("id", "in", user.employee_ids.ids)], limit=1
+            )
+
     def name_get(self):
         return super(
             ResUsers, self.with_context(not_display_company=True)
