@@ -8,7 +8,7 @@ from pytz import timezone, utc
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
 
-    mute_warnings = fields.Boolean(string="Mute Warnings")
+    mute_warnings = fields.Boolean(string="Mute Warnings", prefetch=False)
 
     def get_warning_domain(self, date):
         today = fields.Datetime.from_string(date)
