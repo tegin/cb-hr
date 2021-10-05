@@ -34,8 +34,9 @@ jobs:
             - uses: actions/checkout@v2
               with:
                   persist-credentials: false
+            - run: apt-get update
             - run:
-                  apt install cups libcups2-dev libzbar-dev libxmlsec1-dev zip
+                  apt-get install cups libcups2-dev libzbar-dev libxmlsec1-dev zip
                   libxmlsec1-openssl openssl -y
             - run: pip install setuptools-odoo
             - run: pip install setuptools-odoo
