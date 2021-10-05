@@ -34,7 +34,6 @@ jobs:
             - uses: actions/checkout@v2
               with:
                   persist-credentials: false
-            - run: apt update
             - run:
                   apt install cups libcups2-dev libzbar-dev libxmlsec1-dev zip
                   libxmlsec1-openssl openssl -y
