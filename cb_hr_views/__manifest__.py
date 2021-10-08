@@ -52,6 +52,7 @@
         "views/hr_job_views.xml",
         "views/hr_department_views.xml",
         "views/hr_course_views.xml",
+        "views/hr_leave_views.xml",
     ],
     "pre_init_hook": "pre_init_hook",
 }
