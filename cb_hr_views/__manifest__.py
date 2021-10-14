@@ -35,6 +35,7 @@
         "hr_employee_partner_external",
     ],
     "data": [
+        "templates/assets.xml",
         "views/hr_employee_prl.xml",
         "wizards/wizard_bank_account_employee.xml",
         "views/hr_laboral_category.xml",
