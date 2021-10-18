@@ -36,3 +36,9 @@
 .o_view_all_warnings {
     padding: 5px;
 }
+
+.o_attendance_warning_systray {
+    @include media-breakpoint-down(sm) {
+        display: none !important;
+    }
+}
