@@ -10,6 +10,9 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_tree" />
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='tz']/.." position="attributes">
+                <attribute name="groups">hr.group_hr_user</attribute>
+            </xpath>
             <xpath expr="//tree" position="attributes">
                 <attribute name="create">false</attribute>
                 <attribute name="delete">false</attribute>
