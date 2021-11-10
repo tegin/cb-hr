@@ -24,6 +24,7 @@ addon | version | maintainers | summary
 [cb_resource_calendar_propagate_monday](cb_resource_calendar_propagate_monday/) | 13.0.1.0.0 |  | Declare Mondays and extend to the rest of the week
 [hr_attendance_warning](hr_attendance_warning/) | 13.0.1.0.0 |  | This module allows you to get warnings when there are inconsistencies between the theoric check in time of an employee and what has happened.
 [hr_contract_state](hr_contract_state/) | 13.0.1.0.0 |  | Manage contract states
+[hr_course_survey](hr_course_survey/) | 13.0.1.0.0 |  | Evaluate a course using a Schedule
 [hr_department_channel](hr_department_channel/) | 13.0.1.0.0 |  | Create Channels from department
 [hr_holidays_extendable](hr_holidays_extendable/) | 13.0.1.0.0 |  | Allows a certain type of holidays to be extended.
 
