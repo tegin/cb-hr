@@ -8,4 +8,18 @@ class HrCourseSchedule(models.Model):
 
     _inherit = "hr.course.schedule"
 
-    examination_survey_id = fields.Many2one("survey.survey")
+    examination_survey_id = fields.Many2one(
+        "survey.survey", related="course_id.examination_survey_id",
+    )
+
+    def inprogress2validation(self):
+        result = super().inprogress2validation()
+        for record in self:
+            if record.examination_survey_id:
+                for attendee in record.course_attendee_ids:
+                    vals = attendee._get_examination_survey_vals()
+                    attendee.survey_answer_id = record.examination_survey_id._create_answer(
+                        **vals
+                    )
+                    attendee._notify_survey()
+        return result

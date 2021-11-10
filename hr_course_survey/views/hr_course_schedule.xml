@@ -2,12 +2,14 @@
 <!-- Copyright 2021 Creu Blanca
      License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
 <odoo>
+    <!--
     <record model="ir.ui.view" id="hr_course_schedule_form_view">
         <field name="name">hr.course.schedule.form (in hr_course_survey)</field>
         <field name="model">hr.course.schedule</field>
         <field name="inherit_id" ref="TODO othermodule.form_view" />
         <field name="arch" type="xml">
-            <!-- TODO -->
+
         </field>
     </record>
+    -->
 </odoo>

@@ -9,8 +9,9 @@
     "license": "AGPL-3",
     "author": "Creu Blanca,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/hr",
-    "depends": [],
+    "depends": ["hr_course", "survey"],
     "data": [
+        "data/mail.xml",
         "views/hr_course_attendee.xml",
         "views/hr_course.xml",
         "views/hr_course_schedule.xml",
