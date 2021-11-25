@@ -32,6 +32,7 @@
         "medical_administration_second_lastname",
         "oddoor_employee_rfid",
         "hr_holidays_extendable",
+        "hr_employee_partner_external",
     ],
     "data": [
         "views/hr_employee_prl.xml",

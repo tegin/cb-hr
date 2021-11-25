@@ -57,6 +57,38 @@
         <field name="inherit_id" ref="hr.view_employee_form" />
         <field name="priority" eval="99" />
         <field name="arch" type="xml">
+            <xpath
+                expr="//button/field[@name='medical_examination_count']/.."
+                position='attributes'
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible':[('is_external','=',True)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//button//field[@name='allocation_used_display']/../../.."
+                position='attributes'
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible':[('is_external','=',True)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//button/field[@name='relatives_count']/.."
+                position='attributes'
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible':[('is_external','=',True)]}</attribute>
+            </xpath>
+            <xpath
+                expr="//button/field[@name='count_courses']/.."
+                position='attributes'
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible':[('is_external','=',True)]}</attribute>
+            </xpath>
             <xpath expr="//field[@name='tz']/.." position="attributes">
                 <attribute name="groups">hr.group_hr_user</attribute>
             </xpath>
@@ -433,6 +465,14 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2" />
         <field name="arch" type="xml">
+            <xpath
+                expr="//button/field[@name='contracts_count']/.."
+                position='attributes'
+            >
+                <attribute
+                    name="attrs"
+                >{'invisible':[('is_external','=',True)]}</attribute>
+            </xpath>
             <field name="bank_account_id" position="after">
                 <field name="contract_id" />
                 <field name="laboral_category_id" />
