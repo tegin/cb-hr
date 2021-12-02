@@ -35,6 +35,7 @@
         "hr_employee_partner_external",
     ],
     "data": [
+        "templates/assets.xml",
         "views/hr_employee_prl.xml",
         "wizards/wizard_bank_account_employee.xml",
         "views/hr_laboral_category.xml",
@@ -52,6 +53,7 @@
         "views/hr_job_views.xml",
         "views/hr_department_views.xml",
         "views/hr_course_views.xml",
+        "views/hr_leave_views.xml",
     ],
     "pre_init_hook": "pre_init_hook",
 }

@@ -34,33 +34,19 @@ jobs:
             - uses: actions/checkout@v2
               with:
                   persist-credentials: false
-            - run: apt update
+            - run: apt-get update
             - run:
-                  apt install cups libcups2-dev libzbar-dev libxmlsec1-dev zip
+                  apt-get install cups libcups2-dev libzbar-dev libxmlsec1-dev zip
                   libxmlsec1-openssl openssl -y
             - run: pip install setuptools-odoo
             - run: pip install setuptools-odoo
-            - run:
-                  pip install
-                  git+https://github.com/forgeflow/multicompany-fixes.git@13.0#subdirectory=setup
-            - run:
-                  pip install
-                  git+https://github.com/tegin/medical-fhir.git@13.0#subdirectory=setup
-            - run:
-                  pip install
-                  git+https://github.com/OCA/report-print-send.git@refs/pull/251/merge#subdirectory=setup/remote_report_to_printer
-            - run:
-                  pip install
-                  git+https://github.com/OCA/pos.git@refs/pull/674/merge#subdirectory=setup/pos_session_pay_invoice
+            - run: pip install -r cb-requirements.txt
             - run:
                   pip install
                   git+https://github.com/tegin/cb-addons.git@13.0#subdirectory=setup
             - run:
                   pip install
                   git+https://github.com/tegin/cb-medical.git@13.0#subdirectory=setup
-            - run:
-                  pip install
-                  git+https://github.com/tegin/odoo-door.git@13.0#subdirectory=setup
             - run: oca_install_addons
             - run: oca_init_test_database
             - name: licenses check

@@ -31,7 +31,9 @@ class HrEmployee(models.Model):
     lastname = fields.Char(related="partner_id.lastname", readonly=False)
     lastname2 = fields.Char(related="partner_id.lastname2", readonly=False)
 
-    identification_id_expiration = fields.Date(string="Expiration Date")
+    identification_id_expiration = fields.Date(
+        string="Expiration Date", prefetch=False
+    )
     user_id = fields.Many2one(
         readonly=True, compute="_compute_user", store=True
     )
@@ -40,8 +42,9 @@ class HrEmployee(models.Model):
         default=lambda r: r._default_personal_identifier(),
         readonly=True,
         copy=False,
+        prefetch=False,
     )
-    personal_email = fields.Char(string="Personal Email")
+    personal_email = fields.Char(string="Personal Email", prefetch=False)
 
     work_email = fields.Char(related="partner_id.email", store=True)
 
@@ -80,40 +83,43 @@ class HrEmployee(models.Model):
         readonly=True,
     )
 
-    locker = fields.Char(string="Locker")
+    locker = fields.Char(string="Locker", prefetch=False)
     manager = fields.Boolean(compute="_compute_is_manager", readonly=True)
 
     # groups
-    address_home_id = fields.Many2one(groups="base.group_user")
-    country_id = fields.Many2one(groups="base.group_user")
-    gender = fields.Selection(groups="base.group_user")
-    marital = fields.Selection(groups="base.group_user")
-    birthday = fields.Date(groups="base.group_user")
-    ssnid = fields.Char(groups="base.group_user")
-    sinid = fields.Char(groups="base.group_user")
+    address_home_id = fields.Many2one(groups="base.group_user", prefetch=False)
+    country_id = fields.Many2one(groups="base.group_user", prefetch=False)
+    gender = fields.Selection(groups="base.group_user", prefetch=False)
+    marital = fields.Selection(groups="base.group_user", prefetch=False)
+    birthday = fields.Date(groups="base.group_user", prefetch=False)
+    ssnid = fields.Char(groups="base.group_user", prefetch=False)
+    sinid = fields.Char(groups="base.group_user", prefetch=False)
     identification_id = fields.Char(
         groups="base.group_user",
         related="partner_id.vat",
         readonly=False,
         string="DNI/NIE",
     )
-    passport_id = fields.Char(groups="base.group_user")
-    permit_no = fields.Char(groups="base.group_user")
-    visa_no = fields.Char(groups="base.group_user")
-    visa_expire = fields.Date(groups="base.group_user")
+    passport_id = fields.Char(groups="base.group_user", prefetch=False)
+    permit_no = fields.Char(groups="base.group_user", prefetch=False)
+    visa_no = fields.Char(groups="base.group_user", prefetch=False)
+    visa_expire = fields.Date(groups="base.group_user", prefetch=False)
     children = fields.Integer(
-        groups="base.group_user", compute="_compute_children_count", store=True
+        groups="base.group_user",
+        compute="_compute_children_count",
+        store=True,
+        prefetch=False,
     )
 
     today_schedule = fields.Char(
-        compute="_compute_today_schedule", readonly=True
+        compute="_compute_today_schedule", readonly=True, prefetch=False
     )
 
     contract_id = fields.Many2one(store=True, readonly=True)
     turn = fields.Char(related="contract_id.turn")
     contract_notes = fields.Text(related="contract_id.notes")
 
-    transport_plus = fields.Char(string="Transport Plus")
+    transport_plus = fields.Char(string="Transport Plus", prefetch=False)
 
     address_id = fields.Many2one(string="Center")
     work_location = fields.Char(string="Location")
@@ -122,8 +128,8 @@ class HrEmployee(models.Model):
     service_start_date = fields.Date(
         related=False, compute="_compute_service_start_date"
     )
-    force_service_computation = fields.Boolean()
-    force_service_start_date = fields.Date()
+    force_service_computation = fields.Boolean(prefetch=False)
+    force_service_start_date = fields.Date(prefetch=False)
 
     @api.depends(
         "contract_ids",
@@ -149,13 +155,14 @@ class HrEmployee(models.Model):
     @api.depends("department_id", "department_id.manager_id")
     def _compute_department_parent_id(self):
         for record in self:
-            if record.department_id:
-                manager_id = record.department_id.manager_id
-                record.parent_id = (
-                    manager_id if (manager_id != record) else False
-                )
-            else:
-                record.parent_id = False
+            parent = False
+            department = record.department_id
+            while department:
+                if department.manager_id and department.manager_id != record:
+                    parent = department.manager_id
+                    break
+                department = department.parent_id
+            record.parent_id = parent
 
     @api.depends("contract_ids")
     def _compute_contract_id(self):
@@ -315,3 +322,9 @@ class HrEmployee(models.Model):
 class HrEmployeeCalendar(models.Model):
     _inherit = "hr.employee.calendar"
     _order = "date_end desc"
+
+
+class HrEmployeePublic(models.Model):
+    _inherit = "hr.employee.public"
+
+    partner_id = fields.Many2one("res.partner")

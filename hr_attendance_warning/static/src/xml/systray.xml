@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates>
     <t t-name="att_warning.view.Menu">
-        <li class="o_mail_systray_item o_hidden">
+        <li class="o_mail_systray_item o_hidden o_attendance_warning_systray">
             <a
                 class="dropdown-toggle o-no-caret"
                 data-display="static"

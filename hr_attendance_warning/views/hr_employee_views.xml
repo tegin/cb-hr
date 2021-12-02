@@ -10,7 +10,7 @@
             ref="hr_attendance.view_employee_form_inherit_hr_attendance"
         />
         <field name="arch" type="xml">
-            <field name="attendance_state" position="after">
+            <field name="user_id" position="after">
                 <field name="mute_warnings" />
             </field>
         </field>
