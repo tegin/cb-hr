@@ -210,6 +210,12 @@
                     />
                 </group>
             </xpath>
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='private_email']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <!-- Remove officer group and show depending on 'show_info' -->
             <page name="personal_information" position="before">
                 <field name="show_info" invisible="1" />
