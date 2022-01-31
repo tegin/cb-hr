@@ -5,4 +5,3 @@ git+https://github.com/OCA/server-tools.git@refs/pull/2111/merge#subdirectory=se
 git+https://github.com/OCA/edi.git@refs/pull/433/merge#subdirectory=setup/edi_pdf2data
 git+https://github.com/OCA/management-system.git@refs/pull/388/merge#subdirectory=setup/mgmtsystem_nonconformity
 git+https://github.com/tegin/odoo-door.git@13.0#subdirectory=setup
-git+https://github.com/OCA/hr.git@refs/pull/1051/merge#subdirectory=setup/hr_employee_partner_external
