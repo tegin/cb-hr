@@ -330,6 +330,7 @@
                 />
                 <separator />
                 <field name="personal_identifier" groups="hr.group_hr_manager" />
+                <field name="department_id" groups="hr.group_hr_manager" />
             </field>
         </field>
     </record>
