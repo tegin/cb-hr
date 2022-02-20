@@ -32,9 +32,11 @@
         "medical_administration_second_lastname",
         "oddoor_employee_rfid",
         "hr_holidays_extendable",
+        "hr_personal_equipment_request",
         "hr_employee_partner_external",
     ],
     "data": [
+        "views/hr_personal_equipment_request.xml",
         "templates/assets.xml",
         "views/hr_employee_prl.xml",
         "wizards/wizard_bank_account_employee.xml",
