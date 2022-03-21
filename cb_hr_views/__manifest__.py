@@ -32,8 +32,9 @@
         "medical_administration_second_lastname",
         "oddoor_employee_rfid",
         "hr_holidays_extendable",
-        "hr_personal_equipment_request",
+        "hr_personal_equipment_stock",
         "hr_employee_partner_external",
+        "stock_location_address",
     ],
     "data": [
         "views/hr_personal_equipment_request.xml",
@@ -43,6 +44,7 @@
         "views/hr_laboral_category.xml",
         "reports/hr_attendance_theoretical_time_report_views.xml",
         "reports/report_new_employee.xml",
+        "reports/picking_reports.xml",
         "views/resource_calendar_views.xml",
         "views/res_partner.xml",
         "views/res_users_views.xml",
