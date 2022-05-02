@@ -77,10 +77,12 @@ class HrContract(models.Model):
         next_day = fields.Date.to_string(
             fields.Date.from_string(date_end) + timedelta(days=1)
         )
-        new_contract = self.copy({
-            "date_start": next_day,
-            "resource_calendar_id": self.resource_calendar_id.id,
-        })
+        new_contract = self.copy(
+            {
+                "date_start": next_day,
+                "resource_calendar_id": self.resource_calendar_id.id,
+            }
+        )
         self.write(
             {"state": "renewed", "renewed_contract_id": new_contract.id}
         )

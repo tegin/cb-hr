@@ -1,4 +1,4 @@
-odoo.define("hr_attendance_warning.systray", function(require) {
+odoo.define("hr_attendance_warning.systray", function (require) {
     "use strict";
 
     var core = require("web.core");
@@ -16,25 +16,25 @@ odoo.define("hr_attendance_warning.systray", function(require) {
             "click .o_mail_preview": "_onWarningClick",
             "click .o_view_all_warnings": "_viewAllWarnings",
         },
-        renderElement: function() {
+        renderElement: function () {
             this._super();
             var self = this;
             session
                 .user_has_group("hr_attendance.group_hr_attendance_user")
-                .then(function(data) {
+                .then(function (data) {
                     if (data) {
                         self.show_item = true;
                         self.do_show();
                     }
                 });
         },
-        start: function() {
+        start: function () {
             this.show_item = false;
             this.$warnings_preview = this.$(".o_mail_systray_dropdown_items");
             var self = this;
             session
                 .user_has_group("hr_attendance.group_hr_attendance_user")
-                .then(function(data) {
+                .then(function (data) {
                     if (data) {
                         self._updateWarningsPreview();
                         var channel = "hr.attendance.warning";
@@ -51,7 +51,7 @@ odoo.define("hr_attendance_warning.systray", function(require) {
             return this._super();
         },
 
-        _getWarningsData: function() {
+        _getWarningsData: function () {
             var self = this;
 
             return self
@@ -62,7 +62,7 @@ odoo.define("hr_attendance_warning.systray", function(require) {
                         context: session.user_context,
                     },
                 })
-                .then(function(data) {
+                .then(function (data) {
                     self.warnings = data.data;
                     for (var i = 0; i < self.warnings.length; ++i) {
                         self.warnings[i].date_ago = moment(
@@ -75,14 +75,14 @@ odoo.define("hr_attendance_warning.systray", function(require) {
                 });
         },
 
-        _isOpen: function() {
+        _isOpen: function () {
             return this.$el.hasClass("open");
         },
 
-        _updateWarningsPreview: function() {
+        _updateWarningsPreview: function () {
             var self = this;
             if (self.show_item) {
-                self._getWarningsData().then(function() {
+                self._getWarningsData().then(function () {
                     self.$warnings_preview.html(
                         QWeb.render("att_warning.view.Data", {
                             warnings: self.warnings,
@@ -92,7 +92,7 @@ odoo.define("hr_attendance_warning.systray", function(require) {
             }
         },
 
-        _onWarningClick: function(event) {
+        _onWarningClick: function (event) {
             var warning_id = parseInt($(event.currentTarget).data("warning-id"), 10);
             this.do_action({
                 type: "ir.actions.act_window",
@@ -103,11 +103,11 @@ odoo.define("hr_attendance_warning.systray", function(require) {
             });
         },
 
-        _viewAllWarnings: function() {
+        _viewAllWarnings: function () {
             this.do_action("hr_attendance_warning.open_view_hr_attendance_warning");
         },
 
-        _onMenuClick: function() {
+        _onMenuClick: function () {
             this._updateWarningsPreview();
         },
     });

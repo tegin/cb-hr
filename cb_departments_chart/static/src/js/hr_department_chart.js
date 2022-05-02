@@ -1,4 +1,4 @@
-odoo.define("cb_departments_chart.OrgChart", function(require) {
+odoo.define("cb_departments_chart.OrgChart", function (require) {
     "use strict";
 
     var AbstractField = require("web.AbstractField");
@@ -18,7 +18,7 @@ odoo.define("cb_departments_chart.OrgChart", function(require) {
          * @class
          * @override
          */
-        init: function() {
+        init: function () {
             this._super.apply(this, arguments);
             this.dm = new concurrency.DropMisordered();
         },
@@ -34,7 +34,7 @@ odoo.define("cb_departments_chart.OrgChart", function(require) {
          * @param {integer} department_id
          * @returns {Deferred}
          */
-        _getOrgData: function(department_id) {
+        _getOrgData: function (department_id) {
             var self = this;
             return this.dm
                 .add(
@@ -45,7 +45,7 @@ odoo.define("cb_departments_chart.OrgChart", function(require) {
                         },
                     })
                 )
-                .then(function(data) {
+                .then(function (data) {
                     self.orgData = data;
                 });
         },
@@ -53,7 +53,7 @@ odoo.define("cb_departments_chart.OrgChart", function(require) {
          * @override
          * @private
          */
-        _render: function() {
+        _render: function () {
             if (!this.recordData.id) {
                 return this.$el.html(
                     QWeb.render("hr_department_chart", {
@@ -64,12 +64,12 @@ odoo.define("cb_departments_chart.OrgChart", function(require) {
             }
 
             var self = this;
-            return this._getOrgData(this.recordData.id).then(function() {
+            return this._getOrgData(this.recordData.id).then(function () {
                 self.$el.html(QWeb.render("hr_department_chart", self.orgData));
-                self.$('[data-toggle="popover"]').each(function() {
+                self.$('[data-toggle="popover"]').each(function () {
                     $(this).popover({
                         html: true,
-                        title: function() {
+                        title: function () {
                             var $title = $(
                                 QWeb.render("hr_orgchart_emp_popover_title", {
                                     department: {
@@ -88,7 +88,7 @@ odoo.define("cb_departments_chart.OrgChart", function(require) {
                         container: "body",
                         placement: "left",
                         trigger: "focus",
-                        content: function() {
+                        content: function () {
                             var $content = $(
                                 QWeb.render("hr_orgchart_emp_popover_content", {
                                     department: {
@@ -118,7 +118,7 @@ odoo.define("cb_departments_chart.OrgChart", function(require) {
             });
         },
 
-        _ondepartmentRedirect: function(event) {
+        _ondepartmentRedirect: function (event) {
             event.preventDefault();
             var department_id = parseInt(
                 $(event.currentTarget).data("department-id"),
@@ -140,7 +140,7 @@ odoo.define("cb_departments_chart.OrgChart", function(require) {
          * @param {MouseEvent} event
          * @returns {Deferred} action loaded
          */
-        _ondepartmentSubRedirect: function(event) {
+        _ondepartmentSubRedirect: function (event) {
             event.preventDefault();
             var department_id = parseInt(
                 $(event.currentTarget).data("department-id"),

@@ -1,4 +1,4 @@
-odoo.define("cb_hr_dms.DmsTreeController", function(require) {
+odoo.define("cb_hr_dms.DmsTreeController", function (require) {
     "use strict";
 
     var DmsTreeController = require("dms.DmsTreeController");
