@@ -17,7 +17,7 @@ class HrLeave(models.Model):
             super(HrLeave, self)._check_date_state()
 
     def _get_number_of_days(self, date_from, date_to, employee_id):
-        """ Returns a float equals to the timedelta between two dates given as string.
+        """Returns a float equals to the timedelta between two dates given as string.
         We need to modify in order to add the compute_leaves = False
         """
         if not self.env.context.get("no_check_state_date") or not employee_id:
