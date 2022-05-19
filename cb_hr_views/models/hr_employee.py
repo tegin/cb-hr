@@ -180,6 +180,7 @@ class HrEmployee(models.Model):
                 limit=1,
             )
 
+    @api.depends("resource_calendar_id")
     def _compute_today_schedule(self):
         public_holidays = self.env["hr.holidays.public"]
         today = fields.Date.today()
