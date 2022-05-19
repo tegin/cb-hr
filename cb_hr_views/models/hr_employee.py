@@ -126,7 +126,9 @@ class HrEmployee(models.Model):
 
     prl_ids = fields.One2many("hr.employee.prl", "employee_id")
     service_start_date = fields.Date(
-        related=False, compute="_compute_service_start_date"
+        related=False,
+        compute="_compute_service_start_date",
+        store=True,
     )
     force_service_computation = fields.Boolean(prefetch=False)
     force_service_start_date = fields.Date(prefetch=False)
@@ -134,6 +136,8 @@ class HrEmployee(models.Model):
     @api.depends(
         "contract_ids",
         "contract_ids.date_start",
+        "first_contract_id",
+        "first_contract_id.date_start",
         "force_service_computation",
         "force_service_start_date",
     )
