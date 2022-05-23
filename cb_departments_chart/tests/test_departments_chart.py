@@ -4,7 +4,7 @@
 import json
 
 import mock
-from odoo.tests.common import HOST, PORT, HttpCase, TransactionCase
+from odoo.tests.common import HttpCase, TransactionCase
 
 
 class TestCBDepartmentsChart(TransactionCase):
@@ -51,12 +51,9 @@ class TestCBDepartmentsChartHttp(HttpCase):
     def test_departments_chart_controller(self, r):
         data = {"params": {"department_id": self.department_1.id}}
         url = "/cb_departments_chart/get_org_chart"
-        url = "http://{}:{}{}".format(HOST, PORT, url)
         headers = {"Content-Type": "application/json"}
         data = json.dumps(data)
-        response = self.opener.post(
-            url, data=data, headers=headers, timeout=10
-        )
+        response = self.url_open(url, data=data, headers=headers, timeout=10)
         json_data = json.loads(response.text)
         self.assertEqual(json_data["result"]["self"]["name"], "Dep1")
         self.assertEqual(json_data["result"]["self"]["direct_sub_count"], 1)
@@ -67,10 +64,7 @@ class TestCBDepartmentsChartHttp(HttpCase):
     def test_no_department_id(self, r):
         data = {"params": {"department_id": False}}
         url = "/cb_departments_chart/get_org_chart"
-        url = "http://{}:{}{}".format(HOST, PORT, url)
         headers = {"Content-Type": "application/json"}
         data = json.dumps(data)
-        response = self.opener.post(
-            url, data=data, headers=headers, timeout=10
-        )
+        response = self.url_open(url, data=data, headers=headers, timeout=10)
         json.loads(response.text)
