@@ -32,9 +32,9 @@ class HrLeave(models.Model):
                     ) % (rec.leave_type_request_unit, min_time)
                     continue
                 if rec.employee_id:
-                    leave_days = rec.holiday_status_id.get_days(
-                        rec.employee_id.id
-                    )[rec.holiday_status_id.id]
+                    leave_days = rec.holiday_status_id.get_days(rec.employee_id.id)[
+                        rec.holiday_status_id.id
+                    ]
                     time_left = (
                         min(
                             leave_days["remaining_leaves"],
