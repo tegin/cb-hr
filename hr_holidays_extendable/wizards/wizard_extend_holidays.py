@@ -17,9 +17,7 @@ class WizardExtendHolidays(models.TransientModel):
         related="holidays_id.employee_id",
     )
 
-    date_from = fields.Date(
-        readonly=True, related="holidays_id.request_date_from"
-    )
+    date_from = fields.Date(readonly=True, related="holidays_id.request_date_from")
     date_to = fields.Date()
 
     number_of_days = fields.Float(compute="_compute_number_of_days")
@@ -33,9 +31,7 @@ class WizardExtendHolidays(models.TransientModel):
         active_id = context.get("active_id", False)
         if active_id:
             holiday = self.env["hr.leave"].browse(active_id)
-            rec.update(
-                {"holidays_id": holiday.id, "date_to": holiday.request_date_to}
-            )
+            rec.update({"holidays_id": holiday.id, "date_to": holiday.request_date_to})
         return rec
 
     @api.depends("date_to")
@@ -48,9 +44,9 @@ class WizardExtendHolidays(models.TransientModel):
         holidays = self.holidays_id.with_context(no_check_state_date=True)
         vals = {"request_date_to": self.date_to}
         vals.update(
-            holidays.onchange(
-                vals, ["request_date_to"], holidays._onchange_spec()
-            )["value"]
+            holidays.onchange(vals, ["request_date_to"], holidays._onchange_spec())[
+                "value"
+            ]
         )
         holidays.write(vals)
         holidays._remove_resource_leave()
