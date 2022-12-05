@@ -1,10 +1,9 @@
+from datetime import timedelta
 from random import choice
 from string import digits
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-
-from odoo.addons.resource.models.resource import float_to_time
 
 
 class HrEmployee(models.Model):
@@ -37,92 +36,75 @@ class HrEmployee(models.Model):
         default=lambda r: r._default_personal_identifier(),
         readonly=True,
         copy=False,
+        groups="hr.group_hr_user",
         prefetch=False,
     )
-    personal_email = fields.Char(string="Personal Email", prefetch=False)
-
     work_email = fields.Char(related="partner_id.email", store=True)
-
-    personal_phone = fields.Char(string="Phone", related="partner_id.phone")
-    personal_mobile = fields.Char(related="partner_id.mobile", string="Mobile")
-
-    show_info = fields.Boolean("Able to see Private Info", compute="_compute_show_info")
-
     parent_id = fields.Many2one(
-        compute="_compute_department_parent_id", readonly=True, store=True
+        compute="_compute_department_parent_id",
+        readonly=True,
+        groups="hr.group_hr_user",
+        store=True,
     )
-    company_id = fields.Many2one(related="contract_id.company_id", readonly=True)
+    company_id = fields.Many2one(
+        related="contract_id.company_id", readonly=True, required=False
+    )
     working_hours_type = fields.Selection(
-        string="Working Hours Type",
-        selection=[
-            ("full", "Full Time"),
-            ("part", "Part time"),
-            ("reduced", "Reduced"),
-        ],
         related="contract_id.working_hours_type",
+        groups="hr.group_hr_user",
         readonly=True,
     )
-
     percentage_of_reduction = fields.Float(
-        string="Percentage of reduction",
         related="contract_id.percentage_of_reduction",
+        groups="hr.group_hr_user",
         readonly=True,
     )
     laboral_category_id = fields.Many2one(
         "hr.laboral.category",
         related="contract_id.laboral_category_id",
+        groups="hr.group_hr_user",
         readonly=True,
     )
-
-    locker = fields.Char(string="Locker", prefetch=False)
-    manager = fields.Boolean(compute="_compute_is_manager", readonly=True)
-
-    # groups
-    address_home_id = fields.Many2one(groups="base.group_user", prefetch=False)
-    country_id = fields.Many2one(groups="base.group_user", prefetch=False)
-    gender = fields.Selection(groups="base.group_user", prefetch=False)
-    marital = fields.Selection(groups="base.group_user", prefetch=False)
-    birthday = fields.Date(groups="base.group_user", prefetch=False)
-    ssnid = fields.Char(groups="base.group_user", prefetch=False)
-    sinid = fields.Char(groups="base.group_user", prefetch=False)
-    identification_id = fields.Char(
-        groups="base.group_user",
-        related="partner_id.vat",
-        readonly=False,
-        string="DNI/NIE",
+    locker = fields.Char(prefetch=False)
+    address_home_id = fields.Many2one(
+        compute="_compute_address_home",
+        store=True,
+        readonly=True,
     )
-    passport_id = fields.Char(groups="base.group_user", prefetch=False)
-    permit_no = fields.Char(groups="base.group_user", prefetch=False)
-    visa_no = fields.Char(groups="base.group_user", prefetch=False)
-    visa_expire = fields.Date(groups="base.group_user", prefetch=False)
+    identification_id = fields.Char(
+        related="partner_id.vat",
+    )
     children = fields.Integer(
         groups="base.group_user",
         compute="_compute_children_count",
         store=True,
         prefetch=False,
     )
-
     today_schedule = fields.Char(
         compute="_compute_today_schedule", readonly=True, prefetch=False
     )
-
     contract_id = fields.Many2one(store=True, readonly=True)
     turn = fields.Char(related="contract_id.turn")
     contract_notes = fields.Text(related="contract_id.notes")
-
-    transport_plus = fields.Char(string="Transport Plus", prefetch=False)
-
+    transport_plus = fields.Char(prefetch=False)
     address_id = fields.Many2one(string="Center")
     work_location = fields.Char(string="Location")
-
-    prl_ids = fields.One2many("hr.employee.prl", "employee_id")
     service_start_date = fields.Date(
         related=False,
         compute="_compute_service_start_date",
         store=True,
     )
+    private_email = fields.Char(readonly=False)
+    phone = fields.Char(readonly=False)
     force_service_computation = fields.Boolean(prefetch=False)
     force_service_start_date = fields.Date(prefetch=False)
+
+    @api.depends("partner_id", "partner_id.child_ids", "partner_id.child_ids.type")
+    def _compute_address_home(self):
+        for record in self:
+            record.address_home_id = record.partner_id.child_ids.filtered(
+                lambda r: r.type == "private"
+            )[:1]
 
     @api.depends(
         "contract_ids",
@@ -170,50 +152,29 @@ class HrEmployee(models.Model):
 
     @api.depends("resource_calendar_id")
     def _compute_today_schedule(self):
-        public_holidays = self.env["hr.holidays.public"]
-        today = fields.Date.today()
-        day_date = fields.Date.from_string(today)
-        now = fields.Datetime.now()
+        now = fields.Datetime.context_timestamp(self, fields.Datetime.now())
+        start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        end = start + timedelta(days=1)
         for record in self:
-            domain = [
-                ("date_from", "<=", now),
-                ("date_to", ">=", now),
-                ("employee_id", "=", record.id),
-                ("state", "=", "validate"),
+            calendar = record.resource_calendar_id
+            resource = record.resource_id
+            intervals = calendar._work_intervals_batch(start, end, resource)[
+                resource.id
             ]
-            personal_holidays = self.env["hr.leave"].search(domain, limit=1)
-            if personal_holidays:
-                date_from = fields.Date.context_today(self, personal_holidays.date_from)
-                record.today_schedule = _("Out of office since %s" % date_from)
-                continue
-            if public_holidays.is_public_holiday(day_date, record.id):
-                record.today_schedule = _("Absent today because of public holidays")
-                continue
-            attendances = record.resource_calendar_id._get_day_attendances(
-                day_date, False, False
-            )
-            if not attendances:
-                record.today_schedule = _("This employee doesn't work today")
-            elif len(attendances) == 1:
-                record.today_schedule = _("Working from %s to %s") % (
-                    float_to_time(attendances.hour_from).strftime("%H:%M"),
-                    float_to_time(attendances.hour_to).strftime("%H:%M"),
-                )
-            else:
-                message = record.today_schedule = _("Working from %s to %s") % (
-                    float_to_time(attendances[0].hour_from).strftime("%H:%M"),
-                    float_to_time(attendances[0].hour_to).strftime("%H:%M"),
-                )
-                attendances = attendances[1:]
-                for att in attendances[:-1]:
-                    message = message + _(", from %s to %s") % (
-                        float_to_time(att.hour_from).strftime("%H:%M"),
-                        float_to_time(att.hour_to).strftime("%H:%M"),
+            if intervals:
+                result = []
+                for start, stop, _meta in intervals:
+                    result.append(
+                        _("from %s to %s")
+                        % (start.strftime("%H:%M"), stop.strftime("%H:%M"))
                     )
-                record.today_schedule = message + _(" and from %s to %s") % (
-                    float_to_time(attendances[-1].hour_from).strftime("%H:%M"),
-                    float_to_time(attendances[-1].hour_to).strftime("%H:%M"),
-                )
+                if len(result) > 1:
+                    result = _(" and ").join([", ".join(result[:-1]), result[-1]])
+                else:
+                    result = result[0]
+                record.today_schedule = _("Working %s") % result
+                continue
+            record.today_schedule = "This employee doesn't work today"
 
     @api.depends("relative_ids")
     def _compute_children_count(self):
@@ -258,12 +219,17 @@ class HrEmployee(models.Model):
         super().toggle_active()
         for record in self:
             active = record.active
-            contracts = (
-                self.env["hr.contract"]
-                .with_context(active_test=False)
-                .search([("employee_id", "=", record.id)])
+            contracts = self.env["hr.contract"].search(
+                [
+                    ("employee_id", "=", record.id),
+                    ("state", "not in", ["close", "cancel"]),
+                ]
             )
-            contracts.filtered(lambda r: r.active == active).toggle_active()
+            if not active and contracts:
+                raise ValidationError(
+                    _("There are running or drafts contracts for %s")
+                    % record.display_name
+                )
             if record.user_id and record.user_id.active != active:
                 record.user_id.with_context(
                     ignore_partner_archive_constrain=True
@@ -274,30 +240,8 @@ class HrEmployee(models.Model):
                 ).toggle_active()
 
     def action_open_related_partner(self):
-        action = self.env.ref("cb_hr_views.action_open_related_partner")
-        result = action.read()[0]
-        result["views"] = [(False, "form")]
-        result["res_id"] = self.partner_id.id
-        return result
-
-    def _compute_show_leaves(self):
-        for employee in self:
-            employee.show_leaves = employee.show_info
-
-    def _compute_show_info(self):
-        is_manager = self.env.user.has_group("hr.group_hr_manager")
-        is_officer = self.env.user.has_group("hr.group_hr_user")
-        for employee in self:
-            employee.show_info = (
-                (is_officer and employee.parent_id.user_id.id == self.env.uid)
-                or is_manager
-                or employee.user_id.id == self.env.uid
-            )
-
-    def _compute_is_manager(self):
-        managers = self.env["hr.department"].search([]).mapped("manager_id")
-        for record in self:
-            record.manager = record.id in managers.ids
+        self.ensure_one()
+        return self.partner_id.get_formview_action()
 
     @api.constrains("partner_id")
     def _check_practitioner(self):

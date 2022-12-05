@@ -22,7 +22,6 @@ class ResPartner(models.Model):
         store=True,
         string="Is Employee",
     )
-    show_info = fields.Boolean(compute="_compute_show_info")
 
     @api.depends("employee_ids", "is_practitioner")
     def _compute_can_create_employee(self):
@@ -31,7 +30,7 @@ class ResPartner(models.Model):
             record.can_create_employee = not employees and record.is_practitioner
             record.employee = employees and record.is_practitioner
 
-    def action_generate_oddoor_key(self):
+    def action_generate_iot_key(self):
         self.ensure_one()
         if not self.is_practitioner:
             raise ValidationError(_("A practitioner is required in order to add a key"))
@@ -39,33 +38,26 @@ class ResPartner(models.Model):
             raise ValidationError(
                 _("The key from employees must be managed from employee")
             )
-        action = self.env.ref("oddoor.oddoor_key_wizard_act_window").read()[0]
+        action = self.env.ref("iot_rule.iot_key_wizard_act_window").read()[0]
         key_id = False
         unique_virtual_key = False
-        groups = self._get_default_oddoor_key_groups()
-        if self.oddoor_key_ids:
-            key = self.oddoor_key_ids[:1]
+        groups = self._get_default_iot_key_groups()
+        if self.iot_key_ids:
+            key = self.iot_key_ids[:1]
             key_id = key.id
             unique_virtual_key = key.unique_virtual_key
             groups = key.group_ids.ids
         action["context"] = {
             "default_res_model": self._name,
             "default_res_id": self.id,
-            "default_oddoor_key_id": key_id,
+            "default_iot_key_id": key_id,
             "default_unique_virtual_key": unique_virtual_key,
             "default_group_ids": groups,
         }
         return action
 
-    def _get_default_oddoor_key_groups(self):
+    def _get_default_iot_key_groups(self):
         return []
-
-    # @api.depends_context("uid")
-    @api.depends("employee_ids")
-    def _compute_show_info(self):
-        is_manager = self.env.user.has_group("hr.group_hr_manager")
-        for partner in self:
-            partner.show_info = is_manager or not partner.employee
 
     def toggle_active(self):
         if not self.env.context.get("ignore_partner_archive_constrain", False):
@@ -95,15 +87,17 @@ class ResPartner(models.Model):
 
     def create_employee(self):
         self.ensure_one()
-        employee = self.env["hr.employee"].create(self._employee_vals())
-        employee.regenerate_calendar()
+        employee = (
+            self.env["hr.employee"]
+            .with_context(skip_employee_calendars_required=True)
+            .create(self._employee_vals())
+        )
         employee._compute_user()
-        if self.oddoor_key_ids:
-            self.oddoor_key_ids.write(
-                {"res_model": employee._name, "res_id": employee.id}
-            )
-        action = self.env.ref("cb_hr_views.action_open_related_employee")
-        result = action.read()[0]
+        if self.iot_key_ids:
+            self.iot_key_ids.write({"res_model": employee._name, "res_id": employee.id})
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "cb_hr_views.action_open_related_employee"
+        )
         result["views"] = [(False, "form")]
         result["res_id"] = employee.id
         return result

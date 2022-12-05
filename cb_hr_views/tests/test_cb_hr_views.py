@@ -35,6 +35,7 @@ class TestCbHrViews(TransactionCase):
                 "rfid_card_code": False,
             }
         )
+        self.employee.regenerate_calendar()
         self.contract = self.env["hr.contract"].create(
             {
                 "date_end": fields.Date.to_string(datetime.now() + timedelta(days=365)),
@@ -57,16 +58,19 @@ class TestCbHrViews(TransactionCase):
         partner_without_user.toggle_active()
         self.assertTrue(partner_without_user.active)
 
-    def test_employee_archive(self):
+    def test_employee_archive_error(self):
         self.employee.regenerate_calendar()
         self.employee.flush()
+        with self.assertRaises(ValidationError):
+            self.employee.toggle_active()
+
+    def test_employee_archive(self):
+        self.employee.regenerate_calendar()
+        self.contract.state = "cancel"
         self.employee.toggle_active()
         self.assertFalse(self.partner.active)
         self.employee.toggle_active()
         self.assertTrue(self.partner.active)
-
-    def test_show_info(self):
-        self.assertTrue(self.partner.show_info)
 
     def test_is_practitioner_constrain_01(self):
         with self.assertRaises(ValidationError):
@@ -94,11 +98,6 @@ class TestCbHrViews(TransactionCase):
         )
         result = self.partner_2.action_open_related_employee()
         self.assertEqual(result["res_id"], employee.id)
-        self.env["hr.department"].create(
-            {"name": "Department", "manager_id": employee.id}
-        )
-        employee._compute_is_manager()
-        self.assertTrue(employee.manager)
 
     def test_hr_employee(self):
         self.employee.regenerate_calendar()
@@ -119,14 +118,11 @@ class TestCbHrViews(TransactionCase):
         with self.assertRaises(ValidationError):
             self.employee.partner_id.write({"is_practitioner": False})
 
-        self.employee._compute_show_info()
-        self.employee._compute_show_leaves()
-        self.assertTrue(self.employee.show_info)
-        self.assertTrue(self.employee.show_leaves)
-
         result = self.employee.action_open_related_partner()
         self.assertEqual(result["res_id"], self.employee.partner_id.id)
 
+        self.contract.state = "cancel"
+        self.contract.flush()
         self.employee.toggle_active()
         self.employee.refresh()
         self.assertFalse(self.employee.partner_id.active)
@@ -177,56 +173,3 @@ class TestCbHrViews(TransactionCase):
                 "Working from 08:00 to 12:00, from 13:00"
                 " to 17:00 and from 19:00 to 20:00",
             )
-
-            self.env["hr.holidays.public"].create(
-                {
-                    "year": 2020,
-                    "line_ids": [(0, 0, {"date": "2020-05-12", "name": "Public"})],
-                }
-            )
-            self.employee._compute_today_schedule()
-            self.assertEqual(
-                self.employee.today_schedule,
-                "Absent today because of public holidays",
-            )
-
-            status = self.env["hr.leave.type"].create(
-                {
-                    "name": "Sick",
-                    "allocation_type": "no",
-                    "validity_start": False,
-                    "validation_type": "hr",
-                }
-            )
-            holiday = self.env["hr.leave"].create(
-                {
-                    "name": "Holiday",
-                    "employee_id": self.employee.id,
-                    "holiday_status_id": status.id,
-                    "holiday_type": "employee",
-                    "date_from": "2020-05-09 08:00:00",
-                    "date_to": "2020-05-17 17:00:00",
-                }
-            )
-            holiday.action_approve()
-            self.employee._compute_today_schedule()
-            self.assertEqual(
-                self.employee.today_schedule, "Out of office since 2020-05-09"
-            )
-
-    def test_create_bank_account(self):
-        self.assertFalse(self.employee.bank_account_id)
-        bank = self.env["res.bank"].create({"name": "bank 1"})
-        wizard = (
-            self.env["wizard.bank.account.employee"]
-            .with_context(active_id=self.employee.id)
-            .create({"acc_number": "1234", "bank_id": bank.id})
-        )
-        with patch(
-            "odoo.addons.cb_hr_views.wizards.wizard_bank_account_employee."
-            "validate_iban"
-        ) as p:
-            p.return_value = True
-            wizard.create_account()
-            p.assert_called()
-        self.assertTrue(self.employee.bank_account_id)

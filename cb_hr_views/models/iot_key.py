@@ -4,11 +4,12 @@
 from odoo import api, models
 
 
-class OddoorKey(models.Model):
-    _inherit = "oddoor.key"
+class IotKey(models.Model):
+    _inherit = "iot.key"
 
     @api.model
     def _get_unique_key_models(self):
-        res = super(OddoorKey, self)._get_unique_key_models()
-        res.append("res.partner")
+        res = super()._get_unique_key_models()
+        if "res.partner" not in res:
+            res.append("res.partner")
         return res

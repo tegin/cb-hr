@@ -3,46 +3,9 @@
 
 from odoo import fields, models
 
-from odoo.addons.resource.models.resource import float_to_time
-
 
 class ResourceCalendar(models.Model):
 
     _inherit = "resource.calendar"
 
     company_id = fields.Many2one(default=False)
-
-    def _get_day_attendances(self, day_date, start_time, end_time):
-        """Given a day date, return matching attendances. Those can be limited
-        by starting and ending time objects."""
-        self.ensure_one()
-        weekday = day_date.weekday()
-        attendances = self.env["resource.calendar.attendance"]
-
-        for attendance in self.attendance_ids.filtered(
-            lambda att: int(att.dayofweek) == weekday
-            and not (
-                att.date_from and fields.Date.from_string(att.date_from) > day_date
-            )
-            and not (att.date_to and fields.Date.from_string(att.date_to) < day_date)
-        ):
-            if start_time and float_to_time(attendance.hour_to) < start_time:
-                continue
-            if end_time and float_to_time(attendance.hour_from) > end_time:
-                continue
-            attendances |= attendance
-        return attendances
-
-
-class ResourceCalendarAttendance(models.Model):
-    _inherit = "resource.calendar.attendance"
-
-    def attendances_check_from_domain(self):
-        domain = super().attendances_check_from_domain()
-        domain.append(("calendar_id.active", "=", False))
-        return domain
-
-    def attendances_check_to_domain(self):
-        domain = super().attendances_check_to_domain()
-        domain.append(("calendar_id.active", "=", False))
-        return domain
