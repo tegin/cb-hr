@@ -3,9 +3,10 @@
 
 import logging
 
+from psycopg2.extensions import AsIs
+
 from odoo import SUPERUSER_ID, api
 from odoo.tools import sql
-from psycopg2.extensions import AsIs
 
 _logger = logging.getLogger(__name__)
 
@@ -16,9 +17,7 @@ def pre_init_hook(cr):
     field_type = "int4"
     if not sql.column_exists(cr, table, column):
         sql.create_column(cr, table, columnname=column, columntype=field_type)
-    cr.execute(
-        "SELECT id FROM %s WHERE %s is null", (AsIs(table), AsIs(column))
-    )
+    cr.execute("SELECT id FROM %s WHERE %s is null", (AsIs(table), AsIs(column)))
     employee_ids = []
     for row in cr.fetchall():
         employee_ids.append(row[0])
@@ -36,6 +35,4 @@ def pre_init_hook(cr):
             "UPDATE %s SET %s = %s WHERE id = %s",
             (AsIs(table), AsIs(column), partner.id, employee.id),
         )
-    cr.execute(
-        "SELECT id FROM %s WHERE %s is null", (AsIs(table), AsIs(column))
-    )
+    cr.execute("SELECT id FROM %s WHERE %s is null", (AsIs(table), AsIs(column)))

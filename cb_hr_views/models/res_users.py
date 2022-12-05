@@ -19,9 +19,7 @@ class ResUsers(models.Model):
             )
 
     def name_get(self):
-        return super(
-            ResUsers, self.with_context(not_display_company=True)
-        ).name_get()
+        return super(ResUsers, self.with_context(not_display_company=True)).name_get()
 
     @api.model
     def create(self, vals):
