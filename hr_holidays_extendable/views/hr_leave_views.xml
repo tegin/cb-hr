@@ -23,6 +23,7 @@
             </xpath>
         </field>
     </record>
+    <!--
     <record model="ir.ui.view" id="hr_leave_view_form_manager_approve">
         <field name="name">hr.leave.form (in hr_holidays_extendable)</field>
         <field name="model">hr.leave</field>
@@ -36,4 +37,5 @@
             </xpath>
         </field>
     </record>
+    -->
 </odoo>
