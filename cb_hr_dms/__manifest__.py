@@ -8,7 +8,7 @@
     "version": "13.0.1.0.1",
     "license": "AGPL-3",
     "author": "Creu Blanca",
-    "website": "www.creublanca.es",
+    "website": "https://github.com/tegin/cb-hr",
     "depends": ["dms_field", "cb_hr_views"],
     "data": [
         "templates/assets.xml",
