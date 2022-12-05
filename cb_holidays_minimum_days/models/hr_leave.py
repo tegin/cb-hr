@@ -17,7 +17,6 @@ class HrLeave(models.Model):
     )
     def _compute_warning_minimum(self):
         for rec in self:
-            rec.warning = False
             min_time = rec.holiday_status_id.minimum_time
             time_asking = (
                 rec.number_of_days_display
