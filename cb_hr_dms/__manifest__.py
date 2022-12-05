@@ -5,13 +5,12 @@
     "name": "Cb Hr Dms",
     "summary": """
         Link cb_hr with dms""",
-    "version": "13.0.1.0.1",
+    "version": "14.0.1.0.0",
     "license": "AGPL-3",
-    "author": "Creu Blanca",
+    "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-hr",
     "depends": ["dms_field", "cb_hr_views"],
     "data": [
-        "templates/assets.xml",
         "data/dms_data.xml",
         "views/hr_employee_views.xml",
         "views/res_partner_views.xml",
