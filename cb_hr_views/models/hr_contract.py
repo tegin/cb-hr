@@ -18,13 +18,9 @@ class HrContract(models.Model):
         default="full",
         tracking=True,
     )
-    percentage_of_reduction = fields.Float(
-        "Percentage of Reduction", tracking=True
-    )
+    percentage_of_reduction = fields.Float("Percentage of Reduction", tracking=True)
 
-    substituting_id = fields.Many2one(
-        "hr.employee", "Substituting", tracking=True
-    )
+    substituting_id = fields.Many2one("hr.employee", "Substituting", tracking=True)
 
     substitute_contract = fields.Boolean(
         string="Substitute Contract",

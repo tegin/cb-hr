@@ -4,6 +4,7 @@
 from datetime import datetime, timedelta
 
 from mock import patch
+
 from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
@@ -36,9 +37,7 @@ class TestCbHrViews(TransactionCase):
         )
         self.contract = self.env["hr.contract"].create(
             {
-                "date_end": fields.Date.to_string(
-                    datetime.now() + timedelta(days=365)
-                ),
+                "date_end": fields.Date.to_string(datetime.now() + timedelta(days=365)),
                 "date_start": fields.Date.today(),
                 "name": "Contract",
                 "wage": 5000.0,
@@ -52,9 +51,7 @@ class TestCbHrViews(TransactionCase):
             self.employee.partner_id.toggle_active()
 
     def test_partner_archive(self):
-        partner_without_user = self.env["res.partner"].create(
-            {"name": "No User"}
-        )
+        partner_without_user = self.env["res.partner"].create({"name": "No User"})
         partner_without_user.toggle_active()
         self.assertFalse(partner_without_user.active)
         partner_without_user.toggle_active()
@@ -163,9 +160,7 @@ class TestCbHrViews(TransactionCase):
         with patch("odoo.fields.Datetime.now") as now, patch(
             "odoo.fields.Date.today"
         ) as today:
-            now.return_value = fields.Datetime.from_string(
-                "2020-05-10 12:00:00"
-            )
+            now.return_value = fields.Datetime.from_string("2020-05-10 12:00:00")
             today.return_value = fields.Date.from_string("2020-05-10")
             self.employee._compute_today_schedule()
             self.assertEqual(
@@ -173,9 +168,7 @@ class TestCbHrViews(TransactionCase):
                 "This employee doesn't work today",
             )
 
-            now.return_value = fields.Datetime.from_string(
-                "2020-05-12 12:00:00"
-            )
+            now.return_value = fields.Datetime.from_string("2020-05-12 12:00:00")
             today.return_value = fields.Date.from_string("2020-05-12")
 
             self.employee._compute_today_schedule()
@@ -188,9 +181,7 @@ class TestCbHrViews(TransactionCase):
             self.env["hr.holidays.public"].create(
                 {
                     "year": 2020,
-                    "line_ids": [
-                        (0, 0, {"date": "2020-05-12", "name": "Public"})
-                    ],
+                    "line_ids": [(0, 0, {"date": "2020-05-12", "name": "Public"})],
                 }
             )
             self.employee._compute_today_schedule()

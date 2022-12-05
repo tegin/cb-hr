@@ -28,17 +28,13 @@ class ResPartner(models.Model):
     def _compute_can_create_employee(self):
         for record in self:
             employees = record.employee_ids
-            record.can_create_employee = (
-                not employees and record.is_practitioner
-            )
+            record.can_create_employee = not employees and record.is_practitioner
             record.employee = employees and record.is_practitioner
 
     def action_generate_oddoor_key(self):
         self.ensure_one()
         if not self.is_practitioner:
-            raise ValidationError(
-                _("A practitioner is required in order to add a key")
-            )
+            raise ValidationError(_("A practitioner is required in order to add a key"))
         if self.employee:
             raise ValidationError(
                 _("The key from employees must be managed from employee")
@@ -89,15 +85,10 @@ class ResPartner(models.Model):
         for record in self:
             if record.employee_ids and not record.is_practitioner:
                 raise ValidationError(
-                    _(
-                        "In order to be an employee, is required to be a "
-                        "practitioner"
-                    )
+                    _("In order to be an employee, is required to be a " "practitioner")
                 )
             if len(record.employee_ids) > 1:
-                raise ValidationError(
-                    _("Only one employee for a partner is allowed")
-                )
+                raise ValidationError(_("Only one employee for a partner is allowed"))
 
     def _employee_vals(self):
         return {"partner_id": self.id, "name": self.name}

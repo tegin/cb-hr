@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models
+
 from odoo.addons.resource.models.resource import float_to_time
 
 
@@ -21,12 +22,9 @@ class ResourceCalendar(models.Model):
         for attendance in self.attendance_ids.filtered(
             lambda att: int(att.dayofweek) == weekday
             and not (
-                att.date_from
-                and fields.Date.from_string(att.date_from) > day_date
+                att.date_from and fields.Date.from_string(att.date_from) > day_date
             )
-            and not (
-                att.date_to and fields.Date.from_string(att.date_to) < day_date
-            )
+            and not (att.date_to and fields.Date.from_string(att.date_to) < day_date)
         ):
             if start_time and float_to_time(attendance.hour_to) < start_time:
                 continue

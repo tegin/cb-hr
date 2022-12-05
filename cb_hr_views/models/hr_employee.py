@@ -2,8 +2,9 @@ from random import choice
 from string import digits
 
 from odoo import _, api, fields, models
-from odoo.addons.resource.models.resource import float_to_time
 from odoo.exceptions import ValidationError
+
+from odoo.addons.resource.models.resource import float_to_time
 
 
 class HrEmployee(models.Model):
@@ -11,9 +12,7 @@ class HrEmployee(models.Model):
     _inherit = ["mail.activity.mixin", "hr.employee"]
 
     def name_get(self):
-        return super(
-            HrEmployee, self.with_context(not_display_company=True)
-        ).name_get()
+        return super(HrEmployee, self.with_context(not_display_company=True)).name_get()
 
     def _default_personal_identifier(self):
         pid = None
@@ -31,12 +30,8 @@ class HrEmployee(models.Model):
     lastname = fields.Char(related="partner_id.lastname", readonly=False)
     lastname2 = fields.Char(related="partner_id.lastname2", readonly=False)
 
-    identification_id_expiration = fields.Date(
-        string="Expiration Date", prefetch=False
-    )
-    user_id = fields.Many2one(
-        readonly=True, compute="_compute_user", store=True
-    )
+    identification_id_expiration = fields.Date(string="Expiration Date", prefetch=False)
+    user_id = fields.Many2one(readonly=True, compute="_compute_user", store=True)
     personal_identifier = fields.Char(
         string="Work's Personal ID",
         default=lambda r: r._default_personal_identifier(),
@@ -51,16 +46,12 @@ class HrEmployee(models.Model):
     personal_phone = fields.Char(string="Phone", related="partner_id.phone")
     personal_mobile = fields.Char(related="partner_id.mobile", string="Mobile")
 
-    show_info = fields.Boolean(
-        "Able to see Private Info", compute="_compute_show_info"
-    )
+    show_info = fields.Boolean("Able to see Private Info", compute="_compute_show_info")
 
     parent_id = fields.Many2one(
         compute="_compute_department_parent_id", readonly=True, store=True
     )
-    company_id = fields.Many2one(
-        related="contract_id.company_id", readonly=True
-    )
+    company_id = fields.Many2one(related="contract_id.company_id", readonly=True)
     working_hours_type = fields.Selection(
         string="Working Hours Type",
         selection=[
@@ -150,10 +141,7 @@ class HrEmployee(models.Model):
 
     @api.onchange("force_service_computation")
     def _onchange_force_service_computation(self):
-        if (
-            self.force_service_computation
-            and not self.force_service_start_date
-        ):
+        if self.force_service_computation and not self.force_service_start_date:
             self.force_service_start_date = self.first_contract_id.date_start
 
     @api.depends("department_id", "department_id.manager_id")
@@ -195,15 +183,11 @@ class HrEmployee(models.Model):
             ]
             personal_holidays = self.env["hr.leave"].search(domain, limit=1)
             if personal_holidays:
-                date_from = fields.Date.context_today(
-                    self, personal_holidays.date_from
-                )
+                date_from = fields.Date.context_today(self, personal_holidays.date_from)
                 record.today_schedule = _("Out of office since %s" % date_from)
                 continue
             if public_holidays.is_public_holiday(day_date, record.id):
-                record.today_schedule = _(
-                    "Absent today because of public holidays"
-                )
+                record.today_schedule = _("Absent today because of public holidays")
                 continue
             attendances = record.resource_calendar_id._get_day_attendances(
                 day_date, False, False
@@ -216,9 +200,7 @@ class HrEmployee(models.Model):
                     float_to_time(attendances.hour_to).strftime("%H:%M"),
                 )
             else:
-                message = record.today_schedule = _(
-                    "Working from %s to %s"
-                ) % (
+                message = record.today_schedule = _("Working from %s to %s") % (
                     float_to_time(attendances[0].hour_from).strftime("%H:%M"),
                     float_to_time(attendances[0].hour_to).strftime("%H:%M"),
                 )

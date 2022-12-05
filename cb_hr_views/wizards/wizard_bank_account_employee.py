@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+
 from odoo.addons.base_iban.models.res_partner_bank import validate_iban
 
 
