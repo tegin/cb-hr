@@ -11,7 +11,6 @@ class HrContract(models.Model):
     working_hours_type = fields.Selection(
         selection=[
             ("full", "Full Time"),
-            ("part", "Part time"),
             ("reduced", "Reduced"),
         ],
         string="Working Hours Type",
@@ -19,17 +18,14 @@ class HrContract(models.Model):
         tracking=True,
     )
     percentage_of_reduction = fields.Float("Percentage of Reduction", tracking=True)
+    # Propose a number of hours? Maybe related to company
 
     substituting_id = fields.Many2one("hr.employee", "Substituting", tracking=True)
-
     substitute_contract = fields.Boolean(
         string="Substitute Contract",
         help="Check if this is a substitution contract",
         tracking=True,
     )
-
-    resource_calendar_id = fields.Many2one(required=False, default=False)
-
     laboral_category_id = fields.Many2one("hr.laboral.category")
 
     # Track Visibility

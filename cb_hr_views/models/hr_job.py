@@ -5,7 +5,6 @@ from odoo import fields, models
 
 
 class HrJob(models.Model):
-
     _inherit = "hr.job"
 
     state = fields.Selection(default="open")

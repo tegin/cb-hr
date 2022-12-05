@@ -9,7 +9,7 @@
                 <field name="laboral_category_id" />
             </field>
             <field name="job_id" position="after">
-                <field name="substitute_contract" invisible="1" />
+                <field name="substitute_contract" />
                 <field
                     name="substituting_id"
                     attrs="{'invisible': [('substitute_contract', '!=', True)]}"
