@@ -8,7 +8,7 @@
     "version": "13.0.1.0.0",
     "license": "AGPL-3",
     "author": "Creu Blanca,Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/hr",
+    "website": "https://github.com/tegin/cb-hr",
     "depends": ["hr_holidays_public"],
     "data": [
         "wizards/wizard_extend_holidays.xml",
