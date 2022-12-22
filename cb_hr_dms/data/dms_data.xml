@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="1">
+    <record id="hr_access_group" model="dms.access.group">
+        <field name="name">Human Resources</field>
+        <field name="group_ids" eval="[(4, ref('hr.group_hr_manager'))]" />
+        <field name="perm_create" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_unlink" eval="True" />
+    </record>
+    <record id="storage_employee" model="dms.storage">
+        <field name="name">Employee Storage</field>
+        <field name="save_type">database</field>
+        <field name="model_ids" eval="[(4, ref('hr.model_hr_employee'))]" />
+        <field name="field_default_group_id" ref="cb_hr_dms.hr_access_group" />
+    </record>
+    <record id="storage_practitioners" model="dms.storage">
+        <field name="name">Practitioners Storages</field>
+        <field name="save_type">database</field>
+        <field name="model_ids" eval="[(4, ref('hr.model_res_partner'))]" />
+        <field name="field_default_group_id" ref="cb_hr_dms.hr_access_group" />
+    </record>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="res_partner_form_view" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="cb_hr_views.res_partner_view_form" />
+        <field name="groups_id" eval="[(4, ref('dms.group_dms_user'))]" />
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page
+                    name="dms"
+                    string="Documents"
+                    attrs="{'invisible': [('employee', '=', True)]}"
+                >
+                    <field name="dms_directory_ids" mode="dms_tree" />
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
