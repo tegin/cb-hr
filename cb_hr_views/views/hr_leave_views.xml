@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_leave_view_form" model="ir.ui.view">
+        <field name="name">hr.leave.view.form</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form" />
+        <field name="arch" type="xml">
+            <field name="request_unit_half" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <xpath expr="//label[@for='request_unit_half']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_leave_view_tree" model="ir.ui.view">
+        <field name="name">hr.leave.tree </field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_tree" />
+        <field name="arch" type="xml">
+            <tree position="attributes">
+                <attribute name="decoration-info">state == 'validate1'</attribute>
+                <attribute name="decoration-success">state == 'validate'</attribute>
+                <attribute name="class">o_cb_hr_views</attribute>
+            </tree>
+        </field>
+    </record>
+    <record id="hr_holidays.menu_hr_holidays_dashboard" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
+    </record>
+    <record id="hr_holidays.menu_hr_holidays_configuration" model="ir.ui.menu">
+        <field name="sequence">99</field>
+    </record>
+</odoo>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_employee_print_badge" model="ir.actions.report">
+        <field name="name">New Employee Report</field>
+        <field name="model">hr.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">cb_hr_views.new_employee_report</field>
+        <field name="report_file">cb_hr_views.new_employee_report</field>
+        <field name="print_report_name">'IA - %s' % (object.display_name)</field>
+    </record>
+    <template id="new_employee_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="contract">
+                <t t-set="employee" t-value="contract.employee_id" />
+                <div class="header">
+                    <div>
+                        <div class="row" t-if="contract.company_id">
+                            <div class="col-3 mb8">
+                                <img
+                                    t-if="contract.company_id.logo"
+                                    t-att-src="image_data_uri(contract.company_id.logo)"
+                                    alt="Logo"
+                                    height="100"
+                                    width="150"
+                                />
+                            </div>
+                            <div class="col-6">
+                                <br />
+                                <h3
+                                >Nuevas contrataciones - Datos personales / Gestoría</h3>
+                            </div>
+                            <div class="col-3 text-right mb4">
+                                <h4
+                                    class="mt0"
+                                    t-field="contract.company_id.report_header"
+                                />
+                                <div name="company_address">
+                                    <span
+                                        class="company_address"
+                                        t-field="contract.company_id.partner_id"
+                                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 border-top" style="border-width: medium;" />
+                    </div>
+                </div>
+                <div
+                    class="article o_report_layout_standard"
+                    t-att-data-oe-model="contract and contract._name"
+                    t-att-data-oe-id="contract and contract.id"
+                    t-att-data-oe-lang="contract and contract.env.context.get('lang')"
+                >
+                    <br />
+                    <div style="font-size: 19px;">
+                        <b>Name: </b>
+                        <span t-field="employee.name" />
+                        <br />
+                        <b>Company: </b>
+                        <span
+                            t-if="contract.company_id"
+                            t-field="contract.company_id.name"
+                        />
+                        <br />
+                        <br />
+                        <b>Aditional data</b>
+                        <div class="row">
+                            <div class="col-6">
+                                <span>DNI / NIE: </span>
+                                <span t-field="employee.identification_id" />
+                                <br />
+                                <span>Birth date: </span>
+                                <span t-field="employee.birthday" />
+                                <br />
+                                <span>SS: </span>
+                                <span t-field="employee.ssnid" />
+                                <br />
+                                <span>CC: </span>
+                                <span
+                                    t-esc="employee.bank_account_id.acc_number or 'Pendiente'"
+                                />
+                                <br />
+                                <span>Address: </span>
+                                <span t-field="employee.address_home_id.street" />
+                                <br />
+                                <span>City: </span>
+                                <span t-field="employee.address_home_id.city" />
+                                <br />
+                                <span>Province: </span>
+                                <span
+                                    t-field="employee.address_home_id.state_id.name"
+                                />
+                                <br />
+                                <span>CP: </span>
+                                <span t-field="employee.address_home_id.zip" />
+                                <br />
+                                <span>Phone: </span>
+                                <span t-field="employee.phone" />
+                                <br />
+                                <span>Mail: </span>
+                                <span t-field="employee.private_email" />
+                                <br />
+                            </div>
+                            <div class="col-6">
+                                <span>Start Date: </span>
+                                <span t-field="contract.date_start" />
+                                <br />
+                                <div t-if="contract.date_end">
+                                    <span>End Date: </span>
+                                    <span t-field="contract.date_end" />
+                                    <br />
+                                </div>
+                                <span>Center: </span>
+                                <span
+                                    t-if="employee.address_id"
+                                    t-field="employee.address_id.name"
+                                />
+                                <br />
+                                <span>Working Hours: </span>
+                                <span t-field="contract.working_hours_type" />
+                                <br />
+                                <span>Turn: </span>
+                                <span t-field="contract.turn" />
+                                <br />
+                                <div t-if="contract.working_hours_type == 'reduced'">
+                                    <span>Porcentaje de Reducción: </span>
+                                    <span t-field="contract.percentage_of_reduction" />
+                                    <span> %</span>
+                                    <br />
+                                </div>
+                                <span>Categoría Laboral: </span>
+                                <span t-field="contract.laboral_category_id" />
+                                <br />
+                            </div>
+                        </div>
+                        <br />
+                        <div t-if="contract.notes">
+                            <b>Observaciones</b>
+                            <br />
+                            <!-- Pending Translation -->
+                            <div class="row">
+                                <div class="col-12 border">
+                                    <span t-field="contract.notes" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

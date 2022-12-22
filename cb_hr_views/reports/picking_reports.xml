@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_delivery_document" inherit_id="stock.report_delivery_document">
+        <xpath expr="//div[@t-esc='partner']" position="attributes">
+            <attribute
+                name="t-if"
+            >partner and not o.location_dest_id.is_personal_equipment_location</attribute>
+        </xpath>
+        <xpath expr="//div[@t-esc='partner']" position="after">
+            <div
+                t-if="partner and o.location_dest_id.is_personal_equipment_location"
+                t-field="o.location_dest_id.real_address_id"
+                t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True}'
+            />
+        </xpath>
+    </template>
+    <template id="report_picking" inherit_id="stock.report_picking">
+        <xpath expr="//div[@name='div_incoming_address']" position="attributes">
+            <attribute
+                name="t-if"
+            >o.partner_id and not o.location_dest_id.is_personal_equipment_location</attribute>
+        </xpath>
+    </template>
+</odoo>
