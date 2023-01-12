@@ -19,12 +19,8 @@ class TestNumberOfHolidaysReport(TransactionCase):
         self.partner_id = self.env["res.partner"].create(
             {"name": "Pieter", "is_practitioner": True}
         )
-        self.department = self.env["hr.department"].create(
-            {"name": "Department"}
-        )
-        self.category = self.env["hr.employee.category"].create(
-            {"name": "Tag 1"}
-        )
+        self.department = self.env["hr.department"].create({"name": "Department"})
+        self.category = self.env["hr.employee.category"].create({"name": "Tag 1"})
         self.calendar = self.env["resource.calendar"].create(
             {"name": "Calendar 1", "attendance_ids": []}
         )
@@ -117,8 +113,6 @@ class TestNumberOfHolidaysReport(TransactionCase):
             "cb_number_of_holidays_report.report_holidays_count",
         )
         self.assertEqual(
-            printing["context"]["report_action"]["data"]["form"][
-                "employee_ids"
-            ],
+            printing["context"]["report_action"]["data"]["form"]["employee_ids"],
             [self.employee.id],
         )

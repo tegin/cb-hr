@@ -23,9 +23,7 @@ class WizardHolidaysCount(models.TransientModel):
     def default_get(self, fields):
         res = super().default_get(fields)
         if self.env.user.employee_ids:
-            res["department_id"] = self.env.user.employee_ids[
-                0
-            ].department_id.id
+            res["department_id"] = self.env.user.employee_ids[0].department_id.id
         return res
 
     def _prepare_employee_domain(self):
