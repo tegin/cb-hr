@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <report
-        id="action_report_holidays_count"
-        string="Holidays Count"
-        model="wizard.holidays.count"
-        report_type="qweb-pdf"
-        name="cb_number_of_holidays_report.report_holidays_count"
-        menu="False"
-    />
+
+    <record id="action_report_holidays_count" model="ir.actions.report">
+        <field name="name">Holidays Count</field>
+        <field name="model">wizard.holidays.count</field>
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >cb_number_of_holidays_report.report_holidays_count</field>
+        <field
+            name="report_file"
+        >cb_number_of_holidays_report.report_holidays_count</field>
+    </record>
     <template id="report_holidays_count">
         <t t-call="web.html_container">
             <t t-call="web.internal_layout">

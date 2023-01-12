@@ -37,7 +37,9 @@ class WizardHolidaysCount(models.TransientModel):
     def populate(self):
         domain = self._prepare_employee_domain()
         self.employee_ids = self.env["hr.employee"].search(domain)
-        return {"type": "ir.actions.do_nothing"}
+        action = self.get_formview_action()
+        action["target"] = "new"
+        return action
 
     def print_report(self):
         self.ensure_one()

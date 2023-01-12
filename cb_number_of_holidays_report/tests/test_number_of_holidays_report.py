@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.exceptions import UserError
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import Form, TransactionCase
 
 
 class TestNumberOfHolidaysReport(TransactionCase):
@@ -44,17 +44,12 @@ class TestNumberOfHolidaysReport(TransactionCase):
                 "category_ids": [(4, self.category.id)],
             }
         )
-        self.holiday = self.env["hr.leave"].create(
-            {
-                "name": "Test",
-                "employee_id": self.employee.id,
-                "holiday_status_id": self.holiday_type.id,
-                "request_date_from": "2019-08-05",
-                "request_date_to": "2019-08-09",
-                "request_unit_hours": False,
-            }
-        )
-        self.holiday._onchange_request_parameters()
+        f = Form(self.env["hr.leave"])
+        f.employee_id = self.employee
+        f.holiday_status_id = self.holiday_type
+        f.request_date_from = "2019-08-05"
+        f.request_date_to = "2019-08-09"
+        self.holiday = f.save()
         self.holiday.action_validate()
         self.wizard = self.env["wizard.holidays.count"].create(
             {
