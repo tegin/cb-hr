@@ -1,8 +1,9 @@
 from datetime import timedelta
 
+from pytz import timezone, utc
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-from pytz import timezone, utc
 
 
 class HolidaysCountReport(models.AbstractModel):
@@ -23,9 +24,7 @@ class HolidaysCountReport(models.AbstractModel):
 
         docs = []
 
-        for employee in self.env["hr.employee"].browse(
-            data["form"]["employee_ids"]
-        ):
+        for employee in self.env["hr.employee"].browse(data["form"]["employee_ids"]):
             holidays = self.env["hr.leave"].search(
                 [
                     ("employee_id", "=", employee.id),
