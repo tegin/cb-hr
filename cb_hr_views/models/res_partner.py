@@ -104,7 +104,11 @@ class ResPartner(models.Model):
 
     def create_employee(self):
         self.ensure_one()
-        employee = self.env["hr.employee"].create(self._employee_vals())
+        employee = (
+            self.env["hr.employee"]
+            .with_context(skip_employee_calendars_required=True)
+            .create(self._employee_vals())
+        )
         employee.regenerate_calendar()
         employee._compute_user()
         if self.oddoor_key_ids:
