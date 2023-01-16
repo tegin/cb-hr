@@ -15,7 +15,7 @@
                     string="Clone Mondays"
                     type="object"
                     class="oe_highlight"
-                    group="hr.group_hr_manager"
+                    groups="hr.group_hr_manager"
                 />
             </xpath>
         </field>
