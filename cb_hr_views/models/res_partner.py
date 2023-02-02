@@ -38,7 +38,9 @@ class ResPartner(models.Model):
             raise ValidationError(
                 _("The key from employees must be managed from employee")
             )
-        action = self.env.ref("iot_rule.iot_key_wizard_act_window").read()[0]
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "iot_rule.iot_key_wizard_act_window"
+        )
         key_id = False
         unique_virtual_key = False
         groups = self._get_default_iot_key_groups()
@@ -103,8 +105,9 @@ class ResPartner(models.Model):
         return result
 
     def action_open_related_employee(self):
-        action = self.env.ref("cb_hr_views.action_open_related_employee")
-        result = action.read()[0]
+        result = self.env["ir.actions.act_window"]._for_xml_id(
+            "cb_hr_views.action_open_related_employee"
+        )
         result["views"] = [(False, "form")]
         result["res_id"] = self.employee_ids[0].id
         return result
