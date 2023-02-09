@@ -111,3 +111,8 @@ class ResPartner(models.Model):
         result["views"] = [(False, "form")]
         result["res_id"] = self.employee_ids[0].id
         return result
+
+    def _check_medical_practitioner(self):
+        return super()._check_medical_practitioner() or self.env.user.has_group(
+            "hr.group_hr_manager"
+        )
