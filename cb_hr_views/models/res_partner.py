@@ -48,13 +48,13 @@ class ResPartner(models.Model):
             key = self.iot_key_ids[:1]
             key_id = key.id
             unique_virtual_key = key.unique_virtual_key
-            groups = key.group_ids.ids
+            groups = key.rule_ids.ids
         action["context"] = {
             "default_res_model": self._name,
             "default_res_id": self.id,
             "default_iot_key_id": key_id,
             "default_unique_virtual_key": unique_virtual_key,
-            "default_group_ids": groups,
+            "default_rule_ids": groups,
         }
         return action
 
