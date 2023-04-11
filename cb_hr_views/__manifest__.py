@@ -22,7 +22,6 @@
         "hr_employee_service_contract",
         "hr_course",
         "hr_employee_relative",
-        "hr_job_category",
         "hr_attendance_report_theoretical_time",
         "hr_contract_employee_calendar_planning",
         "medical_administration_practitioner",
