@@ -206,12 +206,6 @@ class HrEmployee(models.Model):
             return super()._onchange_company()
         return {}
 
-    @api.onchange("department_id")
-    def _onchange_department(self):
-        if not self.env.context.get("use_old_onchange"):
-            return super()._onchange_department()
-        return {}
-
     def _update_employee_manager(self, manager_id):
         return
 
