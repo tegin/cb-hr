@@ -253,3 +253,13 @@ class HrEmployeePublic(models.Model):
     _inherit = "hr.employee.public"
 
     partner_id = fields.Many2one("res.partner")
+
+
+class HrEmployeeBase(models.AbstractModel):
+    _inherit = "hr.employee.base"
+
+    @api.depends()
+    def _compute_address_id(self):
+        super(
+            HrEmployeeBase, self.filtered(lambda r: not r.address_id)
+        )._compute_address_id()
