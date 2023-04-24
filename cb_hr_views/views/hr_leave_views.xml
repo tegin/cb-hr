@@ -25,6 +25,19 @@
             </tree>
         </field>
     </record>
+
+    <record id="hr_holidays.action_report_to_payslip" model="ir.actions.server">
+        <field name="binding_model_id" eval="False" />
+    </record>
+
+    <record id="hr_holidays.action_manager_approval" model="ir.actions.server">
+        <field name="binding_model_id" eval="False" />
+    </record>
+
+    <record id="hr_holidays.action_hr_approval" model="ir.actions.server">
+        <field name="binding_model_id" eval="False" />
+    </record>
+
     <record id="hr_holidays.menu_hr_holidays_dashboard" model="ir.ui.menu">
         <field name="groups_id" eval="[(4, ref('base.group_no_one'))]" />
     </record>
