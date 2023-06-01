@@ -134,6 +134,9 @@
                                 <span>Categoría Laboral: </span>
                                 <span t-field="contract.laboral_category_id" />
                                 <br />
+                                <span>Tipo de contrato: </span>
+                                <span t-field="contract.contract_type_id" />
+                                <br />
                             </div>
                         </div>
                         <br />
