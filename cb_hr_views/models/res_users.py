@@ -18,6 +18,16 @@ class ResUsers(models.Model):
                 [("id", "in", user.employee_ids.ids)], limit=1
             )
 
+    def _employee_ids_domain(self):
+        return [
+            (
+                "company_id",
+                "in",
+                self.env.companies.ids
+                + self.env.context.get("allowed_company_ids", []),
+            )
+        ]
+
     def name_get(self):
         return super(ResUsers, self.with_context(not_display_company=True)).name_get()
 
