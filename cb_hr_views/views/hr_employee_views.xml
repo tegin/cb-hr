@@ -95,6 +95,12 @@
             <field name="identification_id" position="after">
                 <field name="identification_id_expiration" />
             </field>
+            <field name="phone" position="before">
+                <field name="mobile" />
+            </field>
+            <field name="phone" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </field>
             <group name="identification_group" position="after">
                 <group name="contract" string="Contract">
                     <field name="contract_id" />
