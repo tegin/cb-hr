@@ -22,7 +22,11 @@ class HrEmployee(models.Model):
         return pid
 
     partner_id = fields.Many2one(
-        "res.partner", required=True, store=True, string="Related partner"
+        "res.partner",
+        required=True,
+        store=True,
+        string="Related partner",
+        readonly=True,
     )
     name = fields.Char(compute=False, related="partner_id.name", readonly=True)
     firstname = fields.Char(related="partner_id.firstname", readonly=False)
@@ -96,6 +100,13 @@ class HrEmployee(models.Model):
     )
     private_email = fields.Char(readonly=False)
     phone = fields.Char(readonly=False)
+    mobile = fields.Char(
+        related="address_home_id.mobile",
+        related_sudo=False,
+        readonly=False,
+        string="Private Mobile",
+        groups="hr.group_hr_user",
+    )
     force_service_computation = fields.Boolean(prefetch=False)
     force_service_start_date = fields.Date(prefetch=False)
 
