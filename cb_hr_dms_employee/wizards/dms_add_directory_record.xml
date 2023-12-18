@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="dms_add_directory_record_form_view">
+        <field name="name">dms.add.directory.record.form (in cb_hr_dms_employee)</field>
+        <field name="model">dms.add.directory.record</field>
+        <field name="inherit_id" ref="dms_field.dms_add_directory_record_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='storage_id']" position="after">
+                <field name="with_default_dms_structure" />
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>
