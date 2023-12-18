@@ -9,6 +9,8 @@
     "author": "CreuBlanca",
     "depends": ["cb_hr_views", "cb_hr_dms"],
     "data": [
+        "security/ir.model.access.csv",
+        "views/dms_add_directory_template.xml",
         "wizards/dms_add_directory_record.xml",
     ],
     "demo": [],

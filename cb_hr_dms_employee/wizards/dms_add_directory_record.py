@@ -24,48 +24,27 @@ class DmsAddDirectoryRecord(models.TransientModel):
         root_directory_vals = self._create_directory_vals()
         root_directory = self.env["dms.directory"].create(root_directory_vals)
 
-        rrhh_directory_vals = {
-            "is_root_directory": False,
-            "parent_id": root_directory.id,
-            "name": "EXPEDIENTE",
-            "group_ids": [(4, self.storage_id.field_default_group_id.id)],
-        }
+        def create_directory_recursively(template_directory, parent_directory):
+            directory_vals = {
+                "is_root_directory": False,
+                "parent_id": parent_directory.id,
+                "name": template_directory.name,
+                "group_ids": [(4, self.storage_id.field_default_group_id.id)],
+            }
+            directory = self.env["dms.directory"].create(directory_vals)
 
-        pr_directory_vals = {
-            "is_root_directory": False,
-            "parent_id": root_directory.id,
-            "name": "PRL",
-            "group_ids": [(4, self.storage_id.field_default_group_id.id)],
-        }
+            for child in template_directory.child_ids:
+                create_directory_recursively(child, directory)
 
-        rrhh_directory = self.env["dms.directory"].create(rrhh_directory_vals)
-        pr_directory = self.env["dms.directory"].create(pr_directory_vals)
-
-        formaciones_directory_vals = {
-            "is_root_directory": False,
-            "parent_id": pr_directory.id,
-            "name": "FORMACIONES PRL",
-            "group_ids": [(4, self.storage_id.field_default_group_id.id)],
-        }
-
-        revisiones_directory_vals = {
-            "is_root_directory": False,
-            "parent_id": pr_directory.id,
-            "name": "REVISIONES MÉDICAS",
-            "group_ids": [(4, self.storage_id.field_default_group_id.id)],
-        }
-
-        formaciones_directory = self.env["dms.directory"].create(
-            formaciones_directory_vals
-        )
-        revisiones_directory = self.env["dms.directory"].create(
-            revisiones_directory_vals
+        template_directories = self.env["dms.add.directory.template"].search(
+            [
+                ("is_parent", "=", True),
+                ("parent_id", "=", False),
+            ]
         )
 
-        return [
-            root_directory,
-            rrhh_directory,
-            pr_directory,
-            formaciones_directory,
-            revisiones_directory,
-        ]
+        directories = []
+        for template_directory in template_directories:
+            create_directory_recursively(template_directory, root_directory)
+            directories.append(root_directory)
+        return directories

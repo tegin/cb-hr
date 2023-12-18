@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2023 CreuBlanca
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record model="ir.ui.view" id="dms_add_directory_template_form_view">
+        <field
+            name="name"
+        >dms.add.directory.template.form (in cb_hr_dms_employee)</field>
+        <field name="model">dms.add.directory.template</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- TODO -->
+                </header>
+                <sheet>
+                    <!-- TODO -->
+                    <group>
+                        <field name="name" />
+
+                        <field name="is_parent" />
+                        <field name="parent_id" />
+                        <field name="child_ids" widget="one2many_list">
+                            <tree>
+                                <field name="name" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter" />
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dms_add_directory_template_search_view">
+        <field
+            name="name"
+        >dms.add.directory.template.search (in cb_hr_dms_employee)</field>
+        <field name="model">dms.add.directory.template</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="parent_id" />
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="dms_add_directory_template_tree_view">
+        <field
+            name="name"
+        >dms.add.directory.template.tree (in cb_hr_dms_employee)</field>
+        <field name="model">dms.add.directory.template</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="is_parent">
+                <field name="name" />
+                <field name="is_parent" invisible="1" />
+                <field name='complete_name' />
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="dms_add_directory_template_act_window">
+        <field name="name">Dms Add Directory Template</field> <!-- TODO -->
+        <field name="res_model">dms.add.directory.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record model="ir.ui.menu" id="dms_add_directory_template_menu">
+        <field name="name">Dms Add Directory Template</field>
+        <field name="parent_id" ref="hr.menu_human_resources_configuration" />
+        <field name="action" ref="dms_add_directory_template_act_window" />
+        <field name="sequence" eval="16" />
+    </record>
+
+</odoo>
