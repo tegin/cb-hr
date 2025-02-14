@@ -51,7 +51,7 @@ class TestHrHolidaysExtendable(TransactionCase):
 
         wizard = (
             self.env["wizard.extend.holidays"]
-            .with_context({"active_id": holiday.id})
+            .with_context(**{"active_id": holiday.id})
             .create({})
         )
         self.assertEqual(wizard.holidays_id.id, holiday.id)
