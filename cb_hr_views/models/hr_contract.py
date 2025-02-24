@@ -13,7 +13,6 @@ class HrContract(models.Model):
             ("full", "Full Time"),
             ("reduced", "Reduced"),
         ],
-        string="Working Hours Type",
         default="full",
         tracking=True,
     )
@@ -22,7 +21,6 @@ class HrContract(models.Model):
 
     substituting_id = fields.Many2one("hr.employee", "Substituting", tracking=True)
     substitute_contract = fields.Boolean(
-        string="Substitute Contract",
         help="Check if this is a substitution contract",
         tracking=True,
     )

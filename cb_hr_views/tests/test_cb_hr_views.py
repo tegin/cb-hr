@@ -2,8 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from datetime import datetime, timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from odoo import fields
 from odoo.exceptions import ValidationError
@@ -60,7 +59,7 @@ class TestCbHrViews(TransactionCase):
 
     def test_employee_archive_error(self):
         self.employee.regenerate_calendar()
-        self.employee.flush()
+        self.employee.flush_recordset()
         with self.assertRaises(ValidationError):
             self.employee.toggle_active()
 
@@ -101,7 +100,7 @@ class TestCbHrViews(TransactionCase):
 
     def test_hr_employee(self):
         self.employee.regenerate_calendar()
-        self.employee.flush()
+        self.employee.flush_recordset()
         user_id = (
             self.env["res.users"]
             .with_context(no_reset_password=True)
@@ -122,9 +121,9 @@ class TestCbHrViews(TransactionCase):
         self.assertEqual(result["res_id"], self.employee.partner_id.id)
 
         self.contract.state = "cancel"
-        self.contract.flush()
+        self.contract.flush_recordset()
         self.employee.toggle_active()
-        self.employee.refresh()
+        self.employee.invalidate_recordset()
         self.assertFalse(self.employee.partner_id.active)
         self.employee.toggle_active()
 

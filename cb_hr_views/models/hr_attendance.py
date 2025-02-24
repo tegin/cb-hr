@@ -7,7 +7,7 @@ class HrAttendance(models.Model):
     _inherit = "hr.attendance"
 
     center_id = fields.Many2one(
-        string="Center",
+        string="Center Address",
         related="employee_id.address_id",
         comodel_name="res.partner",
         readonly=True,

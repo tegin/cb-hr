@@ -89,7 +89,7 @@ class HrEmployee(models.Model):
     )
     contract_id = fields.Many2one(store=True, readonly=True)
     turn = fields.Char(related="contract_id.turn")
-    contract_notes = fields.Text(related="contract_id.notes")
+    contract_notes = fields.Html(related="contract_id.notes")
     transport_plus = fields.Char(prefetch=False)
     address_id = fields.Many2one(string="Center")
     work_location = fields.Char(string="Location")
@@ -176,8 +176,11 @@ class HrEmployee(models.Model):
                 result = []
                 for start, stop, _meta in intervals:
                     result.append(
-                        _("from %s to %s")
-                        % (start.strftime("%H:%M"), stop.strftime("%H:%M"))
+                        _("from %(start_time)s to %(stop_time)s")
+                        % {
+                            "start_time": start.strftime("%H:%M"),
+                            "stop_time": stop.strftime("%H:%M"),
+                        }
                     )
                 if len(result) > 1:
                     result = _(" and ").join([", ".join(result[:-1]), result[-1]])
@@ -221,7 +224,7 @@ class HrEmployee(models.Model):
         return
 
     def toggle_active(self):
-        super().toggle_active()
+        res = super().toggle_active()
         for record in self:
             active = record.active
             contracts = self.env["hr.contract"].search(
@@ -243,6 +246,7 @@ class HrEmployee(models.Model):
                 record.partner_id.with_context(
                     ignore_partner_archive_constrain=True
                 ).toggle_active()
+        return res
 
     def action_open_related_partner(self):
         self.ensure_one()
@@ -271,6 +275,7 @@ class HrEmployeeBase(models.AbstractModel):
 
     @api.depends()
     def _compute_address_id(self):
-        super(
+        res = super(
             HrEmployeeBase, self.filtered(lambda r: not r.address_id)
         )._compute_address_id()
+        return res

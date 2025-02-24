@@ -30,7 +30,7 @@ def pre_init_hook(cr):
                 "active": employee.active,
             }
         )
-        partner.flush()
+        partner.flush_recordset()
         cr.execute(
             "UPDATE %s SET %s = %s WHERE id = %s",
             (AsIs(table), AsIs(column), partner.id, employee.id),

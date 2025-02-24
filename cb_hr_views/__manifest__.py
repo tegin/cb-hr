@@ -5,7 +5,7 @@
     "name": "Cb Hr Views",
     "summary": """
         Views for HR modules in Creu Blanca""",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-hr",
@@ -13,6 +13,7 @@
         "base_fontawesome",
         "base_iban",
         "base_report_to_printer",
+        "medical_base",
         "medical_administration_center",
         "crm",
         "hr_attendance_autoclose",
@@ -24,19 +25,18 @@
         "hr_employee_relative",
         "hr_attendance_report_theoretical_time",
         "hr_contract_employee_calendar_planning",
-        "medical_administration_practitioner",
         "partner_second_lastname",
         "iot_key_employee_rfid",
         "hr_holidays_extendable",
         "hr_personal_equipment_stock",
         "hr_employee_partner_external",
+        "hr_dms_field",
     ],
     "data": [
         "security/hr_attendance_security.xml",
         "security/hr_employee_security.xml",
         "security/ir.model.access.csv",
         "views/hr_personal_equipment_request.xml",
-        "templates/assets.xml",
         "views/hr_laboral_category.xml",
         "reports/hr_attendance_theoretical_time_report_views.xml",
         "reports/report_new_employee.xml",
@@ -53,5 +53,10 @@
         "views/hr_leave_views.xml",
         "reports/hr_leave_report_calendar.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "cb_hr_views/static/src/scss/*",
+        ],
+    },
     "pre_init_hook": "pre_init_hook",
 }

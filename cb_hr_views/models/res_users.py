@@ -38,9 +38,10 @@ class ResUsers(models.Model):
     def name_get(self):
         return super(ResUsers, self.with_context(not_display_company=True)).name_get()
 
-    @api.model
-    def create(self, vals):
-        res = super().create(vals)
-        if res.partner_id.employee_ids:
-            res.partner_id.employee_ids._compute_user()
-        return res
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        for res in records:
+            if res.partner_id.employee_ids:
+                res.partner_id.employee_ids._compute_user()
+        return records
