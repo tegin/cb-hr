@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--TODO: Remove this when migrating to 15.0-->
+    <record id="hr_leave_report_calendar_view_search" model="ir.ui.view">
+        <field name="name">hr.leave.report.calendar.view.search</field>
+        <field name="model">hr.leave.report.calendar</field>
+        <field name="arch" type="xml">
+            <search string="Department search">
+                <field name="name" />
+                <field name="employee_id" />
+                <filter
+                    name="my_team"
+                    string="My Team"
+                    domain="['|', ('employee_id.user_id', '=', uid), ('employee_id.parent_id.user_id', '=', uid)]"
+                />
+                <separator />
+                <filter
+                    string="Off Today"
+                    name="off_today"
+                    domain="[('start_datetime', '&lt;=', context_today().strftime('%Y-%m-%d')), ('stop_datetime', '&gt;=', context_today().strftime('%Y-%m-%d'))]"
+                    help="My Department"
+                />
+                <separator />
+                <filter
+                    string="Approved"
+                    name="validate"
+                    domain="[('state', '=', 'validate')]"
+                    help="validate"
+                />
+                <filter
+                    string="Waiting for Approval"
+                    name="approve"
+                    domain="[('state','in',('confirm','validate1'))]"
+                />
+                <filter
+                    name="groupby_company_id"
+                    string="Company"
+                    context="{'group_by': 'company_id'}"
+                    groups="base.group_multi_company"
+                />
+            </search>
+        </field>
+    </record>
+</odoo>
