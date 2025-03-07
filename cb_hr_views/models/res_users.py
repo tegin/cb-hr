@@ -25,7 +25,6 @@ class ResUsers(models.Model):
     # note: a user can only be linked to one employee per company (see sql constraint in
     # ´hr.employee´)
     employee_ids = fields.One2many(domain=lambda r: r._employee_ids_domain())
-    notification_type = fields.Selection(default="inbox")
 
     @api.depends("employee_ids")
     @api.depends_context("force_company")
