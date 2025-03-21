@@ -78,7 +78,7 @@
     <record model="ir.ui.view" id="crm_lead_partner_kanban_view">
         <field name="name">res.partner.kanban.crm (in cb_hr_views)</field>
         <field name="model">res.partner</field>
-        <field name="inherit_id" ref="crm.crm_lead_partner_kanban_view" />
+        <field name="inherit_id" ref="calendar.res_partner_kanban_view" />
         <field name="arch" type="xml">
             <xpath
                 expr="//t[@t-out='record.meeting_count.value']/.."
