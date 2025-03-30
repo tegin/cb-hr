@@ -69,30 +69,31 @@ class HrEmployee(models.Model):
         groups="hr.group_hr_user",
         readonly=True,
     )
-    locker = fields.Char(prefetch=False)
+    locker = fields.Char(prefetch=False, groups="hr.group_hr_user")
     address_home_id = fields.Many2one(
         compute="_compute_address_home",
         store=True,
         readonly=True,
+        groups="hr.group_hr_user",
     )
-    identification_id = fields.Char(
-        related="partner_id.vat",
-    )
+    identification_id = fields.Char(related="partner_id.vat", groups="hr.group_hr_user")
     children = fields.Integer(
-        groups="base.group_user",
         compute="_compute_children_count",
         store=True,
         prefetch=False,
+        groups="hr.group_hr_user",
     )
     today_schedule = fields.Char(
-        compute="_compute_today_schedule", readonly=True, prefetch=False
+        compute="_compute_today_schedule",
+        readonly=True,
+        prefetch=False,
+        groups="hr.group_hr_user",
     )
     contract_id = fields.Many2one(store=True, readonly=True)
     turn = fields.Char(related="contract_id.turn")
     contract_notes = fields.Html(related="contract_id.notes")
-    transport_plus = fields.Char(prefetch=False)
+    transport_plus = fields.Char(prefetch=False, groups="hr.group_hr_user")
     address_id = fields.Many2one(string="Center")
-    work_location = fields.Char(string="Location")
     service_start_date = fields.Date(
         related=False,
         compute="_compute_service_start_date",
@@ -107,8 +108,10 @@ class HrEmployee(models.Model):
         string="Private Mobile",
         groups="hr.group_hr_user",
     )
-    force_service_computation = fields.Boolean(prefetch=False)
-    force_service_start_date = fields.Date(prefetch=False)
+    force_service_computation = fields.Boolean(
+        prefetch=False, groups="hr.group_hr_user"
+    )
+    force_service_start_date = fields.Date(prefetch=False, groups="hr.group_hr_user")
 
     @api.depends("partner_id", "partner_id.child_ids", "partner_id.child_ids.type")
     def _compute_address_home(self):
