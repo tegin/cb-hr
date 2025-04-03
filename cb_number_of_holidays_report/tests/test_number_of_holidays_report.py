@@ -6,57 +6,58 @@ from odoo.tests.common import Form, TransactionCase
 
 
 class TestNumberOfHolidaysReport(TransactionCase):
-    def setUp(self):
-        super().setUp()
-        self.holiday_type = self.env["hr.leave.type"].create(
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.holiday_type = cls.env["hr.leave.type"].create(
             {
                 "name": "Holiday Type",
                 "request_unit": "day",
-                "allocation_type": "no",
+                "requires_allocation": "no",
                 "validity_start": False,
             }
         )
-        self.partner_id = self.env["res.partner"].create(
+        cls.partner_id = cls.env["res.partner"].create(
             {"name": "Pieter", "is_practitioner": True}
         )
-        self.department = self.env["hr.department"].create({"name": "Department"})
-        self.category = self.env["hr.employee.category"].create({"name": "Tag 1"})
-        self.calendar = self.env["resource.calendar"].create(
+        cls.department = cls.env["hr.department"].create({"name": "Department"})
+        cls.category = cls.env["hr.employee.category"].create({"name": "Tag 1"})
+        cls.calendar = cls.env["resource.calendar"].create(
             {"name": "Calendar 1", "attendance_ids": []}
         )
         for i in range(0, 7):
-            self.env["resource.calendar.attendance"].create(
+            cls.env["resource.calendar.attendance"].create(
                 {
                     "name": "Day " + str(i),
                     "dayofweek": str(i),
                     "hour_from": 8.0,
                     "hour_to": 17.0,
-                    "calendar_id": self.calendar.id,
+                    "calendar_id": cls.calendar.id,
                 }
             )
 
-        self.employee = self.env["hr.employee"].create(
+        cls.employee = cls.env["hr.employee"].create(
             {
                 "name": "Pieter",
-                "partner_id": self.partner_id.id,
-                "department_id": self.department.id,
-                "resource_calendar_id": self.calendar.id,
-                "category_ids": [(4, self.category.id)],
+                "partner_id": cls.partner_id.id,
+                "department_id": cls.department.id,
+                "resource_calendar_id": cls.calendar.id,
+                "category_ids": [(4, cls.category.id)],
             }
         )
-        f = Form(self.env["hr.leave"])
-        f.employee_id = self.employee
-        f.holiday_status_id = self.holiday_type
+        f = Form(cls.env["hr.leave"])
+        f.employee_id = cls.employee
+        f.holiday_status_id = cls.holiday_type
         f.request_date_from = "2019-08-05"
         f.request_date_to = "2019-08-09"
-        self.holiday = f.save()
-        self.holiday.action_validate()
-        self.wizard = self.env["wizard.holidays.count"].create(
+        cls.holiday = f.save()
+        cls.holiday.action_validate()
+        cls.wizard = cls.env["wizard.holidays.count"].create(
             {
                 "date_from": "2019-08-04",
                 "date_to": "2019-08-10",
-                "department_id": self.department.id,
-                "category_ids": [(4, self.category.id)],
+                "department_id": cls.department.id,
+                "category_ids": [(4, cls.category.id)],
             }
         )
 

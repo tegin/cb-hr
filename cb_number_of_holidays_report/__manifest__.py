@@ -5,7 +5,7 @@
     "name": "Cb Number Of Holidays Report",
     "summary": """
         Report para saber quien tiene vacaciones en un intervalo de tiempo""",
-    "version": "14.0.1.0.0",
+    "version": "16.0.1.0.0",
     "license": "AGPL-3",
     "author": "CreuBlanca",
     "website": "https://github.com/tegin/cb-hr",
