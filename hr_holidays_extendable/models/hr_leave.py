@@ -21,8 +21,11 @@ class HrLeave(models.Model):
         We need to modify in order to add the compute_leaves = False
         """
         if not self.env.context.get("no_check_state_date") or not employee_id:
+            print("estoy dentrooooo")
             return super()._get_number_of_days(date_from, date_to, employee_id)
         employee = self.env["hr.employee"].browse(employee_id)
+        print("estoy dentrooooo 2222222", employee)
+
         return employee._get_work_days_data_batch(
             date_from, date_to, compute_leaves=False
         )[employee.id]

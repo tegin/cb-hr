@@ -1,8 +1,10 @@
 # Copyright 2019 Creu Blanca
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import datetime as datetime
+
 from odoo.exceptions import UserError
-from odoo.tests.common import Form, TransactionCase
+from odoo.tests.common import TransactionCase
 
 
 class TestNumberOfHolidaysReport(TransactionCase):
@@ -14,7 +16,6 @@ class TestNumberOfHolidaysReport(TransactionCase):
                 "name": "Holiday Type",
                 "request_unit": "day",
                 "requires_allocation": "no",
-                "validity_start": False,
             }
         )
         cls.partner_id = cls.env["res.partner"].create(
@@ -45,21 +46,37 @@ class TestNumberOfHolidaysReport(TransactionCase):
                 "category_ids": [(4, cls.category.id)],
             }
         )
-        f = Form(cls.env["hr.leave"])
-        f.employee_id = cls.employee
-        f.holiday_status_id = cls.holiday_type
-        f.request_date_from = "2019-08-05"
-        f.request_date_to = "2019-08-09"
-        cls.holiday = f.save()
+        leave_start_datetime = datetime.date(2019, 8, 5)  # lunes
+        leave_end_datetime = datetime.date(2019, 8, 9)  # viernes
+        cls.holiday = cls.env["hr.leave"].create(
+            {
+                "employee_id": cls.employee.id,
+                "holiday_status_id": cls.holiday_type.id,
+                "date_from": leave_start_datetime,
+                "date_to": leave_end_datetime + datetime.timedelta(days=1),
+            }
+        )
+
+        # print("holidays", cls.holiday.read())
+        # cls.holiday = cls.env["hr.leave"].create(
+        #     {
+        #         "employee_id": cls.employee.id,
+        #         "holiday_status_id": cls.holiday_type.id,
+        #         "date_from": "2019-08-05",
+        #         "date_to": "2019-08-09",
+        #     }
+        # )
         cls.holiday.action_validate()
         cls.wizard = cls.env["wizard.holidays.count"].create(
             {
                 "date_from": "2019-08-04",
-                "date_to": "2019-08-10",
+                "date_to": "2019-08-11",
                 "department_id": cls.department.id,
                 "category_ids": [(4, cls.category.id)],
             }
         )
+
+        # print("wizard", cls.wizard.read())
 
     def test_number_of_holidays_report(self):
         self.wizard.populate()
@@ -75,7 +92,7 @@ class TestNumberOfHolidaysReport(TransactionCase):
         data["form"]["employee_ids"] = [self.employee.id]
 
         data["form"]["date_from"] = "2019-08-04"
-        data["form"]["date_to"] = "2019-08-10"
+        data["form"]["date_to"] = "2019-08-11"
         result = self.env[
             "report.cb_number_of_holidays_report.report_holidays_count"
         ]._get_report_values(False, data)
@@ -83,6 +100,7 @@ class TestNumberOfHolidaysReport(TransactionCase):
         self.assertEqual(result["docs"][0]["employee"], "Pieter")
 
         data["form"]["date_from"] = "2019-08-07"
+        print("data", data)
         result = self.env[
             "report.cb_number_of_holidays_report.report_holidays_count"
         ]._get_report_values(False, data)
