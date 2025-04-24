@@ -26,6 +26,27 @@
         </field>
     </record>
 
+    <record id="hr_leave_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.leave.view.form.manager</field>
+        <field name="model">hr.leave</field>
+        <field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('o_hr_leave_column')]" position="inside">
+                <group
+                    groups="hr_holidays.group_hr_holidays_manager"
+                    string="Manager's Comment"
+                >
+                    <field
+                        name="report_note"
+                        placeholder="e.g. Report to the next month..."
+                        nolabel="1"
+                        colspan="2"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
     <record id="hr_holidays.action_manager_approval" model="ir.actions.server">
         <field name="binding_model_id" eval="False" />
     </record>
