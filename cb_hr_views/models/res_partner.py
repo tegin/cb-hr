@@ -64,7 +64,9 @@ class ResPartner(models.Model):
     def toggle_active(self):
         if not self.env.context.get("ignore_partner_archive_constrain", False):
             for record in self:
-                if record.employee_ids:
+                # Use sudo to avoid AccessError on employee_ids when
+                # the user tries to archive the record
+                if record.sudo().employee_ids:
                     raise ValidationError(
                         _(
                             "%s is an employee, archive/unarchive from employee view "
