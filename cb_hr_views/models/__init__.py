@@ -9,3 +9,4 @@ from . import res_users
 from . import hr_laboral_category
 from . import iot_key
 from . import hr_leave_type
+from . import hr_work_location
