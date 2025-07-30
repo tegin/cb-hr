@@ -261,6 +261,11 @@ class HrEmployee(models.Model):
             if not record.partner_id.is_practitioner:
                 raise ValidationError(_("All employees must be practitioners"))
 
+    def _attendance_action(self, next_action):
+        result = super()._attendance_action(next_action)
+        result["action"]["show_total_overtime"] = False
+        return result
+
 
 class HrEmployeeCalendar(models.Model):
     _inherit = "hr.employee.calendar"
