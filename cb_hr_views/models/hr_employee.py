@@ -51,7 +51,9 @@ class HrEmployee(models.Model):
         store=True,
     )
     company_id = fields.Many2one(
-        related="contract_id.company_id", readonly=True, required=False
+        compute="_compute_company",
+        readonly=True,
+        store=True,
     )
     working_hours_type = fields.Selection(
         related="contract_id.working_hours_type",
@@ -112,6 +114,12 @@ class HrEmployee(models.Model):
         prefetch=False, groups="hr.group_hr_user"
     )
     force_service_start_date = fields.Date(prefetch=False, groups="hr.group_hr_user")
+
+    @api.depends("contract_id")
+    def _compute_company(self):
+        company = self.env.ref("base.main_company")
+        for record in self:
+            record.company_id = record.contract_id.company_id or company
 
     @api.depends("partner_id", "partner_id.child_ids", "partner_id.child_ids.type")
     def _compute_address_home(self):
