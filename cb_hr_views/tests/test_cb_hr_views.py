@@ -172,3 +172,19 @@ class TestCbHrViews(TransactionCase):
                 "Working from 08:00 to 12:00, from 13:00"
                 " to 17:00 and from 19:00 to 20:00",
             )
+
+    def test_employee_company(self):
+        """When a contract is assigned to an employee and set as the contract_id
+        in the employee record, the company related to the contract will become
+        the employee’s company."""
+
+        company_1 = self.env["res.company"].create({"name": "Company 1"})
+        company_2 = self.env["res.company"].create({"name": "Company 2"})
+        self.employee.company_id = company_1.id
+
+        self.assertEqual(self.employee.company_id, company_1)
+
+        self.contract.company_id = company_2.id
+
+        self.assertEqual(self.employee.contract_id, self.contract)
+        self.assertEqual(self.employee.company_id, company_2)
