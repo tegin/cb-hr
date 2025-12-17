@@ -54,6 +54,7 @@ class HrEmployee(models.Model):
         compute="_compute_company",
         readonly=True,
         store=True,
+        related=False,
     )
     working_hours_type = fields.Selection(
         related="contract_id.working_hours_type",
