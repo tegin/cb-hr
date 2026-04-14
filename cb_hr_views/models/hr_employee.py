@@ -46,7 +46,6 @@ class HrEmployee(models.Model):
     work_email = fields.Char(related="partner_id.email", store=True)
     parent_id = fields.Many2one(
         compute="_compute_department_parent_id",
-        readonly=True,
         groups="hr.group_hr_user",
         store=True,
     )
@@ -149,7 +148,7 @@ class HrEmployee(models.Model):
         if self.force_service_computation and not self.force_service_start_date:
             self.force_service_start_date = self.first_contract_id.date_start
 
-    @api.depends("department_id", "department_id.manager_id")
+    @api.depends("department_id")
     def _compute_department_parent_id(self):
         for record in self:
             parent = False
