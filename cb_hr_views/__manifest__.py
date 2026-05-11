@@ -31,10 +31,12 @@
         "hr_personal_equipment_stock",
         "hr_employee_partner_external",
         "hr_dms_field",
+        "hr_recruitment",
     ],
     "data": [
         "security/hr_attendance_security.xml",
         "security/hr_employee_security.xml",
+        "security/hr_recruitment_security.xml",
         "security/ir.model.access.csv",
         "views/hr_personal_equipment_request.xml",
         "views/hr_laboral_category.xml",
