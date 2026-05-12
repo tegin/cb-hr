@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="hr_recruitment.mail_message_interviewer_rule" model="ir.rule">
+        <field name="active" eval="False" />
+    </record>
+</odoo>
