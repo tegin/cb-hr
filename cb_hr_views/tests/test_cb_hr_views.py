@@ -188,3 +188,8 @@ class TestCbHrViews(TransactionCase):
 
         self.assertEqual(self.employee.contract_id, self.contract)
         self.assertEqual(self.employee.company_id, company_2)
+
+    def test_get_manager_domain(self):
+        """The manager field allow show employees of all companies."""
+
+        self.assertEqual([], self.employee._fields["parent_id"].domain)

@@ -45,9 +45,11 @@ class HrEmployee(models.Model):
     )
     work_email = fields.Char(related="partner_id.email", store=True)
     parent_id = fields.Many2one(
+        "hr.employee",
         compute="_compute_department_parent_id",
         groups="hr.group_hr_user",
         store=True,
+        domain=[],
     )
     company_id = fields.Many2one(
         compute="_compute_company",
