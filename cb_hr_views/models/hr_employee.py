@@ -227,12 +227,6 @@ class HrEmployee(models.Model):
             )
             record.user_id = user_id
 
-    @api.onchange("company_id")
-    def _onchange_company(self):
-        if not self.env.context.get("use_old_onchange"):
-            return super()._onchange_company()
-        return {}
-
     def _update_employee_manager(self, manager_id):
         return
 
@@ -293,7 +287,9 @@ class HrEmployeeBase(models.AbstractModel):
 
     @api.depends()
     def _compute_address_id(self):
-        res = super(
-            HrEmployeeBase, self.filtered(lambda r: not r.address_id)
-        )._compute_address_id()
-        return res
+        if not self.env.context.get("use_old_onchange"):
+            res = super(
+                HrEmployeeBase, self.filtered(lambda r: not r.address_id)
+            )._compute_address_id()
+            return res
+        return {}
