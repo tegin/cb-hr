@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2020 Creu Blanca
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record model="ir.ui.view" id="edit_holiday_status_form">
+        <field name="name">hr.leave.type.form (in cb_number_of_holidays_report)</field>
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_holidays.edit_holiday_status_form" />
+        <field name="arch" type="xml">
+            <field name="request_unit" position="after">
+                <field name="count_in_holidays_report" />
+            </field>
+        </field>
+    </record>
+</odoo>
