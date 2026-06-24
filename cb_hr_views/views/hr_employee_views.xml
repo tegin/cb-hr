@@ -140,6 +140,9 @@
             <field name="passport_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
+            <field name="parent_id" position="attributes">
+                <attribute name="domain">[]</attribute>
+            </field>
         </field>
     </record>
     <record id="view_employee_filter" model="ir.ui.view">
