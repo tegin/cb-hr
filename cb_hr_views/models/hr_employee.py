@@ -297,3 +297,10 @@ class HrEmployeeBase(models.AbstractModel):
             HrEmployeeBase, self.filtered(lambda r: not r.address_id)
         )._compute_address_id()
         return res
+
+    @api.depends("address_id")
+    def _compute_phones(self):
+        res = super(
+            HrEmployeeBase, self.filtered(lambda r: not r.work_phone)
+        )._compute_phones()
+        return res
