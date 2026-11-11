@@ -193,3 +193,57 @@ class TestCbHrViews(TransactionCase):
         """The manager field allow show employees of all companies."""
 
         self.assertEqual([], self.employee._fields["parent_id"].domain)
+
+    def test_action_applications_email_ignores_partner_phone(self):
+        """action_applications_email groups by email_from and partner_mobile,
+        but applicants sharing only partner_phone are not grouped together."""
+
+        applicant = self.env["hr.applicant"].create(
+            {
+                "name": "Applicant 1",
+                "email_from": "test@example.com",
+                "partner_phone": "111111111",
+                "partner_mobile": "222222222",
+            }
+        )
+        same_email = self.env["hr.applicant"].create(
+            {
+                "name": "Applicant 2",
+                "email_from": "TEST@example.com",
+                "partner_phone": "333333333",
+                "partner_mobile": "444444444",
+            }
+        )
+        same_mobile = self.env["hr.applicant"].create(
+            {
+                "name": "Applicant 3",
+                "email_from": "other@example.com",
+                "partner_phone": "555555555",
+                "partner_mobile": "222222222",
+            }
+        )
+        same_phone_only = self.env["hr.applicant"].create(
+            {
+                "name": "Applicant 4",
+                "email_from": "unique@example.com",
+                "partner_phone": "111111111",
+                "partner_mobile": "999999999",
+            }
+        )
+        unrelated = self.env["hr.applicant"].create(
+            {
+                "name": "Applicant 5",
+                "email_from": "nope@example.com",
+                "partner_phone": "000000000",
+                "partner_mobile": "000000000",
+            }
+        )
+
+        result = applicant.action_applications_email()
+        domain_ids = result["domain"][0][2]
+
+        self.assertIn(applicant.id, domain_ids)
+        self.assertIn(same_email.id, domain_ids)
+        self.assertIn(same_mobile.id, domain_ids)
+        self.assertNotIn(same_phone_only.id, domain_ids)
+        self.assertNotIn(unrelated.id, domain_ids)
